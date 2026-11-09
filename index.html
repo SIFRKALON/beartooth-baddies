@@ -267,6 +267,11 @@ span.trophy{font-family:var(--osdfont);color:var(--fog);font-size:22px;line-heig
 .choice .t{font-family:var(--gothic);font-weight:800;font-size:28px;line-height:1}
 .choice:hover{border-color:var(--scan)}
 .choice.picked{border-color:var(--amber);background:#17140C}
+.choice.bold{border-color:#5A4A2A}
+.choice.bold .t{color:#FFD9A0}
+.choices.chosen .choice:not(.picked){display:none}
+.choices.chosen{grid-template-columns:1fr}
+.stage{scroll-margin-top:52px}
 .dispatch{border:1px dashed var(--amber);border-radius:2px;padding:16px;display:flex;flex-direction:column;gap:10px}
 .dispatch .msg{font-family:var(--osdfont);font-size:20px;line-height:1.2;background:var(--crt);border:1px solid var(--line);padding:12px;border-radius:2px;white-space:pre-wrap;user-select:all}
 .fine{font-size:15px;color:var(--dim)}
@@ -310,6 +315,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
 .scan .paint,.scan .paint *{fill:#05202A!important;stroke:#5FD4E6!important;stroke-width:1!important}
 .scan .sky{fill:#031017}
 .scan .halftone{opacity:0}
+.scan .cap{opacity:0;transition:opacity .3s}
 /* the drive */
 .drivewrap{position:relative;touch-action:none;user-select:none;-webkit-user-select:none;background:#1C3A33}
 .drivewrap canvas{display:block;width:100%}
@@ -888,7 +894,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
         <rect class="scanlines" width="400" height="260" fill="url(#lines)"/>
         <rect class="sweepbar" x="0" y="0" width="400" height="20" fill="url(#bar)"/>
         <g class="hot" data-clue="0" tabindex="0" role="button" aria-label="Evidence near the road"><g class="reveal" fill="none" stroke="#FFB23E" stroke-width="1.5"><ellipse cx="226" cy="230" rx="11" ry="8"/><circle cx="214" cy="218" r="3.5"/><circle cx="222" cy="214" r="3.5"/><circle cx="231" cy="214" r="3.5"/><circle cx="239" cy="218" r="3.5"/></g><circle class="ripple" cx="250" cy="224" r="12"/><circle class="hit" cx="250" cy="224" r="22"/><circle class="ring" cx="250" cy="224" r="12"/><circle class="dot" cx="250" cy="224" r="3.5"/></g>
-        <g class="hot" data-clue="1" tabindex="0" role="button" aria-label="Evidence on the spire"><g class="reveal" stroke="#FFB23E" stroke-width="1.5"><path d="M206 64 L216 50 M210 68 L220 54 M214 72 L224 58"/></g><circle class="ripple" cx="198" cy="58" r="12"/><circle class="hit" cx="198" cy="58" r="22"/><circle class="ring" cx="198" cy="58" r="12"/><circle class="dot" cx="198" cy="58" r="3.5"/></g>
+        <g class="hot" data-clue="1" tabindex="0" role="button" aria-label="Evidence on the spire"><g class="reveal" stroke="#FFB23E" stroke-width="1.5"><path d="M208 90 L218 76 M212 94 L222 80 M216 98 L226 84"/></g><circle class="ripple" cx="200" cy="84" r="12"/><circle class="hit" cx="200" cy="84" r="22"/><circle class="ring" cx="200" cy="84" r="12"/><circle class="dot" cx="200" cy="84" r="3.5"/></g>
         <g class="hot" data-clue="2" tabindex="0" role="button" aria-label="Evidence at the trail sign"><g class="reveal"><rect x="110" y="160" width="16" height="12" fill="#DCD4C2"/><path d="M118 160 L118 172" stroke="#8F8672"/></g><circle class="ripple" cx="96" cy="176" r="12"/><circle class="hit" cx="96" cy="176" r="22"/><circle class="ring" cx="96" cy="176" r="12"/><circle class="dot" cx="96" cy="176" r="3.5"/></g>
         <g class="trophy scanonly" data-t="scan" tabindex="0" role="button" aria-label="Something faint on the ridge"><rect x="364" y="88" width="22" height="22" fill="transparent"/><text x="370" y="104" font-size="16">✦</text></g>
       </svg>
@@ -1083,12 +1089,14 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
     <div class="vn n" data-idle="Beartoothra carries you both to the top of the pass. Before it sets you down, it squints at the two of you and asks what you are to each other."></div>
     </div>
     <div class="choices" id="choices">
-      <button class="choice" data-end="duo"><span class="k">Option A</span><span class="t">Crime-fighting duo</span><span>Partners. One case file, two names on it.</span></button>
-      <button class="choice" data-end="friends"><span class="k">Option B</span><span class="t">Best friends</span><span>Friends who climb very tall mountains.</span></button>
-      <button class="choice" data-end="date"><span class="k">Option C</span><span class="t">It's a date</span><span>Say it out loud in front of the kaiju.</span></button>
-      <button class="choice" data-end="ask"><span class="k">Option D</span><span class="t">Ask Ramish</span><span>Let the sidekick answer this one.</span></button>
-      <button class="choice" data-end="ghost"><span class="k">Option E</span><span class="t">Someone to ghost</span><span>Leave him on read. On a mountain. In front of the kaiju.</span></button>
-      <button class="choice" data-end="hench"><span class="k">Option F</span><span class="t">Future henchman</span><span>When you take over Gotham, he gets a lair with good lighting. Dental included.</span></button>
+      <button class="choice" data-end="friends"><span class="k">Option A</span><span class="t">Best friends</span><span>Friends who climb very tall mountains.</span></button>
+      <button class="choice" data-end="duo"><span class="k">Option B</span><span class="t">Crime-fighting duo</span><span>Partners. One case file, two names on it.</span></button>
+      <button class="choice" data-end="hench"><span class="k">Option C</span><span class="t">Future henchman</span><span>When you take over Gotham, he gets a lair with good lighting. Dental included.</span></button>
+      <button class="choice" data-end="ghost"><span class="k">Option D</span><span class="t">Someone to ghost</span><span>Leave him on read. On a mountain. In front of the kaiju.</span></button>
+      <button class="choice" data-end="ask"><span class="k">Option E</span><span class="t">Ask Ramish</span><span>Let the sidekick answer this one.</span></button>
+      <button class="choice bold" data-end="date"><span class="k">Option F</span><span class="t">It's a date</span><span>Say it out loud in front of the kaiju.</span></button>
+    </div>
+    <div class="btns"><button class="ghost" id="rechoose" hidden>↺ Answer differently</button>
     </div>
     <div class="stack" id="endText" aria-live="polite"></div>
   </section>
@@ -1273,13 +1281,30 @@ function musicWarp(k){ M.warp = Math.max(0, Math.min(1, k)); if(M.lp && actx) M.
 function musicTempo(x){ M.tempo = x; }
 /* iOS: let the score play with the ringer switch on silent, and wake it back up after the app comes back */
 try{ if(navigator.audioSession) navigator.audioSession.type = "playback"; }catch(_){}
-function wakeAudio(){
-  if(!actx || document.hidden || !soundOn) return;
-  if(actx.state !== "running") actx.resume().then(() => { if(M.cue) M.next = Math.max(M.next, actx.currentTime + .05); }).catch(()=>{});
+/* iOS Safari can leave a backgrounded AudioContext "running" but silent. After the page has been hidden,
+   the next tap throws the old context away and builds a fresh one inside that tap, which iOS always allows. */
+const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+let audioStale = false;
+function rebuildAudio(){
+  try{ if(actx) actx.close(); }catch(_){}
+  try{
+    actx = new (window.AudioContext||window.webkitAudioContext)();
+    const b = actx.createBufferSource(); b.buffer = actx.createBuffer(1, 1, 22050); b.connect(actx.destination); b.start(0);
+    actx.resume().then(() => { if(actx.state === "running") audioStale = false; }).catch(()=>{});
+    M.bus = null; M.noise = null; mInit();
+    if(act && act.kind === "dance") act.useAudio = false;
+    M.cue = null; if(M.want) music(M.want);
+  }catch(_){}
+}
+function wakeAudio(e){
+  if(document.hidden || !soundOn) return;
+  if(audioStale && IOS && e && e.type !== "focus" && e.type !== "pageshow"){ rebuildAudio(); return; }
+  if(actx && actx.state !== "running") actx.resume().then(() => { if(M.cue) M.next = Math.max(M.next, actx.currentTime + .05); if(!IOS) audioStale = false; }).catch(()=>{});
   if(M.want && !M.cue) music(M.want);
 }
-document.addEventListener("visibilitychange", () => { if(!actx) return; if(document.hidden){ try{ actx.suspend(); }catch(_){} } else wakeAudio(); });
-window.addEventListener("pageshow", wakeAudio); window.addEventListener("focus", wakeAudio);
+document.addEventListener("visibilitychange", () => { if(!actx) return; if(document.hidden){ audioStale = true; try{ actx.suspend(); }catch(_){} } else wakeAudio(); });
+window.addEventListener("pagehide", () => { audioStale = true; });
+window.addEventListener("pageshow", e => { if(e.persisted) audioStale = true; wakeAudio(e); }); window.addEventListener("focus", wakeAudio);
 ["pointerdown","touchend","keydown"].forEach(ev => document.addEventListener(ev, wakeAudio, { passive:true }));
 const CH_CUE = {0:"title", 1:"signal", 2:"signal", 3:"plateau", 5:"showman", 6:"rise", 7:"summit", 8:"credits"};
 document.addEventListener("pointerdown", () => { if(!M.want && !$("s0").hidden) music("title"); }, { once:true });
@@ -2270,8 +2295,8 @@ const SYMS = [
 ];
 const symSvg = (k, size) => `<svg viewBox="0 0 20 20" width="${size}" height="${size}" aria-hidden="true"><g fill="${SYMS[k].c}" stroke="#0B0E16" stroke-width="1.1" stroke-linejoin="round">${SYMS[k].d}</g></svg>`;
 const CHALK = `<svg class="fogart" viewBox="0 0 200 110" aria-hidden="true"><rect x="16" y="8" width="168" height="84" rx="3" fill="#2F4A3A" stroke="#6B4A2E" stroke-width="6"/><g font-family="Gochi Hand, cursive" fill="#EDEDE6"><text x="100" y="27" text-anchor="middle" font-size="13">FRONTIER SCHOOL · COPY THE BOARD</text><text id="grade" x="160" y="84" text-anchor="middle" font-size="24" fill="#FF6B6B" opacity="0">A+</text></g><g id="chalkSym" transform="translate(82 36)"></g><g id="chalkRow" transform="translate(30 76)"></g><rect x="60" y="92" width="80" height="5" fill="#6B4A2E"/></svg>`;
-const MUSHROOM = `<svg class="fogart" viewBox="0 0 200 110" aria-hidden="true"><g id="mush"><rect x="0" y="96" width="200" height="14" fill="#1C2A22"/><path d="M92 96 Q90 70 94 56 L106 56 Q110 70 108 96 Z" fill="#C9D3B8" stroke="#0B0E16" stroke-width="1.6"/><path d="M62 58 Q56 36 76 30 Q82 14 100 16 Q118 14 124 30 Q144 36 138 58 Q120 66 100 62 Q80 66 62 58 Z" fill="#E4EBD2" stroke="#0B0E16" stroke-width="1.8"/><path d="M76 40 q10 -8 20 0 M104 36 q10 -8 20 0" stroke="#A9B596" stroke-width="2" fill="none"/></g><g id="croi" opacity="0"><g stroke="#0B0E16" stroke-width="1.6"><ellipse cx="58" cy="54" rx="14" ry="12" fill="#F4C9A0"/><ellipse cx="78" cy="40" rx="17" ry="15" fill="#F7D6B0"/><ellipse cx="100" cy="34" rx="20" ry="17" fill="#FBE2C0"/><ellipse cx="122" cy="40" rx="17" ry="15" fill="#F7D6B0"/><ellipse cx="142" cy="54" rx="14" ry="12" fill="#F4C9A0"/></g><path d="M86 30 q6 -4 12 0 M108 30 q6 -4 12 0" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/><rect x="0" y="96" width="200" height="14" fill="#1C2A22"/></g></svg>`;
-const FLOAT = `<svg class="fogart tall" viewBox="0 0 200 150" aria-hidden="true"><g id="floatR" opacity=".9"><use href="#ramish" x="118" y="86" width="42" height="56"/><path id="tether" d="M140 104 Q124 84 104 60" stroke="#FFB23E" stroke-width="2.4" fill="none" stroke-linecap="round"/></g><g id="floatK"><use href="#kyle" x="74" y="40" width="48" height="64"/></g><rect x="0" y="142" width="200" height="8" fill="#1C2A22"/></svg>`;
+const MUSHROOM = `<svg class="fogart" viewBox="0 0 200 110" aria-hidden="true"><g id="mush"><rect x="0" y="96" width="200" height="14" fill="#1C2A22"/><path d="M92 96 Q90 70 94 56 L106 56 Q110 70 108 96 Z" fill="#C9D3B8" stroke="#0B0E16" stroke-width="1.6"/><path d="M62 58 Q56 36 76 30 Q82 14 100 16 Q118 14 124 30 Q144 36 138 58 Q120 66 100 62 Q80 66 62 58 Z" fill="#E4EBD2" stroke="#0B0E16" stroke-width="1.8"/><path d="M76 40 q10 -8 20 0 M104 36 q10 -8 20 0" stroke="#A9B596" stroke-width="2" fill="none"/></g><g id="croi" opacity="0"><defs><radialGradient id="croiG" cx=".5" cy=".3" r=".75"><stop offset="0" stop-color="#FCDDA0"/><stop offset=".55" stop-color="#EBA752"/><stop offset="1" stop-color="#C47A35"/></radialGradient><radialGradient id="croiTip" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#E09A50"/><stop offset="1" stop-color="#A5602A"/></radialGradient></defs><g fill="#F4F7EE" opacity=".4"><ellipse cx="56" cy="88" rx="28" ry="10"/><ellipse cx="100" cy="94" rx="42" ry="11"/><ellipse cx="146" cy="88" rx="26" ry="10"/><ellipse cx="72" cy="40" rx="18" ry="7"/><ellipse cx="134" cy="38" rx="20" ry="7"/></g><path d="M57.4 87.5 L50.9 84.7 Q47.8 70.4 58.5 64.4 L70.8 76.8 Q61.3 79.6 57.4 87.5 Z" fill="url(#croiTip)" stroke="#5A3214" stroke-width="1.4" stroke-linejoin="round"/><path d="M129.2 76.8 L141.5 64.4 Q152.2 70.4 149.1 84.7 L142.6 87.5 Q138.7 79.6 129.2 76.8 Z" fill="url(#croiTip)" stroke="#5A3214" stroke-width="1.4" stroke-linejoin="round"/><path d="M69.3 78.3 L56.4 66.7 Q59.0 51.8 72.1 49.7 L83.5 72.7 Q74.6 72.5 69.3 78.3 Z" fill="url(#croiG)" stroke="#5A3214" stroke-width="1.4" stroke-linejoin="round"/><path d="M60.7 65.2 Q61.4 55.0 69.2 53.5" stroke="#FFF1CF" stroke-width="1.5" fill="none" opacity=".75" stroke-linecap="round"/><path d="M116.5 72.7 L127.9 49.7 Q141.0 51.8 143.6 66.7 L130.7 78.3 Q125.4 72.5 116.5 72.7 Z" fill="url(#croiG)" stroke="#5A3214" stroke-width="1.4" stroke-linejoin="round"/><path d="M130.8 53.5 Q138.6 55.0 139.3 65.2" stroke="#FFF1CF" stroke-width="1.5" fill="none" opacity=".75" stroke-linecap="round"/><path d="M81.8 73.6 L69.2 51.2 Q77.3 38.4 91.2 41.4 L95.3 71.5 Q87.7 69.3 81.8 73.6 Z" fill="url(#croiG)" stroke="#5A3214" stroke-width="1.4" stroke-linejoin="round"/><path d="M73.9 51.0 Q78.6 42.2 87.1 44.1" stroke="#FFF1CF" stroke-width="1.5" fill="none" opacity=".75" stroke-linecap="round"/><path d="M104.7 71.5 L108.8 41.4 Q122.7 38.4 130.8 51.2 L118.2 73.6 Q112.3 69.3 104.7 71.5 Z" fill="url(#croiG)" stroke="#5A3214" stroke-width="1.4" stroke-linejoin="round"/><path d="M112.9 44.1 Q121.4 42.2 126.1 51.0" stroke="#FFF1CF" stroke-width="1.5" fill="none" opacity=".75" stroke-linecap="round"/><path d="M93.5 71.8 L87.8 42.0 Q100.0 33.5 112.2 42.0 L106.5 71.8 Q100.0 68.5 93.5 71.8 Z" fill="url(#croiG)" stroke="#5A3214" stroke-width="1.4" stroke-linejoin="round"/><path d="M92.5 43.2 Q100.0 37.5 107.5 43.2" stroke="#FFF1CF" stroke-width="1.5" fill="none" opacity=".75" stroke-linecap="round"/><g fill="#fff" opacity=".75"><circle cx="64" cy="54" r="1.3"/><circle cx="140" cy="52" r="1.2"/><circle cx="104" cy="44" r="1.5"/></g><rect x="0" y="96" width="200" height="14" fill="#1C2A22"/></g></svg>`;
+const FLOAT = `<svg class="fogart tall" viewBox="0 0 200 150" aria-hidden="true"><g id="floatR"><use href="#ramish" x="118" y="86" width="42" height="56"/><path id="tether" d="M127 103 Q110 98 98 86" stroke="#C9A46A" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M131.4 116 Q128.6 110 127.2 104.4" stroke="#E39B2E" stroke-width="4.2" stroke-linecap="round" fill="none"/><circle cx="127" cy="103.4" r="2.3" fill="#C68A5C" stroke="#0B0E16" stroke-width=".5"/></g><g id="floatK"><use href="#kyle" x="74" y="40" width="48" height="64"/></g><rect x="0" y="142" width="200" height="8" fill="#1C2A22"/></svg>`;
 let fearIdx = 0, fogDone = false, fogRAF = 0, act = null;
 const TAUNTS = ["The audience is BOOING!", "He's crumbling, folks!", "Ha! A natural! At FAILING!", "Somebody fetch the hook!"];
 const taunt = () => vnShow(vnOf(), S, TAUNTS[Math.floor(Math.random()*TAUNTS.length)], "s");
@@ -2598,11 +2623,14 @@ function actFloat(){
   playLines(null, [
     [S, "And for our GRAND FINALE! A man! Floating away over the open range! With NOTHING to hold on to!", "s"],
     [R, `Not nothing. I've got the other end of the rope, ${HERO}. I'm reeling you in. You just have to dodge.`],
-    [R, `Also. The W is picking up.`],
-    [K, `The what?`, "k"],
-    [R, `The W. Out here you don't say the actual word. Saying it out loud invites it.`],
+    [R, `Okay, the wind is really picking up out here—`],
+    ["The tape", "Somewhere out on the range, a gust hears its name.", "n"],
+    [K, `${SIDEKICK}! We don't SAY that out here. It's "the W."`, "k"],
+    [R, `The... W?`],
+    [K, `You say it, it shows up. Everybody in Wyoming knows that.`, "k"],
+    [R, `I'm from Brooklyn. We say everything.`],
     [S, "WIND! WIND! WIIIIND!", "s"],
-    [R, `...He did that on purpose.`],
+    [K, `...He did that on purpose.`, "k"],
   ], dodgeStart);
 }
 function dodgeStart(){
@@ -2615,7 +2643,7 @@ function dodgeStart(){
   const box = $("dodge"), cv = $("dgc");
   DG.W = box.clientWidth; DG.H = box.clientHeight;
   const dpr = Math.min(2, devicePixelRatio || 1); cv.width = DG.W*dpr; cv.height = DG.H*dpr; DG.ctx = cv.getContext("2d"); DG.ctx.setTransform(dpr,0,0,dpr,0,0);
-  Object.assign(DG, { x:.5, vx:0, tx:null, reel:0, lives:3, inv:0, last:performance.now(), t:0, objs:[], next:1, gust:0, gdir:0, gphase:"calm", gnext:2.5, steer:0 });
+  Object.assign(DG, { pops:[], x:.5, vx:0, tx:null, reel:0, lives:3, inv:0, last:performance.now(), t:0, objs:[], next:1, gust:0, gdir:0, gphase:"calm", gnext:2.5, steer:0 });
   act = { kind:"dodge" };
   const setT = e => { const r = box.getBoundingClientRect(); DG.tx = Math.max(.06, Math.min(.94, (e.clientX - r.left)/r.width)); };
   box.addEventListener("pointerdown", e => { e.preventDefault(); box.setPointerCapture && box.setPointerCapture(e.pointerId); setT(e); });
@@ -2648,27 +2676,29 @@ function dodgeStep(now){
   DG.next -= dt;
   if(DG.next <= 0){
     const p = Math.min(1, DG.reel);
-    const type = Math.random() < .5 ? "weed" : Math.random() < .55 ? "lasso" : "shoe";
-    DG.objs.push({ type, x: .08 + Math.random()*.84, y: -.12, vy: .32 + p*.22 + Math.random()*.1, r: type === "weed" ? 15 : type === "lasso" ? 17 : 10, spin: 0, wob: Math.random()*6 });
+    const type = Math.random() < .5 ? "weed" : Math.random() < .55 ? "lasso" : "hat";
+    const o = { type, x: .08 + Math.random()*.84, y: -.12, vy: .32 + p*.22 + Math.random()*.1, r: type === "weed" ? 16 : type === "lasso" ? 17 : 13, spin: 0, wob: Math.random()*6 };
+    if(type === "weed") o.twigs = Array.from({length:16}, () => ({ r: 4 + Math.random()*12, a: Math.random()*6.28, l: 1.6 + Math.random()*2.4, c: Math.random() < .5 ? "#C9A46A" : "#8A6A3E" }));
+    DG.objs.push(o);
     DG.next = .85 - p*.32 + Math.random()*.3;
   }
   ctx.clearRect(0, 0, W, H);
+  dodgeBackdrop(ctx, W, H);
   /* the W, drawn as streaks */
-  if(DG.gphase === "gust"){ ctx.strokeStyle = "rgba(220,240,210,.35)"; ctx.lineWidth = 1.5; for(let i = 0; i < 14; i++){ const y = (i*37 + DG.t*60) % H, x0 = ((DG.t*420*DG.gdir + i*91) % (W + 80) + W + 80) % (W + 80) - 40; ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x0 + DG.gdir*46, y); ctx.stroke(); } }
+  if(DG.gphase === "gust"){ ctx.strokeStyle = "rgba(230,245,220,.45)"; ctx.lineWidth = 1.6; for(let i = 0; i < 16; i++){ const y = (i*37 + DG.t*60) % H, x0 = ((DG.t*420*DG.gdir + i*91) % (W + 80) + W + 80) % (W + 80) - 40; ctx.beginPath(); ctx.moveTo(x0, y); ctx.quadraticCurveTo(x0 + DG.gdir*24, y - 4, x0 + DG.gdir*52, y); ctx.stroke(); } }
   /* the rope down to Ramish */
   const kx = DG.x*W;
-  ctx.strokeStyle = "#FFB23E"; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(W/2, H + 4); ctx.quadraticCurveTo(W/2 + (kx - W/2)*.2, H*.9, kx, ky + 14); ctx.stroke();
+  ctx.strokeStyle = "#C9A46A"; ctx.lineWidth = 2.6; ctx.beginPath(); ctx.moveTo(W/2, H + 4); ctx.quadraticCurveTo(W/2 + (kx - W/2)*.2, H*.9, kx, ky + 14); ctx.stroke();
+  ctx.strokeStyle = "rgba(90,60,30,.7)"; ctx.lineWidth = 2.6; ctx.setLineDash([2, 4]); ctx.stroke(); ctx.setLineDash([]);
   for(const o of DG.objs){
-    o.y += o.vy*dt; o.spin += dt*(o.type === "weed" ? 6 : 2);
+    o.y += o.vy*dt; o.spin += dt*(o.type === "weed" ? 5 : o.type === "hat" ? 1.6 : .8);
     o.x += Math.sin(DG.t*2 + o.wob)*.04*dt + (DG.gphase === "gust" ? DG.gdir*.18*dt : 0);
     const ox = o.x*W, oy = o.y*H;
-    ctx.save(); ctx.translate(ox, oy); ctx.rotate(o.spin);
-    if(o.type === "weed"){ ctx.strokeStyle = "#B08A4A"; ctx.lineWidth = 1.6; for(let i = 0; i < 7; i++){ ctx.beginPath(); ctx.arc(0, 0, o.r - i*1.6, i, i + 4.2); ctx.stroke(); } ctx.strokeStyle = "#0B0E16"; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(0, 0, o.r, 0, 7); ctx.stroke(); }
-    else if(o.type === "lasso"){ ctx.strokeStyle = "rgba(200,240,170,.9)"; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(0, 0, o.r, o.r*.7, 0, 0, 7); ctx.stroke(); ctx.beginPath(); ctx.moveTo(o.r*.9, 0); ctx.quadraticCurveTo(o.r*1.6, -8, o.r*2.2, -20); ctx.stroke(); }
-    else { ctx.strokeStyle = "#0B0E16"; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(0, 0, o.r, Math.PI*.15, Math.PI*.85, true); ctx.stroke(); ctx.strokeStyle = "#C9CED8"; ctx.lineWidth = 3.4; ctx.stroke(); }
-    ctx.restore();
-    if(DG.inv <= 0 && !o.hit && Math.hypot(ox - kx, oy - ky) < o.r + 14){ o.hit = true; dodgeHit(o.type); }
+    drawThing(ctx, o, ox, oy);
+    if(DG.inv <= 0 && !o.hit && Math.hypot(ox - kx, oy - ky) < o.r + 13){ o.hit = true; dodgeHit(o.type); DG.pops.push({ text: { weed:"TUMBLEWEED!", lasso:"LASSOED!", hat:"HAT TO THE FACE!" }[o.type], x: kx, y: ky - 40, t: 0 }); }
   }
+  for(const q of DG.pops){ q.t += dt; ctx.globalAlpha = Math.max(0, 1 - q.t/.9); ctx.font = "18px Bangers, Impact, sans-serif"; ctx.textAlign = "center"; ctx.lineWidth = 4; ctx.strokeStyle = "#0B0E16"; ctx.strokeText(q.text, q.x, q.y - q.t*30); ctx.fillStyle = "#FFD23F"; ctx.fillText(q.text, q.x, q.y - q.t*30); ctx.textAlign = "start"; ctx.globalAlpha = 1; }
+  DG.pops = DG.pops.filter(q => q.t < .9);
   DG.objs = DG.objs.filter(o => o.y < 1.2 && !o.hit);
   if(DG.inv > 0) DG.inv -= dt;
   const k = $("dgk"); k.style.left = (kx - 22) + "px"; k.style.top = (ky - 34) + "px"; k.style.transform = `rotate(${(DG.vx*40).toFixed(1)}deg)`; k.style.opacity = DG.inv > 0 && Math.floor(DG.t*12) % 2 ? .35 : 1;
@@ -2678,10 +2708,49 @@ function dodgeStep(now){
   if(DG.reel >= 1){ caught(); return; }
   fogRAF = requestAnimationFrame(dodgeStep);
 }
+/* the open range below, sliding back into view as Ramish reels you in */
+function dodgeBackdrop(ctx, W, H){
+  ctx.fillStyle = "rgba(240,236,214,.75)"; ctx.beginPath(); ctx.arc(W*.16, H*.16, 13, 0, 7); ctx.fill();
+  ctx.fillStyle = "rgba(255,255,255,.55)"; for(let i = 0; i < 14; i++){ const x = (i*73) % W, y = ((i*47 + DG.t*8) % (H*.6)); ctx.fillRect(x, y, 1.6, 1.6); }
+  for(let i = 0; i < 4; i++){
+    const y = ((i*H*.3 + DG.t*26) % (H + 60)) - 30, x = ((i*137) % W) + Math.sin(DG.t*.3 + i)*10;
+    ctx.fillStyle = "rgba(220,236,210,.16)"; for(const [dx, dy, r] of [[-18,4,12],[0,0,16],[18,4,12],[6,8,10]]){ ctx.beginPath(); ctx.arc(x + dx, y + dy, r, 0, 7); ctx.fill(); }
+  }
+  const gy = H - 4 + (1 - Math.min(1, DG.reel))*70;
+  ctx.fillStyle = "#1A2A1F"; ctx.beginPath(); ctx.moveTo(0, gy);
+  [[.08,-12],[.14,-30],[.3,-30],[.36,-10],[.55,-14],[.62,-38],[.8,-38],[.86,-12],[1,-8]].forEach(([fx, dy]) => ctx.lineTo(fx*W, gy + dy));
+  ctx.lineTo(W, H + 80); ctx.lineTo(0, H + 80); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = "rgba(201,164,106,.5)"; ctx.lineWidth = 1; ctx.beginPath(); for(let x = 0; x < W; x += 18){ ctx.moveTo(x, gy - 2); ctx.lineTo(x, gy + 8); } ctx.moveTo(0, gy + 2); ctx.lineTo(W, gy + 2); ctx.stroke();
+}
+function drawThing(ctx, o, x, y){
+  ctx.save(); ctx.translate(x, y);
+  if(o.type === "weed"){
+    ctx.rotate(o.spin);
+    ctx.fillStyle = "rgba(201,164,106,.18)"; ctx.beginPath(); ctx.arc(0, 0, o.r, 0, 7); ctx.fill();
+    for(const t of o.twigs){ ctx.strokeStyle = t.c; ctx.lineWidth = 1.3; ctx.beginPath(); ctx.arc(0, 0, t.r, t.a, t.a + t.l); ctx.stroke(); }
+    ctx.strokeStyle = "#5A4426"; ctx.lineWidth = 1; for(let i = 0; i < 8; i++){ const a = i*.8; ctx.beginPath(); ctx.moveTo(Math.cos(a)*(o.r - 3), Math.sin(a)*(o.r - 3)); ctx.lineTo(Math.cos(a)*(o.r + 3), Math.sin(a)*(o.r + 3)); ctx.stroke(); }
+  } else if(o.type === "lasso"){
+    ctx.shadowColor = "rgba(166,227,110,.7)"; ctx.shadowBlur = 8;
+    ctx.strokeStyle = "#C9A46A"; ctx.lineWidth = 3.4;
+    ctx.beginPath(); ctx.moveTo(o.r*.8, -o.r*.4); ctx.bezierCurveTo(o.r*1.6, -o.r*2.4, -o.r*.4, -y*.4 - 30, o.r*.6, -y - 20); ctx.stroke();
+    ctx.rotate(Math.sin(o.spin)*.25);
+    ctx.beginPath(); ctx.ellipse(0, 0, o.r, o.r*.62, 0, 0, 7); ctx.stroke();
+    ctx.shadowBlur = 0; ctx.strokeStyle = "#7A5A30"; ctx.setLineDash([2, 3]); ctx.beginPath(); ctx.ellipse(0, 0, o.r, o.r*.62, 0, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = "#C9A46A"; ctx.strokeStyle = "#5A4426"; ctx.lineWidth = 1; ctx.beginPath(); ctx.ellipse(o.r*.85, -o.r*.35, 3.2, 2.2, .6, 0, 7); ctx.fill(); ctx.stroke();
+  } else {
+    ctx.rotate(Math.sin(o.spin)*.5);
+    ctx.fillStyle = "#B99A62"; ctx.strokeStyle = "#0B0E16"; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.ellipse(0, 5, o.r + 6, 5, 0, 0, 7); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-o.r*.62, 5); ctx.quadraticCurveTo(-o.r*.7, -o.r*.9, -o.r*.2, -o.r*.8); ctx.quadraticCurveTo(0, -o.r*.45, o.r*.2, -o.r*.8); ctx.quadraticCurveTo(o.r*.7, -o.r*.9, o.r*.62, 5); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = "#3A2A1A"; ctx.fillRect(-o.r*.64, -1, o.r*1.28, 3.4);
+    ctx.strokeStyle = "rgba(255,240,200,.5)"; ctx.lineWidth = 1; ctx.beginPath(); ctx.ellipse(0, 5, o.r + 3, 3, 0, Math.PI*1.05, Math.PI*1.95); ctx.stroke();
+  }
+  ctx.restore();
+}
 function dodgeHit(type){
   DG.lives--; DG.inv = 1.1; DG.reel = Math.max(0, DG.reel - .12); stumble();
   $("dLives").textContent = "Rope " + "♥".repeat(Math.max(0, DG.lives)) + "♡".repeat(3 - Math.max(0, DG.lives));
-  const line = { weed:"A TUMBLEWEED! In the SKY! Only on the frontier, folks!", lasso:"Ha! Caught in my LASSO!", shoe:"Lucky horseshoe! Lucky for ME!" }[type];
+  const line = { weed:"A TUMBLEWEED! In the SKY! Only on the frontier, folks!", lasso:"Ha! Caught in my LASSO!", hat:"My spare HAT! Keep it, son, it's a souvenir!" }[type];
   if(DG.lives <= 0){
     act = null; $("fogscreen").classList.remove("gust");
     vnShow(vnOf(), S, "And he's GONE, folks! Off over the prairie! ...ENCORE!", "s");
@@ -2695,6 +2764,7 @@ function caught(){
   $("fears").innerHTML = FLOAT; $("fears").appendChild(fearTitle("Caught", "Someone's holding the other end."));
   { const k0 = document.getElementById("floatK"); if(k0) k0.setAttribute("transform", "translate(0 -40)"); void $("fears").offsetWidth; }
   const k = document.getElementById("floatK"); if(k){ k.style.transition = "transform .9s cubic-bezier(.3,1.3,.5,1)"; k.setAttribute("transform", "translate(0 18)"); }
+  const tt = document.getElementById("tether"); if(tt) setTimeout(() => tt.setAttribute("d", "M127 103 Q112 106 98 104"), reduce ? 0 : 500);
   ctl("");
   if(typeof music === "function") music("plateau");
   setTimeout(() => playLines(null, [
@@ -2996,8 +3066,14 @@ const FINAL = {
   a: ["distance","thedistance","miles","themiles","space","thespace","longdistance","thegap","gap"],
   hint: "It's the thing between Gotham and Wyoming. Not the Midwest. The other thing.",
 };
+$("rechoose").onclick = () => {
+  $("choices").classList.remove("chosen"); $("rechoose").hidden = true;
+  $("choices").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+};
 document.querySelectorAll(".choice").forEach(btn => btn.onclick = () => {
   document.querySelectorAll(".choice").forEach(b => b.classList.toggle("picked", b===btn));
+  $("choices").classList.add("chosen"); $("rechoose").hidden = false;
+  $("summitScene").closest(".stage").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
   const key = btn.dataset.end;
   const [title, body] = endings[key];
   const sc = $("summitScene");
@@ -3015,6 +3091,7 @@ document.querySelectorAll(".choice").forEach(btn => btn.onclick = () => {
   ];
   const story = [["The tape", body(), "n"], ...PAYOFF[key], ...(first ? SIGNAL : [])];
   if(!first){ playLines(null, story); updateMsg(); return; }
+  e.hidden = true;
   e.innerHTML = `
     <div class="riddle finalq">
       <div class="solved">Final riddle · from ${SIDEKICK}</div>
@@ -3041,7 +3118,7 @@ document.querySelectorAll(".choice").forEach(btn => btn.onclick = () => {
         <p class="fine" id="copyNote" aria-live="polite"></p>
       </div>
     </div>`;
-  playLines(null, story);
+  playLines(null, story, () => { e.hidden = false; focusLine(e.querySelector(".finalq")); });
   e.querySelector(".finalq .q").textContent = FINAL.q;
   $("finalHint").lastElementChild.textContent = FINAL.hint;
   let tries = 0;
