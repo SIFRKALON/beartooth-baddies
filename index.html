@@ -1553,7 +1553,7 @@ const QUIPS = [
   [R, "We're in Wyoming now. Whatever's in the glovebox stays in the glovebox.", ""],
   [R, "Back in Montana. The glovebox may relax. Still not telling you, though.", ""],
   [R, "Falling rocks up here. Don't hit them. I need you in one piece.", ""],
-  ["The tape", "Snow on the road. The truck slides. Steer gently.", "n"],
+  [R, "Snow on the road, so steer gently. And if a guy in a cryo-suit waves you down, do not stop.", ""],
 ];
 const DR = { W:360, H:360, dpr:1, ctx:null, run:false, started:false, over:false, d:0, L:11000, x:180, vx:0, steer:0, speed:0,
   dents:0, inv:0, bagels:0, honks:0, tows:0, cp:0, cpD:0, objs:[], parts:[], pops:[], t:0, next:500, trophyOut:false, shake:0, rumbleT:0, pausedT:0 };
@@ -2018,6 +2018,7 @@ function collect(el){
   $("clueLog").appendChild(d);
   $("clueCount").textContent = `Evidence ${found.size}/3`;
   const lines = [[`Evidence ${found.size} · ${clues[i][0]}`, clues[i][1], "n"], [K, clues[i][2], "k"]];
+  if(i === 1) lines.push([R, `Calendar Man would be thrilled.`], [K, `Calendar Man would be moved.`, "k"]);
   if(found.size === 3) lines.push(["The tape", "You reach for the trail register. It's gone. Something small and furry is running away with the pages.", "n"], [R, `${HERO}. The marmots. They took it.`], [K, `Of course they did.`, "k"]);
   playLines(null, lines, () => { if(found.size === 3) openHeist(); });
 }
@@ -2155,6 +2156,8 @@ function endHeist(){
       [K, `Someone.`, "k"],
       [R, `A magpie calling marmots thieves. Rich.`],
       [K, `Collector.`, "k"],
+      [R, `If you say "this is a Ratcatcher situation," I'm hanging up.`],
+      [K, `...`, "k"],
       [R, `Riddle two. I know nothing about riddles, but I'm very supportive.`],
     ], showRiddle2);
   } else {
@@ -2299,8 +2302,11 @@ function startFog(){
   distort(.35); dots();
   if(typeof music === "function") music("showman");
   playLines(null, [
-    ["The tape", "The fog rolls in thick and green. Somewhere inside it, spurs jingle and a calliope starts a waltz.", "n"],
+    ["The tape", "The fog rolls in thick and green. Your worst nightmares start flickering in it.", "n"],
+    [K, "Fear gas. Nightmares. Please be Scarecrow. Please, please be Scarecrow.", "k"],
+    ["The tape", "Spurs jingle. A calliope starts a waltz.", "n"],
     [S, "LADIES AND GENTLEMEN! Back from the great beyond, it's Colonel William F. \"Buffalo Bill\" Cody! Well. His GHOST!", "s"],
+    [K, "...It's not Scarecrow.", "k"],
     [K, "Buffalo Bill. You died in 1917.", "k"],
     [S, "And I have NEVER stopped touring! I played for the Queen of England, son! Tonight: three acts of pure frontier terror. When you run, I lasso the big one. A KAIJU, in Buffalo Bill's Wild West!", "s"],
     [R, `${HERO}, listen. It's a show. Every act has a trick. Find the trick and the act folds.`],
@@ -2576,6 +2582,9 @@ function danceEnd(){
     [K, "I have rhythm. It's documented now.", "k"],
     [R, "You stepped on my feet twice."],
     [K, "Rhythmically.", "k"],
+    [R, "...You can lead next time."],
+    [K, "Next time?", "k"],
+    [R, "Eyes on the ghost, detective."],
     [S, "Hmph! He danced with his SIDEKICK, folks, and somehow it WORKED! On with the show!", "s"],
   ], nextFear);
 }
@@ -2706,6 +2715,9 @@ function clearFog(){
     [K, `I'm fine. The fog wasn't his. It was exhaled. By something big. He was just selling tickets to it.`, "k"],
     [R, `So the real villain is ticket fees.`],
     [K, `Always has been.`, "k"],
+    [R, `For the record, you got through all that with so much aura it's crazy.`],
+    [K, `Are you quoting me to me?`, "k"],
+    [R, `I would never.`],
     ["The tape", "As the fog pulls back, it leaves letters in the frost on the rocks. The last riddle.", "n"],
   ], () => {
     const b = $("riddle3"); b.hidden = false;
@@ -2763,6 +2775,8 @@ function rise(){
           [K, heads ? "Heads. We talk." : "Tails. Snacks it is.", "k"],
           [B, "IS THAT HOW YOU MAKE ALL YOUR DECISIONS.", "b"],
           [K, "Only the important ones.", "k"],
+          [R, "Very Two-Face of you."],
+          [K, "He had a point. Sometimes.", "k"],
         ], () => outcome(heads ? "talk" : "gadget"));
       };
     });
@@ -2911,6 +2925,7 @@ function afterScratch(o){
   playLines(null, [
     [B, `I WILL NOW BE UNBEARABLE ABOUT THIS FOREVER.`, "b"],
     [B, `ALSO. YOU SHOULD KNOW. I WAS NOT MADE BY A BOMB. THE MOUNTAIN MADE ME. I AM JUST BIG.`, "b"],
+    [K, `That's the most Bane thing I've ever heard.`, "k"],
     [B, `ALSO A MAN IN A VERY BIG HAT KEEPS ASKING ME TO JOIN HIS SHOW. I AM NOT AN ACT.`, "b"],
     [K, `He's been handled. He's touring elsewhere now.`, "k"],
     [K, `Good. That's... actually really good to hear.`, "k"],
