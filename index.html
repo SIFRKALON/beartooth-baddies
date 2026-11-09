@@ -525,6 +525,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
     <linearGradient id="magSheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F5F86"/><stop offset=".5" stop-color="#2E8F78"/><stop offset="1" stop-color="#4B3C8C"/></linearGradient>
     <pattern id="dots" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.1" fill="#000" opacity=".35"/></pattern>
     <pattern id="dotsL" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r=".8" fill="#fff" opacity=".22"/></pattern>
+    <pattern id="stub2" width=".95" height=".95" patternUnits="userSpaceOnUse" patternTransform="rotate(20)"><circle cx=".3" cy=".3" r=".16" fill="#24150E" opacity=".38"/><circle cx=".78" cy=".72" r=".12" fill="#24150E" opacity=".3"/></pattern>
     <pattern id="stub" width="1.6" height="1.6" patternUnits="userSpaceOnUse"><circle cx=".8" cy=".8" r=".26" fill="#3A2418" opacity=".3"/></pattern>
     <pattern id="hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="1.3" height="5" fill="#000" opacity=".32"/></pattern>
     <symbol id="kyle" viewBox="0 0 60 80">
@@ -548,33 +549,64 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
       <path d="M27 34 Q30 36.6 33 34" stroke="#7A4A36" stroke-width="1.4" fill="none" stroke-linecap="round"/>
     </symbol>
     <symbol id="ramish" viewBox="0 0 60 80">
-      <rect x="22" y="62" width="7" height="12" rx="2" fill="#3A5A8A"/><rect x="31" y="62" width="7" height="12" rx="2" fill="#3A5A8A"/>
-      <rect x="20.5" y="72" width="10" height="6" rx="2.5" fill="#EDEDED"/><rect x="29.5" y="72" width="10" height="6" rx="2.5" fill="#EDEDED"/>
-      <path d="M48.5 42 Q56.5 47 54 56 Q52 61.5 46.5 60" stroke="#0B0E16" stroke-width="5.2" fill="none" stroke-linecap="round"/>
-      <path d="M48.5 42 Q56.5 47 54 56 Q52 61.5 46.5 60" stroke="#EBC58F" stroke-width="3.8" fill="none" stroke-linecap="round"/>
-      <path d="M50 60.6 Q48 60.8 46.5 60" stroke="#4A2E1A" stroke-width="3.8" fill="none" stroke-linecap="round"/>
-      <rect x="18" y="38" width="24" height="27" rx="8" fill="#E39B2E"/>
-      <path d="M30 40 L30 64" stroke="#B5761D" stroke-width="1.4"/><path d="M22 39 L30 44 L38 39" stroke="#B5761D" stroke-width="2" fill="none"/>
-      <rect x="39" y="44" width="6" height="12" rx="3" fill="#E39B2E"/>
-      <circle cx="30" cy="26" r="14" fill="#C98E62"/>
-      <g fill="#2A1D17"><circle cx="19" cy="19" r="6"/><circle cx="25" cy="13.5" r="6.5"/><circle cx="32" cy="12.5" r="6.5"/><circle cx="39" cy="15.5" r="6"/><circle cx="42.5" cy="21" r="4.5"/><circle cx="17" cy="24" r="4"/></g>
-      <circle cx="16.5" cy="28" r="3.2" fill="#2B2F3A"/><path d="M17 30 Q18 35 24 35.5" stroke="#2B2F3A" stroke-width="1.4" fill="none"/><circle cx="24.5" cy="35.5" r="1.3" fill="#FFB23E"/>
-      <g class="blink"><circle cx="25" cy="27.5" r="1.9" fill="#2A1D17"/><circle cx="35" cy="27.5" r="1.9" fill="#2A1D17"/></g>
-      <path d="M22.5 23.5 L27 23 M33 23 L37.5 23.5" stroke="#2A1D17" stroke-width="1.2" stroke-linecap="round"/>
-      <circle cx="21" cy="32" r="2.2" fill="#E97F7F" opacity=".45"/><circle cx="39" cy="32" r="2.2" fill="#E97F7F" opacity=".45"/>
-      <path d="M27 32.5 Q30 35.4 33 32.5" stroke="#6B3A2A" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-      <!-- Bodega, a fennec fox, riding on the right shoulder -->
-      <ellipse cx="45" cy="40.5" rx="5.2" ry="4.4" fill="#EBC58F" stroke="#0B0E16" stroke-width=".7"/>
-      <g class="twitch">
-        <path d="M42.6 31.5 L38.2 18.5 L46 28.6 Z" fill="#EBC58F" stroke="#0B0E16" stroke-width=".7" stroke-linejoin="round"/>
-        <path d="M42.4 29.4 L39.8 21.6 L44.4 27.8 Z" fill="#F2A6A0"/>
-        <path d="M49.4 31.5 L53.8 18.5 L46 28.6 Z" fill="#EBC58F" stroke="#0B0E16" stroke-width=".7" stroke-linejoin="round"/>
-        <path d="M49.6 29.4 L52.2 21.6 L47.6 27.8 Z" fill="#F2A6A0"/>
-      </g>
-      <circle cx="46" cy="33.6" r="4.4" fill="#F1D2A0" stroke="#0B0E16" stroke-width=".7"/>
-      <path d="M43.4 35 Q46 38.4 48.6 35 Q46 36.4 43.4 35 Z" fill="#FFF3DC"/>
-      <g class="blink"><circle cx="44.4" cy="33.2" r=".8" fill="#0B0E16"/><circle cx="47.6" cy="33.2" r=".8" fill="#0B0E16"/></g>
-      <circle cx="46" cy="35.4" r=".65" fill="#0B0E16"/>
+  <rect x="22" y="62" width="7" height="12" rx="2" fill="#3A5A8A"/><rect x="31" y="62" width="7" height="12" rx="2" fill="#3A5A8A"/>
+  <rect x="20.5" y="72" width="10" height="6" rx="2.5" fill="#EDEDED"/><rect x="29.5" y="72" width="10" height="6" rx="2.5" fill="#EDEDED"/>
+  <path d="M48.5 42 Q56.5 47 54 56 Q52 61.5 46.5 60" stroke="#0B0E16" stroke-width="5.2" fill="none" stroke-linecap="round"/>
+  <path d="M48.5 42 Q56.5 47 54 56 Q52 61.5 46.5 60" stroke="#EBC58F" stroke-width="3.8" fill="none" stroke-linecap="round"/>
+  <path d="M50 60.6 Q48 60.8 46.5 60" stroke="#4A2E1A" stroke-width="3.8" fill="none" stroke-linecap="round"/>
+  <rect x="18" y="38" width="24" height="27" rx="8" fill="#E39B2E"/>
+       <path d="M24.6 39 L30 41.6 L35.4 39 L34.6 63 L25.4 63 Z" fill="#F4F1EA"/><path d="M25.6 39.4 Q30 44.4 34.4 39.4" stroke="#DCD6CA" stroke-width=".8" fill="none"/><path d="M24.6 39.6 Q30 47.4 35.4 39.6" stroke="#D9DEE8" stroke-width=".9" fill="none"/><circle cx="30" cy="46.4" r="1.1" fill="#E9EDF4" stroke="#8A93A6" stroke-width=".3"/>
+       <path d="M22.6 38.6 Q30 36.6 37.4 38.6" stroke="#1C1E26" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+       <path d="M24.6 39 L25.4 63 M35.4 39 L34.6 63" stroke="#B5761D" stroke-width="1.2"/>
+       <rect x="18.6" y="61.4" width="22.8" height="3" rx="1.5" fill="#1C1E26"/>
+       <rect x="39" y="44" width="6" height="12" rx="3" fill="#E39B2E"/><rect x="39" y="54.4" width="6" height="2" rx="1" fill="#1C1E26"/>
+  <!-- neck + ears -->
+  <rect x="26.4" y="36" width="7.2" height="5" fill="#A86F45"/>
+  <ellipse cx="43.4" cy="26.6" rx="2.2" ry="3" fill="#C68A5C"/><path d="M43.6 25 Q44.6 26.6 43.6 28" stroke="#A86F45" stroke-width=".8" fill="none"/><circle cx="43.8" cy="30" r="1.1" fill="none" stroke="#D9DEE8" stroke-width=".55"/>
+  <!-- face -->
+  <path d="M17 23.5 Q17 10.5 30 10.5 Q43 10.5 43 23.5 Q43 32.5 39.2 37.4 Q35.2 41.8 30 41.8 Q24.8 41.8 20.8 37.4 Q17 32.5 17 23.5 Z" fill="#C68A5C"/>
+  <!-- short faded sides -->
+  <path d="M17.2 25 Q16.6 17 21.8 13.8 L22 19.6 Q19.4 20.6 18.8 25.6 Z" fill="#3E2C22"/>
+  <path d="M42.8 25 Q43.4 17 38.2 13.8 L38 19.6 Q40.6 20.6 41.2 25.6 Z" fill="#3E2C22"/>
+  
+  <path d="M17.6 25.4 Q17.4 32.6 20.8 37.4 Q24.8 41.8 30 41.8 Q35.2 41.8 39.2 37.4 Q42.6 32.6 42.8 25.4 Q41.4 30.8 36.6 32.4 Q33.4 33.2 30 32.6 Q26.6 33.2 23.4 32.4 Q18.6 30.8 17.6 25.4 Z" fill="#2A1A12" opacity=".34"/>
+  <path d="M17.6 25.4 Q17.4 32.6 20.8 37.4 Q24.8 41.8 30 41.8 Q35.2 41.8 39.2 37.4 Q42.6 32.6 42.8 25.4 Q41.4 30.8 36.6 32.4 Q33.4 33.2 30 32.6 Q26.6 33.2 23.4 32.4 Q18.6 30.8 17.6 25.4 Z" fill="url(#stub2)"/>
+  <path d="M17.6 25.4 Q18.6 30.8 23.4 32.4 Q26.6 33.2 30 32.6 Q33.4 33.2 36.6 32.4 Q41.4 30.8 42.4 25.4" stroke="#2A1A12" stroke-width=".45" fill="none" opacity=".45"/>
+  <!-- smile -->
+  <path d="M25.6 34.2 Q30 38.6 34.4 34.2 Q30 35.6 25.6 34.2 Z" fill="#FFF7EE" stroke="#120C09" stroke-width=".8" stroke-linejoin="round"/>
+  <path d="M24.4 33.4 Q27 31 30 32.2 Q33 31 35.6 33.4 Q33 34.2 30 33.6 Q27 34.2 24.4 33.4 Z" fill="#241813" opacity="0.5"/>
+  <!-- nose -->
+  <path d="M30.2 26.6 Q32 29.8 30.4 30.8 Q29.6 31.1 28.8 30.7" stroke="#A86F45" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+  <!-- happy eyes + groomed, arched brows -->
+  <g class="blink"><ellipse cx="25" cy="26.4" rx="1.75" ry="1.95" fill="#1A120E"/><ellipse cx="35" cy="26.4" rx="1.75" ry="1.95" fill="#1A120E"/><circle cx="25.6" cy="25.8" r=".55" fill="#fff"/><circle cx="35.6" cy="25.8" r=".55" fill="#fff"/></g>
+  <path d="M27.9 22.9 Q25.2 20.4 21.6 22.9 Q24.9 21.9 27.7 23.9 Z" fill="#211612" stroke="#211612" stroke-width=".5" stroke-linejoin="round"/>
+  <path d="M32.1 22.9 Q34.8 20.4 38.4 22.9 Q35.1 21.9 32.3 23.9 Z" fill="#211612" stroke="#211612" stroke-width=".5" stroke-linejoin="round"/>
+  <!-- the mop: big loose curls on top, tumbling forward over the forehead -->
+  <g fill="#211612">
+    <circle cx="23.6" cy="10.2" r="5"/><circle cx="29.6" cy="9" r="5.3"/><circle cx="35.4" cy="10.2" r="4.6"/><circle cx="40" cy="13.6" r="3.4"/>
+    <circle cx="18.8" cy="14" r="4.4"/><circle cx="17.4" cy="19" r="3.1"/><circle cx="17.8" cy="23" r="2.2"/>
+    <circle cx="22.6" cy="15.2" r="4"/><circle cx="28.4" cy="14.2" r="4.2"/><circle cx="34" cy="14.6" r="3.5"/><circle cx="38.6" cy="16.8" r="2.2"/>
+    <circle cx="21.6" cy="19.2" r="2.7"/><circle cx="25.6" cy="19" r="2.4"/><circle cx="29.6" cy="17.8" r="1.9"/><circle cx="33.2" cy="17.6" r="1.5"/>
+  </g>
+  <g stroke="#3B2A20" stroke-width=".6" fill="none" stroke-linecap="round" opacity=".85">
+    <path d="M22 9.6 q1.8 -1.4 3 .4 q.6 1.6 -.9 2"/><path d="M28.6 8 q2 -1 2.8 .9 q.3 1.6 -1.2 1.8"/><path d="M34.6 10 q1.6 -.7 2.1 .9"/>
+    <path d="M17.6 13.6 q1.4 -1 2.2 .5"/><path d="M26.6 14.2 q1.6 -1 2.4 .4"/><path d="M16.6 19.4 q1.2 -.6 1.6 .6"/>
+  </g>
+  <path d="M23.4 20.6 q-1.8 1.4 -.6 3.2 q1.6 .6 1.8 -1" stroke="#211612" stroke-width="1.15" fill="none" stroke-linecap="round"/>
+  <!-- headset (comms) -->
+  <circle cx="16.6" cy="27.4" r="3.2" fill="#2B2F3A"/><path d="M17 29.6 Q18.4 35.4 24 35.8" stroke="#2B2F3A" stroke-width="1.4" fill="none"/><circle cx="24.4" cy="35.8" r="1.3" fill="#FFB23E"/>
+  <!-- Bodega, a fennec fox, riding on the right shoulder -->
+  <ellipse cx="45" cy="40.5" rx="5.2" ry="4.4" fill="#EBC58F" stroke="#0B0E16" stroke-width=".7"/>
+  <g class="twitch">
+    <path d="M42.6 31.5 L38.2 18.5 L46 28.6 Z" fill="#EBC58F" stroke="#0B0E16" stroke-width=".7" stroke-linejoin="round"/>
+    <path d="M42.4 29.4 L39.8 21.6 L44.4 27.8 Z" fill="#F2A6A0"/>
+    <path d="M49.4 31.5 L53.8 18.5 L46 28.6 Z" fill="#EBC58F" stroke="#0B0E16" stroke-width=".7" stroke-linejoin="round"/>
+    <path d="M49.6 29.4 L52.2 21.6 L47.6 27.8 Z" fill="#F2A6A0"/>
+  </g>
+  <circle cx="46" cy="33.6" r="4.4" fill="#F1D2A0" stroke="#0B0E16" stroke-width=".7"/>
+  <path d="M43.4 35 Q46 38.4 48.6 35 Q46 36.4 43.4 35 Z" fill="#FFF3DC"/>
+  <g class="blink"><circle cx="44.4" cy="33.2" r=".8" fill="#0B0E16"/><circle cx="47.6" cy="33.2" r=".8" fill="#0B0E16"/></g>
+  <circle cx="46" cy="35.4" r=".65" fill="#0B0E16"/>
     </symbol>
     <symbol id="marmot" viewBox="0 0 60 60">
       <path d="M9 62 Q9 30 30 28 Q51 30 51 62 Z" fill="#8A6038" stroke="#0B0E16" stroke-width="1.8"/>
@@ -1177,6 +1209,8 @@ const CUES = {
 function mTick(){
   if(!M.cue || !actx) return;
   const C = CUES[M.cue];
+  if(actx.state !== "running") return;
+  if(M.next < actx.currentTime - .25) M.next = actx.currentTime + .05;
   while(M.next < actx.currentTime + .15){
     const sd = (C.unit || 15) / C.bpm / M.tempo;
     try{ C.play(Math.floor(M.step / C.spb), M.step % C.spb, M.next, sd); }catch(_){}
@@ -1206,8 +1240,16 @@ function musicOff(){
 }
 function musicWarp(k){ M.warp = Math.max(0, Math.min(1, k)); if(M.lp && actx) M.lp.frequency.setTargetAtTime(9000 - M.warp*7600, actx.currentTime, .08); }
 function musicTempo(x){ M.tempo = x; }
-document.addEventListener("visibilitychange", () => { if(!actx) return; try{ document.hidden ? actx.suspend() : actx.resume(); }catch(_){} });
-document.addEventListener("pointerdown", () => { if(actx && actx.state === "suspended" && !document.hidden) actx.resume().catch(()=>{}); });
+/* iOS: let the score play with the ringer switch on silent, and wake it back up after the app comes back */
+try{ if(navigator.audioSession) navigator.audioSession.type = "playback"; }catch(_){}
+function wakeAudio(){
+  if(!actx || document.hidden || !soundOn) return;
+  if(actx.state !== "running") actx.resume().then(() => { if(M.cue) M.next = Math.max(M.next, actx.currentTime + .05); }).catch(()=>{});
+  if(M.want && !M.cue) music(M.want);
+}
+document.addEventListener("visibilitychange", () => { if(!actx) return; if(document.hidden){ try{ actx.suspend(); }catch(_){} } else wakeAudio(); });
+window.addEventListener("pageshow", wakeAudio); window.addEventListener("focus", wakeAudio);
+["pointerdown","touchend","keydown"].forEach(ev => document.addEventListener(ev, wakeAudio, { passive:true }));
 const CH_CUE = {0:"title", 1:"signal", 2:"signal", 3:"plateau", 5:"showman", 6:"rise", 7:"summit", 8:"credits"};
 document.addEventListener("pointerdown", () => { if(!M.want && !$("s0").hidden) music("title"); }, { once:true });
 
@@ -1256,7 +1298,7 @@ function vnShow(v, who, text, cls, onDone){
   v.querySelector(".pf use").setAttribute("href", PF[s]);
   const person = s==="k" || s==="r", u = v.querySelector(".pf use");
   u.setAttribute("width", 60); u.setAttribute("height", person ? 80 : 60);
-  v.querySelector(".pf svg").setAttribute("viewBox", s==="r" ? "12 6 44 44" : s==="k" ? "8 2 44 44" : "0 0 60 60");
+  v.querySelector(".pf svg").setAttribute("viewBox", s==="r" ? "9 2 46 46" : s==="k" ? "8 2 44 44" : "0 0 60 60");
   v.querySelector(".more").hidden = true;
   const tx = v.querySelector(".tx"); tx.textContent = "";
   clearInterval(typer);
