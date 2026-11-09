@@ -343,11 +343,33 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
 .grip .fill{height:100%;width:0;background:repeating-linear-gradient(90deg,var(--amber) 0 10px,#E39B2E 10px 12px)}
 .holdbtn{width:100%;font-family:"Bangers",Impact,sans-serif;font-size:28px;letter-spacing:.06em;padding:22px;background:var(--amber);user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none}
 .holdbtn.down{filter:brightness(1.3);transform:scale(.98)}
+/* the Showman's fog */
+.showghost{position:absolute;right:8px;top:6px;width:70px;height:70px;z-index:4;opacity:.85;filter:drop-shadow(0 0 10px rgba(166,227,110,.55));animation:ghostbob 3.2s ease-in-out infinite;transition:opacity 1.2s, transform 1.2s}
+.showghost.gone,.fogscreen.clear .showghost{opacity:0;transform:translate(60px,-30px)}
+@keyframes ghostbob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-6px) rotate(3deg)}}
+.fogscreen.hurt{animation:shake .1s linear 4}
+.fogscreen.hurt::after{content:"";position:absolute;inset:0;background:rgba(255,60,60,.22);z-index:5;pointer-events:none;animation:hurtflash .45s ease forwards}
+@keyframes hurtflash{from{opacity:1}to{opacity:0}}
+.fogscreen.gust .wisp{animation-duration:1.2s}
+.fogscreen.gust .fears{filter:blur(1px)}
+.quizhud{display:flex;justify-content:space-between;font-family:var(--osdfont);font-size:20px;color:var(--fog);letter-spacing:.06em;text-transform:uppercase}
+.quizhud .strikes{color:#FF6B5B;letter-spacing:.2em}
+.symgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sym{background:#13241A;border:1px solid var(--fog);padding:12px 0;display:grid;place-items:center;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.sym[disabled]{opacity:.35}
+.sym.hit{animation:signpop .25s ease}
+.gustwarn{font-family:"Bangers",Impact,sans-serif;font-size:26px;letter-spacing:.06em;text-align:center;min-height:32px;color:var(--dim)}
+.gustwarn.warn{color:#FFD23F;animation:blink .3s steps(2) infinite}
+.gustwarn.now{color:#FF6B5B;animation:shake .12s linear infinite}
 /* marmot heist */
 .heist{position:relative;border:2px solid #D8D0BC;box-shadow:5px 5px 0 #000;background:linear-gradient(#2E4066,#2A3B45 45%);padding:10px;touch-action:manipulation;user-select:none;-webkit-user-select:none}
 .heist.gone{animation:heistout .5s ease forwards}
 @keyframes heistout{to{opacity:0;transform:scale(.94) translateY(-8px)}}
 .heisthud{display:flex;justify-content:space-between;gap:8px;font-family:var(--osdfont);font-size:21px;color:#fff;text-shadow:2px 2px 0 #000;margin-bottom:8px;min-height:22px}
+.heisthud.esc{font-size:17px;margin:-4px 0 8px;color:#FF9D8E}
+#hTime.urgent{color:#FF5A4E;animation:shake .2s linear infinite}
+.pop.boss{left:4%;right:4%;height:96%}
+.pop.hitwob{animation:shake .12s linear 2}
 #hCombo{color:#FFD23F;animation:bob .5s ease-in-out infinite}
 .burrows{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .hole{position:relative;aspect-ratio:1/.92;overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -364,6 +386,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
 .stage{display:flex;flex-direction:column}
 .stage > .scene,.stage > .fogscreen{border-radius:2px 2px 0 0;cursor:pointer}
 .vn{position:relative;display:grid;grid-template-columns:62px 1fr;gap:12px;align-items:start;min-height:132px;padding:12px 14px 14px;background:#0B0F16;border:1px solid var(--line);border-top:2px solid var(--vc,var(--dim));border-radius:0 0 2px 2px;cursor:pointer;user-select:none;-webkit-user-select:none;--vc:var(--dim)}
+.vn.s{--vc:var(--fog)}.vn.s .tx{font-family:var(--gothic);font-weight:800;font-size:19px;letter-spacing:.01em;color:#D7F5BE}
 .vn.k{--vc:var(--scan)}.vn.r{--vc:var(--amber)}.vn.b{--vc:var(--quartz)}.vn.n{--vc:#8C9A8E}
 .vn .pf{width:62px;height:62px;border:2px solid var(--vc);border-radius:6px;background:radial-gradient(circle at 50% 35%,#1E2636,#0E131C);overflow:hidden}
 .vn .pf svg{width:100%;height:100%;display:block}
@@ -585,6 +608,22 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
       <path d="M24 46 Q30 50 36 46" stroke="#2A3142" stroke-width="2" fill="none" stroke-linecap="round"/>
       <polygon points="29,47 33,47 31,56" fill="#EEF3FA"/>
     </symbol>
+    <symbol id="showman" viewBox="0 0 60 60">
+      <path d="M8 62 Q10 45 30 42 Q50 45 52 62 Z" fill="#8FBF72" stroke="#0B0E16" stroke-width="1.4"/>
+      <path d="M14 52 l-2 6 M18 49 l-2 7 M42 49 l2 7 M46 52 l2 6" stroke="#0B0E16" stroke-width="1" opacity=".7"/>
+      <path d="M24 43 L30 52 L36 43" fill="#D9F0C8" stroke="#0B0E16" stroke-width="1"/>
+      <path d="M16.5 20 Q11 33 15 47 L22 42 Q20 31 22 23 Z" fill="#EEF6E4" stroke="#0B0E16" stroke-width="1.2"/>
+      <path d="M43.5 20 Q49 33 45 47 L38 42 Q40 31 38 23 Z" fill="#EEF6E4" stroke="#0B0E16" stroke-width="1.2"/>
+      <ellipse cx="30" cy="28" rx="9.5" ry="11.5" fill="#CDEBB4" stroke="#0B0E16" stroke-width="1.3"/>
+      <path d="M21 33.5 Q25.5 29.8 30 32 Q34.5 29.8 39 33.5 Q34.5 35 30 33.8 Q25.5 35 21 33.5 Z" fill="#F4F9EE" stroke="#0B0E16" stroke-width="1"/>
+      <path d="M28 36 L30 44.5 L32 36 Z" fill="#F4F9EE" stroke="#0B0E16" stroke-width="1"/>
+      <g class="blink"><circle cx="26" cy="26.5" r="1.9" fill="#0B0E16"/><circle cx="34" cy="26.5" r="1.9" fill="#0B0E16"/><circle cx="26.6" cy="25.9" r=".6" fill="#A6E36E"/><circle cx="34.6" cy="25.9" r=".6" fill="#A6E36E"/></g>
+      <path d="M23 22.5 L28 23.4 M37 22.5 L32 23.4" stroke="#0B0E16" stroke-width="1.2" stroke-linecap="round"/>
+      <ellipse cx="30" cy="18.5" rx="23" ry="4.2" fill="#5E7F4C" stroke="#0B0E16" stroke-width="1.4"/>
+      <path d="M18.5 18 Q17.5 4 30 4.5 Q42.5 4 41.5 18 Z" fill="#6E9259" stroke="#0B0E16" stroke-width="1.4"/>
+      <path d="M24 6.5 Q30 10 36 6.5" stroke="#0B0E16" stroke-width="1" fill="none" opacity=".6"/>
+      <rect x="18.6" y="14" width="22.8" height="2.6" fill="#3F5A33"/>
+    </symbol>
     <symbol id="tape" viewBox="0 0 60 60">
       <rect x="6" y="14" width="48" height="32" rx="4" fill="#15181F" stroke="#2A2F3A"/>
       <rect x="12" y="18" width="36" height="8" rx="1" fill="#DCD4C2"/>
@@ -800,11 +839,12 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
       <span class="counter" id="clueCount">Evidence 0/3</span>
     </div>
     <div class="heist" id="heist" hidden>
-      <div class="heisthud"><span id="hPages">Pages 0/10</span><span id="hCombo"></span><span id="hTime">25s</span></div>
+      <div class="heisthud"><span id="hPages">Pages 0/12</span><span id="hCombo"></span><span id="hTime">25s</span></div>
+      <div class="heisthud esc"><span id="hEsc">Escaped ○○○○○</span></div>
       <div class="burrows" id="burrows"></div>
       <div class="heiststart" id="heistStart">
         <b>Marmot Heist</b>
-        <span>The marmots stole the trail register. Boop the ones carrying pages. Recover 10 in 25 seconds. Do not boop Bodega.</span>
+        <span>The marmots stole the trail register. Boop the ones carrying pages: 12 in 25 seconds. Let five page-thieves escape and it's over. Ignore the takeout menus. Do not boop Bodega.</span>
         <button id="heistGo">Start booping</button>
       </div>
     </div>
@@ -824,9 +864,10 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
       <div class="bands" id="bands" aria-hidden="true"></div>
       <i class="wisp" aria-hidden="true"></i><i class="wisp w2" aria-hidden="true"></i><i class="wisp w3" aria-hidden="true"></i>
       <div class="fears" id="fears" aria-live="polite"></div>
+      <svg class="showghost" id="showGhost" viewBox="0 0 60 60" aria-hidden="true"><use href="#showman"/></svg>
       <div class="cap">A green fog rolls off the plateau. It smells like pine and old VHS tape.</div>
     </div>
-    <div class="vn n" data-idle="Your worst nightmares start playing on repeat. Face each one to clear the fog."></div>
+    <div class="vn n" data-idle="Something is playing in the fog. Tap to watch."></div>
     </div>
     <div class="fogdots" id="fogdots" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="stack" id="fogCtl"></div>
@@ -1039,7 +1080,137 @@ const sfx = {
   chime: () => { tone(659,.5,"sine",.09); tone(523,.8,"sine",.09,.45); },
   rumble:() => tone(55,1.6,"sawtooth",.06),
 };
-$("snd").onclick = () => { soundOn = !soundOn; $("snd").textContent = soundOn ? "♪ON" : "♪OFF"; };
+$("snd").onclick = () => { soundOn = !soundOn; $("snd").textContent = soundOn ? "♪ON" : "♪OFF"; if(soundOn){ if(M.want) music(M.want); } else musicOff(); };
+/* ---------- the score: one theme on one tape, remixed per scene ----------
+   midnight synth (signal, plateau, summit) · cartridge mode (drive, heist) · warped tape (fog)
+   · a sour calliope waltz (the Showman) · a slow granite march (Beartoothra) · everything at once (credits) */
+const M = { cue:null, want:null, bus:null, lp:null, noise:null, step:0, next:0, timer:null, tempo:1, warp:0, vol:.46, swap:0 };
+const mf = n => 440 * Math.pow(2, (n - 69) / 12);
+const MIN = { roots:[38,34,36,33], ch:[[62,65,69],[58,62,65],[60,64,67],[57,60,64]],
+  mel:[[[0,74,6],[6,77,2],[8,81,6],[14,79,2]], [[0,77,6],[6,74,2],[8,70,8]], [[0,72,4],[4,76,4],[8,79,6],[14,77,2]], [[0,76,8],[8,72,4],[12,69,4]]] };
+const MAJ = { roots:[41,38,34,36], ch:[[65,69,72],[62,65,69],[58,62,65],[60,64,67]],
+  mel:[[[0,77,6],[6,81,2],[8,84,6],[14,82,2]], [[0,81,6],[6,77,2],[8,74,8]], [[0,74,4],[4,77,4],[8,82,6],[14,81,2]], [[0,79,8],[8,76,4],[12,77,4]]] };
+const WALTZ = { roots:[38,43,45,38], ch:[[62,65,69],[55,58,62],[57,61,67],[62,65,69]],
+  mel:[[[0,81,2],[2,80,1],[3,81,1],[4,77,2]], [[0,79,2],[2,78,1],[3,79,1],[4,74,2]], [[0,76,2],[2,77,1],[3,79,1],[4,81,2]], [[0,74,4],[4,69,2]]] };
+const melAt = (H, bar, s) => H.mel[bar % 4].find(m => m[0] === s);
+function mInit(){
+  actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+  if(M.bus) return;
+  M.bus = actx.createGain(); M.bus.gain.value = 0;
+  M.lp = actx.createBiquadFilter(); M.lp.type = "lowpass"; M.lp.frequency.value = 9000; M.lp.Q.value = .7;
+  M.bus.connect(M.lp).connect(actx.destination);
+  const len = Math.floor(actx.sampleRate * .4), buf = actx.createBuffer(1, len, actx.sampleRate), d = buf.getChannelData(0);
+  for(let i = 0; i < len; i++) d[i] = Math.random()*2 - 1;
+  M.noise = buf;
+}
+/* one synth note into the music bus; tape warp bends the pitch the worse the fog gets */
+function mn(t, midi, dur, type, vol, o = {}){
+  const osc = actx.createOscillator(), g = actx.createGain();
+  osc.type = type; osc.frequency.value = mf(midi);
+  const w = M.warp + (CUES[M.cue] && CUES[M.cue].warp || 0);
+  if(w > .01){ osc.detune.setValueAtTime(Math.sin(t*2.7)*w*40 + (Math.random()-.5)*w*25, t); osc.detune.linearRampToValueAtTime(Math.sin((t+dur)*2.7)*w*40 - w*30, t + dur); }
+  if(o.vib){ const l = actx.createOscillator(), lg = actx.createGain(); l.frequency.value = o.vib; lg.gain.value = o.vd || 12; l.connect(lg).connect(osc.detune); l.start(t); l.stop(t + dur + .1); }
+  const a = o.a || .005, r = o.r || .06;
+  g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + a);
+  g.gain.setValueAtTime(vol, t + Math.max(a, dur - r)); g.gain.exponentialRampToValueAtTime(.0001, t + dur + r);
+  let out = g;
+  if(o.lp){ const f = actx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = o.lp; f.Q.value = o.q || 1; g.connect(f); out = f; }
+  osc.connect(g); out.connect(M.bus); osc.start(t); osc.stop(t + dur + r + .05);
+}
+function mPad(t, chord, dur, vol, lp){ chord.forEach(n => { mn(t, n, dur, "sawtooth", vol, {a:.35, r:.4, lp: lp || 900}); mn(t, n + .08, dur, "sawtooth", vol*.7, {a:.4, r:.4, lp: lp || 900}); }); }
+function mKick(t, v = .5){ const o = actx.createOscillator(), g = actx.createGain(); o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(42, t + .12); g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.0001, t + .25); o.connect(g).connect(M.bus); o.start(t); o.stop(t + .3); }
+function mNoise(t, dur, vol, type, freq){ const s = actx.createBufferSource(), f = actx.createBiquadFilter(), g = actx.createGain(); s.buffer = M.noise; f.type = type; f.frequency.value = freq; g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur); s.connect(f).connect(g).connect(M.bus); s.start(t); s.stop(t + dur + .02); }
+const mHat = (t, v = .05) => mNoise(t, .04, v, "highpass", 7000);
+const mSnare = (t, v = .12) => { mNoise(t, .13, v, "bandpass", 1800); mn(t, 55, .06, "triangle", v*.6); };
+/* cartridge bass: the Sunsoft-style octave bounce */
+const BOUNCE = [0,12,0,0,12,0,10,12];
+const CUES = {
+  title: { bpm:84, spb:16, play(bar, s, t, sd){ const H = MIN, i = bar % 4;
+    if(s === 0){ mPad(t, H.ch[i], sd*16, .018); mn(t, H.roots[i], sd*16, "triangle", .07, {a:.2, r:.3}); }
+    if(s % 2 === 0) mn(t, H.ch[i][(s/2) % 3] + 12, sd*1.6, "triangle", .022);
+    if(bar % 8 >= 4){ const m = melAt(H, bar, s); if(m) mn(t, m[1], sd*m[2], "sine", .035, {vib:5, vd:8}); } } },
+  signal: { bpm:100, spb:16, play(bar, s, t, sd){ const H = MIN, i = bar % 4;
+    if(s === 0) mPad(t, H.ch[i], sd*16, .014);
+    if(s % 2 === 0) mn(t, H.roots[i] + (s % 4 ? 12 : 0), sd*1.8, "sawtooth", .06, {lp:520, q:4});
+    mn(t, H.ch[i][s % 3] + 12, sd*.8, "square", .009, {lp:2400});
+    if(s % 4 === 2) mHat(t, .025);
+    const m = melAt(H, bar, s); if(m && bar >= 2) mn(t, m[1], sd*m[2], "triangle", .045, {vib:5, vd:6}); } },
+  plateau: { bpm:78, spb:16, play(bar, s, t, sd){ const H = MIN, i = bar % 4;
+    if(s === 0){ mPad(t, H.ch[i], sd*16, .016, 700); mn(t, H.roots[i] - 12, sd*16, "sine", .08, {a:.3, r:.3}); }
+    if(s % 2 === 0) mn(t, H.ch[i][(s/2) % 3], sd*1.5, "triangle", .02, {lp:1500});
+    if(s % 4 === 0) mNoise(t, .02, .02, "highpass", 5000);
+    if(bar % 2 === 1){ const m = melAt(H, bar, s); if(m) mn(t, m[1] - 12, sd*m[2], "sine", .03); } } },
+  drive: { bpm:150, spb:16, play(bar, s, t, sd){ const H = MIN, i = bar % 4;
+    mn(t, H.roots[i] + 12 + BOUNCE[s % 8], sd*.85, "square", .04, {lp:1300});
+    if(s % 4 === 0) mKick(t, .42); if(s % 8 === 4) mSnare(t, .09); if(s % 2 === 1) mHat(t, .03);
+    const m = melAt(H, bar, s); if(m) mn(t, m[1], sd*m[2]*.9, "square", .026, {lp:3200});
+    if(s % 4 === 2) mn(t, H.ch[i][(s/4|0) % 3] + 12, sd*.6, "triangle", .02); } },
+  heist: { bpm:164, spb:16, play(bar, s, t, sd){ const H = MIN, i = bar % 4;
+    mn(t, H.roots[i] + 12 + BOUNCE[(s + 2) % 8], sd*.7, "square", .04, {lp:1500});
+    if(s % 4 === 0) mKick(t, .4); if(s % 8 === 4) mSnare(t, .09); mHat(t, s % 2 ? .02 : .035);
+    const m = melAt(H, bar, s); if(m) mn(t, m[1] + 12, sd*Math.min(2, m[2]), "square", .022, {lp:3500});
+    if(s % 2 === 1 && M.tempo > 1.05) mn(t, H.ch[i][s % 3] + 24, sd*.4, "square", .012); } },
+  fog: { bpm:70, spb:16, warp:.3, play(bar, s, t, sd){ const H = MIN, i = bar % 4;
+    if(s === 0){ mPad(t, H.ch[i], sd*16, .02, 800); mn(t, H.roots[i] - 12, sd*16, "sawtooth", .045, {a:.5, r:.5, lp:220}); }
+    if(s % 3 === 0) mn(t, H.ch[i][(s/3|0) % 3] + 12, sd*2, "triangle", .018);
+    const m = melAt(H, bar, s); if(m) mn(t, m[1], sd*m[2], "sine", .03, {vib:3, vd:20}); } },
+  showman: { bpm:138, spb:6, unit:30, warp:.18, play(bar, s, t, sd){ const H = WALTZ, i = bar % 4;
+    if(s === 0) mn(t, H.roots[i] - 12, sd*1.6, "square", .045, {lp:500});
+    if(s === 2 || s === 4) H.ch[i].forEach(n => mn(t, n, sd*.8, "triangle", .016));
+    const m = melAt(H, bar, s); if(m){ mn(t, m[1], sd*m[2]*.95, "sine", .06, {vib:7, vd:22}); mn(t, m[1] + 12, sd*m[2]*.9, "square", .008, {lp:3000}); } } },
+  rise: { bpm:66, spb:16, play(bar, s, t, sd){
+    const OST = [[38,38,41,38],[43,41,38,36],[38,38,41,45],[46,45,41,38]], i = bar % 4;
+    if(s === 0) mPad(t, [50,53,57], sd*16, .016, 600);
+    if(s % 4 === 0){ const n = OST[i][s/4]; mn(t, n, sd*3.6, "sawtooth", .085, {a:.04, r:.15, lp:700, q:2}); mn(t, n - 12, sd*3.6, "triangle", .06, {a:.04}); mKick(t, .55); }
+    if(i === 3 && s >= 12) mKick(t, .22); } },
+  summit: { bpm:86, spb:16, play(bar, s, t, sd){ const H = MAJ, i = bar % 4;
+    if(s === 0){ mPad(t, H.ch[i], sd*16, .018, 1200); mn(t, H.roots[i], sd*16, "triangle", .07, {a:.2, r:.3}); }
+    if(s % 2 === 0) mn(t, H.ch[i][(s/2) % 3] + 12, sd*1.4, "triangle", .02);
+    const m = melAt(H, bar, s); if(m) mn(t, m[1], sd*m[2], "triangle", .04, {vib:5, vd:7}); } },
+  credits: { bpm:112, spb:16, play(bar, s, t, sd){ const H = Math.floor(bar/4) % 2 ? MAJ : MIN, i = bar % 4;
+    if(s === 0) mPad(t, H.ch[i], sd*16, .013);
+    if(s % 2 === 0) mn(t, H.roots[i] + (s % 4 ? 12 : 0), sd*1.8, "sawtooth", .055, {lp:600, q:4});
+    if(s % 4 === 0) mKick(t, .35); if(s % 8 === 4) mSnare(t, .07); if(s % 2 === 1) mHat(t, .022);
+    mn(t, H.ch[i][s % 3] + 12, sd*.7, "square", .008, {lp:2600});
+    const m = melAt(H, bar, s); if(m){ mn(t, m[1], sd*m[2], "triangle", .04); mn(t, m[1] + 12, sd*m[2], "square", .01, {lp:3000}); } } },
+};
+function mTick(){
+  if(!M.cue || !actx) return;
+  const C = CUES[M.cue];
+  while(M.next < actx.currentTime + .15){
+    const sd = (C.unit || 15) / C.bpm / M.tempo;
+    try{ C.play(Math.floor(M.step / C.spb), M.step % C.spb, M.next, sd); }catch(_){}
+    M.step++; M.next += sd;
+  }
+}
+function music(name){
+  M.want = name;
+  if(!soundOn || !CUES[name]) return;
+  try{ mInit(); }catch(_){ return; }
+  if(M.cue === name) return;
+  const now = actx.currentTime;
+  M.bus.gain.cancelScheduledValues(now); M.bus.gain.setValueAtTime(M.bus.gain.value, now); M.bus.gain.linearRampToValueAtTime(0, now + .35);
+  clearTimeout(M.swap);
+  M.swap = setTimeout(() => {
+    if(!soundOn) return;
+    M.cue = name; M.step = 0; M.next = actx.currentTime + .06;
+    const t = actx.currentTime; M.bus.gain.cancelScheduledValues(t); M.bus.gain.setValueAtTime(0, t); M.bus.gain.linearRampToValueAtTime(M.vol, t + .8);
+    if(!M.timer) M.timer = setInterval(mTick, 30);
+  }, M.cue ? 380 : 0);
+}
+function musicOff(){
+  if(!actx || !M.bus) return;
+  const now = actx.currentTime;
+  M.bus.gain.cancelScheduledValues(now); M.bus.gain.setValueAtTime(M.bus.gain.value, now); M.bus.gain.linearRampToValueAtTime(0, now + .25);
+  clearTimeout(M.swap); M.swap = setTimeout(() => { M.cue = null; }, 280);
+}
+function musicWarp(k){ M.warp = Math.max(0, Math.min(1, k)); if(M.lp && actx) M.lp.frequency.setTargetAtTime(9000 - M.warp*7600, actx.currentTime, .08); }
+function musicTempo(x){ M.tempo = x; }
+document.addEventListener("visibilitychange", () => { if(!actx) return; try{ document.hidden ? actx.suspend() : actx.resume(); }catch(_){} });
+document.addEventListener("pointerdown", () => { if(actx && actx.state === "suspended" && !document.hidden) actx.resume().catch(()=>{}); });
+const CH_CUE = {0:"title", 1:"signal", 2:"signal", 3:"plateau", 5:"showman", 6:"rise", 7:"summit", 8:"credits"};
+document.addEventListener("pointerdown", () => { if(!M.want && !$("s0").hidden) music("title"); }, { once:true });
+
 
 /* ---------- VCR timecode ---------- */
 let secs = 0;
@@ -1051,6 +1222,7 @@ function go(n){
   document.querySelectorAll(".wrap > section").forEach(x => x.hidden = x.id !== "s"+n);
   $("osdCh").textContent = "CH " + String(CHNUM[n]).padStart(2,"0");
   $("osdMode").textContent = "▶ PLAY";
+  if(CH_CUE[n]){ musicTempo(1); musicWarp(0); music(CH_CUE[n]); }
   const w = $("wrap"); w.classList.remove("glitch"); void w.offsetWidth; if(!reduce) w.classList.add("glitch");
   sfx.click();
   window.scrollTo({top:0,behavior: reduce ? "auto" : "smooth"});
@@ -1063,8 +1235,8 @@ function focusLine(el){
   });
 }
 /* ---------- dialogue box: portrait, name, typewriter text, voice blips ---------- */
-const PF = {k:"#kyle", r:"#ramish", b:"#btface", n:"#tape"};
-const VOICE = {k:[200,"square"], r:[320,"square"], b:[90,"sawtooth"], n:[640,"triangle"]};
+const PF = {k:"#kyle", r:"#ramish", b:"#btface", n:"#tape", s:"#showman"};
+const VOICE = {k:[200,"square"], r:[320,"square"], b:[90,"sawtooth"], n:[640,"triangle"], s:[165,"sawtooth"]};
 function initVN(v){
   v.innerHTML = `<div class="pf"><svg viewBox="0 0 60 60"><use href="#tape"/></svg></div><div><div class="nm">The tape</div><div class="tx"></div></div><span class="more" hidden>▼ tap</span>`;
   v.querySelector(".tx").textContent = v.dataset.idle || "";
@@ -1074,7 +1246,7 @@ function vnOf(){
   const sec = [...document.querySelectorAll("section")].find(x => !x.hidden);
   return sec && sec.querySelector(".vn");
 }
-const spk = c => c==="k" ? "k" : c==="b" ? "b" : c==="n" ? "n" : "r";
+const spk = c => c==="k" ? "k" : c==="b" ? "b" : c==="n" ? "n" : c==="s" ? "s" : "r";
 let typer = null;
 /* shows one line; returns a function that skips to the end of the typing */
 function vnShow(v, who, text, cls, onDone){
@@ -1293,7 +1465,7 @@ const SIGNS = [
   "Red Lodge · Elev 5,568",
   "Elk crossing · Elk do not care",
   "Last croissant for 1,800 miles",
-  "Switchbacks ahead · Yes, all of them",
+  "Bison crossing · Bison care even less",
   "Welcome to Wyoming",
   "Welcome back to Montana",
   "Watch for falling rocks · And rising kaiju",
@@ -1304,7 +1476,7 @@ const QUIPS = [
   ["The tape", "Red Lodge falls away behind you. The road starts to climb.", "n"],
   [R, "Elk crossing. They will not move for you. Honk.", ""],
   [R, "That sign is lying. There are croissants on this road. Also green tea. I may have left them there.", ""],
-  [K, "Switchbacks. All of them. Tell me now.", "k"],
+  [R, "Bison. Honking won't work on them. They were here first. Go around.", ""],
   [R, "We're in Wyoming now. Whatever's in the glovebox stays in the glovebox.", ""],
   [R, "Back in Montana. The glovebox may relax. Still not telling you, though.", ""],
   [R, "Falling rocks up here. Don't hit them. I need you in one piece.", ""],
@@ -1337,7 +1509,7 @@ function sizeDrive(){
   dotPat = DR.ctx.createPattern(pc, "repeat");
 }
 function initDrive(){
-  Object.assign(DR, { teas:0, run:false, started:false, over:false, d:0, vx:0, steer:0, speed:0, dents:0, inv:0, bagels:0, honks:0, tows:0, cp:0, cpD:0, objs:[], parts:[], pops:[], t:0, next:500, trophyOut:false, shake:0 });
+  Object.assign(DR, { teas:0, lastHerd:0, bisonQuip:0, billQuip:0, run:false, started:false, over:false, d:0, vx:0, steer:0, speed:0, dents:0, inv:0, bagels:0, honks:0, tows:0, cp:0, cpD:0, objs:[], parts:[], pops:[], t:0, next:500, trophyOut:false, shake:0 });
   sizeDrive(); DR.x = roadX(0);
   $("driveStart").hidden = false; $("towed").hidden = true;
   $("sign").textContent = SIGNS[0];
@@ -1365,6 +1537,13 @@ function spawn(){
     const o = { type, wy, xo:(Math.random()*2-1)*(ROADW/2 - 16), vx:0, flee:0, fade:1 };
     if(type === "elk"){ const side = Math.random() < .5 ? -1 : 1; o.xo = side*(ROADW/2 + 50); o.vx = -side*(38 + Math.random()*30 + p*30); }
     if(type === "snow") o.xo = (Math.random()*2-1)*(ROADW/2 - 26);
+    /* bison: a slow herd strolls across, with one gap to thread */
+    if(p > .37 && p < .7 && wy > (DR.lastHerd||0) + 900 && Math.random() < .35){
+      DR.lastHerd = wy;
+      const side = Math.random() < .5 ? -1 : 1, n = p > .55 ? 3 : 2, sp = 20 + Math.random()*10;
+      for(let b = 0; b < n; b++) DR.objs.push({ type:"bison", wy: wy + b*46, xo: side*(ROADW/2 + 30 + b*38), vx: -side*sp, flee:0, fade:1 });
+      DR.next = wy + n*46 + 150; continue;
+    }
     DR.objs.push(o);
     DR.next += (260 - 130*p) * (.7 + Math.random()*.6);
   }
@@ -1405,6 +1584,8 @@ function honk(){
     }
   });
   if(scared){ DR.honks += scared; }
+  const bison = DR.objs.some(o => o.type === "bison" && Math.abs((ty - (o.wy - DR.d)) - (ty - 150)) < 170);
+  if(bison){ pop("BISON DO NOT CARE", DR.x, DR.H*.78 - 64, "#E9C46A"); if(!DR.bisonQuip){ DR.bisonQuip = 1; vnShow(vnOf(), R, "I told you. They don't care. Steer around them.", ""); } }
 }
 function update(dt){
   const p = Math.min(1, DR.d / DR.L);
@@ -1429,12 +1610,12 @@ function update(dt){
   spawn();
   const ty = DR.H*.78;
   for(const o of DR.objs){
-    if(o.type === "elk" || o.flee){ o.xo += o.vx * dt; }
+    if(o.type === "elk" || o.type === "bison" || o.flee){ o.xo += o.vx * dt; }
     if(o.flee){ o.fade -= dt*1.2; continue; }
     const sy = ty - (o.wy - DR.d);
     if(Math.abs(sy - ty) > 18) continue;
     const ox = roadX(o.wy) + o.xo;
-    const rad = { rock:14, elk:17, goat:12, bagel:14, snow:22, trophy:16, tea:13 }[o.type];
+    const rad = { rock:14, elk:17, goat:12, bagel:14, snow:22, trophy:16, tea:13, bison:21 }[o.type];
     if(Math.abs(ox - DR.x) < rad){
       if(o.type === "bagel"){ o.dead = 1; DR.bagels++; hud(); tone(880,.06,"triangle",.06); tone(1320,.1,"triangle",.06,.06); pop("+1 CROISSANT", ox, sy - 20, "#FFD23F"); if(DR.bagels === 1) vnShow(vnOf(), R, "You found my croissant. I'm choosing to read that as romantic.", ""); }
       else if(o.type === "tea"){ o.dead = 1; DR.teas = (DR.teas||0) + 1; if(DR.dents > 0) DR.dents--; hud(); tone(660,.08,"triangle",.06); tone(990,.08,"triangle",.06,.08); tone(1320,.12,"triangle",.05,.16); pop("+1 ♥ GREEN TEA", ox, sy - 20, "#A6E36E"); if(DR.teas === 1) vnShow(vnOf(), R, "A giant can of green tea. Ninety-nine cents of pure healing.", ""); }
@@ -1506,6 +1687,19 @@ function draw(){
       }
     }
   }
+  /* a roadside billboard: Buffalo Bill's Wild West, hiring */
+  { const wy = DR.L*.3, sy = ty - (wy - DR.d);
+    if(sy > -60 && sy < H + 60){
+      const c = roadX(wy), side = c > W/2 ? -1 : 1, bx = Math.max(52, Math.min(W - 52, c + side*(ROADW/2 + 62)));
+      ctx.fillStyle = "#3A2A1A"; ctx.fillRect(bx - 30, sy + 8, 4, 18); ctx.fillRect(bx + 26, sy + 8, 4, 18);
+      ctx.fillStyle = "#E9D9B0"; ctx.strokeStyle = "#0B0E16"; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.rect(bx - 46, sy - 22, 92, 32); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = "#A3261B"; ctx.fillRect(bx - 46, sy - 22, 92, 9);
+      const fit = (t, px, y, col) => { ctx.font = px + "px Bangers, Impact, sans-serif"; const w = ctx.measureText(t).width; if(w > 84){ ctx.font = Math.floor(px*84/w) + "px Bangers, Impact, sans-serif"; } ctx.fillStyle = col; ctx.fillText(t, bx, y); };
+      ctx.textAlign = "center";
+      fit("BUFFALO BILL'S WILD WEST", 8, sy - 14.5, "#F4EBD0"); fit("NOW HIRING ACTS", 12, sy - 1.5, "#1D1B16"); fit("KAIJU ESPECIALLY", 7, sy + 7, "#1D1B16");
+      ctx.textAlign = "start";
+      if(!DR.billQuip && sy > ty - 120){ DR.billQuip = 1; vnShow(vnOf(), R, "\"Buffalo Bill's Wild West, now hiring.\" He's been dead since 1917. Keep driving.", ""); }
+    } }
   /* the road */
   const L = [], Rr = [], C = [];
   for(let sy = -24; sy <= H + 24; sy += 8){
@@ -1551,6 +1745,14 @@ function draw(){
       ctx.moveTo(x + dir*14, sy - 6); ctx.lineTo(x + dir*10, sy - 14); ctx.lineTo(x + dir*6, sy - 16); ctx.moveTo(x + dir*10, sy - 14); ctx.lineTo(x + dir*12, sy - 19);
       ctx.moveTo(x + dir*16, sy - 6); ctx.lineTo(x + dir*20, sy - 14); ctx.lineTo(x + dir*24, sy - 15); ctx.stroke();
       ctx.fillStyle = "#F4EBD0"; ctx.beginPath(); ctx.ellipse(x - dir*12, sy, 3, 4, 0, 0, 7); ctx.fill();
+    }
+    else if(o.type === "bison"){
+      const dir = o.vx >= 0 ? 1 : -1, bob = Math.sin(DR.t*4 + o.wy)*1;
+      ctx.fillStyle = "#4A3222"; ctx.beginPath(); ctx.ellipse(x - dir*4, sy + bob, 17, 11, 0, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = "#2E1E14"; ctx.beginPath(); ctx.ellipse(x + dir*7, sy - 1 + bob, 11, 12.5, 0, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = "#24170F"; ctx.beginPath(); ctx.ellipse(x + dir*18, sy + 1 + bob, 6, 6.5, 0, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.strokeStyle = "#E8DCC0"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x + dir*16, sy - 4 + bob); ctx.quadraticCurveTo(x + dir*14, sy - 10 + bob, x + dir*18, sy - 11 + bob); ctx.moveTo(x + dir*20, sy - 4 + bob); ctx.quadraticCurveTo(x + dir*22, sy - 10 + bob, x + dir*25, sy - 9 + bob); ctx.stroke();
+      ctx.fillStyle = "#F4EBD0"; ctx.beginPath(); ctx.arc(x + dir*20, sy + bob, 1.1, 0, 7); ctx.fill();
     }
     else if(o.type === "goat"){
       ctx.fillStyle = "#F2F0E8"; for(const [dx,dy,r] of [[-6,0,6],[0,-2,7],[6,0,6],[0,4,6]]){ ctx.beginPath(); ctx.arc(x+dx, sy+dy, r, 0, 7); ctx.fill(); ctx.stroke(); }
@@ -1621,7 +1823,7 @@ function frame(now){
   if(DR.run) requestAnimationFrame(frame);
 }
 function startDrive(){
-  $("driveStart").hidden = true; DR.started = true; DR.run = true;
+  $("driveStart").hidden = true; DR.started = true; DR.run = true; music("drive");
   vnShow(vnOf(), QUIPS[0][0], QUIPS[0][1], QUIPS[0][2]);
   tone(110,.4,"sawtooth",.05); tone(160,.3,"sawtooth",.04,.25);
   last = performance.now(); requestAnimationFrame(frame);
@@ -1650,7 +1852,7 @@ document.addEventListener("keyup", e => { if(e.target.closest && e.target.closes
 addEventListener("resize", () => { if(!$("s2").hidden){ sizeDrive(); draw(); } });
 $("skipDrive").onclick = () => { DR.d = DR.L; DR.run = false; if(!DR.over){ DR.over = true; hud(); draw(); driveDone(); } };
 function driveDone(){
-  $("skipDrive").hidden = true;
+  $("skipDrive").hidden = true; music("plateau");
   const s = $("sign"); s.textContent = SIGNS[8]; s.classList.remove("bump"); void s.offsetWidth; s.classList.add("bump");
   sfx.good();
   const lines = [
@@ -1716,8 +1918,10 @@ document.querySelectorAll(".hot").forEach(h => {
 });
 
 /* ---------- 3b · Marmot Heist: boop the page thieves, spare Bodega ---------- */
-const HEIST = { on:false, pages:0, need:10, combo:0, best:0, boops:0, time:25, tries:0, t0:0, timer:null, spawnT:null };
-const MARMOT_SVG = page => `<svg viewBox="0 0 60 60"><use href="#marmot" width="60" height="60"/>${page ? `<g><rect x="19" y="36" width="22" height="15" rx="1" fill="#F4EDDC" stroke="#0B0E16" stroke-width="1.2" transform="rotate(-6 30 43)"/><path d="M23 41 h13 M23 45 h10" stroke="#8F8672" stroke-width="1.2" transform="rotate(-6 30 43)"/></g>` : ""}</svg>`;
+const HEIST = { on:false, pages:0, need:12, esc:0, maxEsc:5, combo:0, best:0, boops:0, time:25, tries:0, t0:0, timer:null, spawnT:null, bossOut:false, lastTick:99 };
+const PAGE_G = (dx=0, dy=0) => `<g transform="translate(${dx} ${dy})"><rect x="19" y="36" width="22" height="15" rx="1" fill="#F4EDDC" stroke="#0B0E16" stroke-width="1.2" transform="rotate(-6 30 43)"/><path d="M23 41 h13 M23 45 h10" stroke="#8F8672" stroke-width="1.2" transform="rotate(-6 30 43)"/></g>`;
+const MENU_G = `<g transform="rotate(5 30 43)"><rect x="18" y="35" width="24" height="17" rx="1" fill="#D8332A" stroke="#0B0E16" stroke-width="1.2"/><rect x="20" y="37" width="20" height="4" fill="#FFD23F"/><path d="M21 45 h17 M21 48.5 h12" stroke="#FFE9C9" stroke-width="1.3"/></g>`;
+const MARMOT_SVG = kind => `<svg viewBox="0 0 60 60"><use href="#marmot" width="60" height="60"/>${kind === "page" ? PAGE_G() : kind === "menu" ? MENU_G : kind === "boss" ? PAGE_G(-3, 3) + PAGE_G(2, -1) + PAGE_G(0, -5) : ""}</svg>`;
 const FOX_SVG = `<svg viewBox="0 0 60 60"><use href="#fennec" width="60" height="60"/></svg>`;
 function buildBurrows(){
   const w = $("burrows"); if(w.childElementCount) return;
@@ -1731,23 +1935,28 @@ function buildBurrows(){
 function heistHud(){
   $("hPages").textContent = `Pages ${HEIST.pages}/${HEIST.need}`;
   $("hTime").textContent = Math.max(0, Math.ceil(HEIST.time)) + "s";
+  $("hTime").classList.toggle("urgent", HEIST.on && HEIST.time <= 6);
+  $("hEsc").textContent = "Escaped " + "●".repeat(HEIST.esc) + "○".repeat(Math.max(0, HEIST.maxEsc - HEIST.esc));
   $("hCombo").textContent = HEIST.combo >= 3 ? `FREEFLOW x${HEIST.combo}` : "";
 }
 function openHeist(){
   $("heist").hidden = false; buildBurrows();
   $("heistStart").hidden = false; $("heistRetry").hidden = true; $("heistSkip").hidden = true;
-  Object.assign(HEIST, { pages:0, combo:0, best:0, boops:0, time:25 }); heistHud();
+  Object.assign(HEIST, { pages:0, esc:0, combo:0, best:0, boops:0, time:25 }); heistHud();
   focusLine($("heist"));
 }
 function startHeist(){
   $("heistStart").hidden = true; HEIST.on = true; HEIST.t0 = performance.now();
-  Object.assign(HEIST, { pages:0, combo:0, best:0, boops:0, time:25 }); heistHud();
+  Object.assign(HEIST, { pages:0, esc:0, combo:0, best:0, boops:0, time:25, bossOut:false, lastTick:99 }); heistHud();
+  if(typeof music === "function") music("heist");
   document.querySelectorAll("#burrows .pop").forEach(p => { p.className = "pop"; p.innerHTML = ""; });
   tone(523,.08,"square",.05); tone(659,.08,"square",.05,.1); tone(784,.12,"square",.05,.2);
   clearInterval(HEIST.timer);
   HEIST.timer = setInterval(() => {
     if($("s3").hidden){ return; }
     HEIST.time -= .1; heistHud();
+    const sec = Math.ceil(HEIST.time);
+    if(sec <= 6 && sec !== HEIST.lastTick && sec > 0){ HEIST.lastTick = sec; tone(sec <= 3 ? 1320 : 990, .05, "square", .045); if(sec === 6 && typeof musicTempo === "function") musicTempo(1.15); }
     if(HEIST.time <= 0) endHeist();
   }, 100);
   spawnLoop();
@@ -1764,16 +1973,26 @@ function popOne(prog){
   if(!free.length) return;
   const h = free[Math.floor(Math.random()*free.length)], p = h.querySelector(".pop");
   const r = Math.random();
-  const type = prog > .12 && r < .17 ? "fox" : r < .66 ? "page" : "plain";
-  p.dataset.type = type; p.innerHTML = type === "fox" ? FOX_SVG : MARMOT_SVG(type === "page");
-  p.className = "pop"; void p.offsetWidth; p.classList.add("up");
-  const up = 1000 - 420*prog;
+  let type = prog > .12 && r < .15 ? "fox" : prog > .25 && r < .28 ? "menu" : r < .7 ? "page" : "plain";
+  if(!HEIST.bossOut && prog > .42){ HEIST.bossOut = true; type = "boss"; }
+  p.dataset.type = type; p.dataset.hp = type === "boss" ? 3 : 1;
+  p.innerHTML = type === "fox" ? FOX_SVG : MARMOT_SVG(type);
+  p.className = "pop" + (type === "boss" ? " boss" : ""); void p.offsetWidth; p.classList.add("up");
+  if(type === "boss"){ sfxText(h, "BIG MARMOT! TAP x3", "#FF9DB0"); tone(110,.25,"sawtooth",.05); vnShow(vnOf(), R, "That one's carrying three pages. Boop it three times!", ""); }
+  const up = type === "boss" ? 2000 : 900 - 380*prog;
   clearTimeout(p._t);
   p._t = setTimeout(() => {
     if(!p.classList.contains("up")) return;
     p.classList.remove("up");
-    if(type === "page"){ HEIST.combo = 0; heistHud(); }
+    if(type === "page" || type === "boss"){ escape(h, type === "boss" ? 2 : 1); }
   }, up);
+}
+function escape(h, n){
+  if(!HEIST.on) return;
+  HEIST.combo = 0; HEIST.esc = Math.min(HEIST.maxEsc, HEIST.esc + n); heistHud();
+  sfxText(h, n > 1 ? "ESCAPED x" + n : "ESCAPED!", "#FF6B5B"); tone(220,.08,"square",.035); tone(165,.12,"square",.035,.07);
+  if(HEIST.esc === 3) vnShow(vnOf(), R, "They're getting away with the pages! Two more and it's gone.", "");
+  if(HEIST.esc >= HEIST.maxEsc) endHeist();
 }
 function sfxText(h, text, col){
   const s = document.createElement("span"); s.className = "boop"; s.textContent = text; if(col) s.style.color = col;
@@ -1783,7 +2002,16 @@ function boop(h){
   if(!HEIST.on) return;
   const p = h.querySelector(".pop");
   if(!p.classList.contains("up")){ HEIST.combo = 0; heistHud(); tone(160,.05,"square",.03); return; }
+  if(p.dataset.type === "boss" && +p.dataset.hp > 1){
+    p.dataset.hp = +p.dataset.hp - 1; tone(330 + (3 - p.dataset.hp)*110, .07, "square", .05);
+    sfxText(h, ["", "ONE MORE!", "AGAIN!"][p.dataset.hp]); p.classList.remove("hitwob"); void p.offsetWidth; p.classList.add("hitwob"); return;
+  }
   clearTimeout(p._t); p.classList.remove("up");
+  if(p.dataset.type === "menu"){
+    HEIST.combo = 0; HEIST.time = Math.max(0, HEIST.time - 2); sfx.bad(); sfxText(h, "TAKEOUT MENU! -2s", "#FF6B5B"); heistHud();
+    if(!HEIST.menuQuip){ HEIST.menuQuip = 1; vnShow(vnOf(), K, "That's a takeout menu. They're taunting me.", "k"); }
+    return;
+  }
   if(p.dataset.type === "fox"){
     HEIST.combo = 0; HEIST.pages = Math.max(0, HEIST.pages - 1); sfx.bad();
     sfxText(h, "THAT'S BODEGA!", "#FF9DB0");
@@ -1792,7 +2020,8 @@ function boop(h){
     HEIST.combo++; HEIST.boops++; HEIST.best = Math.max(HEIST.best, HEIST.combo);
     const f = 520 + Math.min(12, HEIST.combo) * 40;
     tone(f, .06, "square", .05); tone(f*1.5, .07, "triangle", .04, .05);
-    if(p.dataset.type === "page"){ HEIST.pages++; sfxText(h, HEIST.combo >= 3 ? `+PAGE x${HEIST.combo}` : "+PAGE"); }
+    if(p.dataset.type === "boss"){ HEIST.pages += 3; sfxText(h, "+3 PAGES!"); sfx.good(); }
+    else if(p.dataset.type === "page"){ HEIST.pages++; sfxText(h, HEIST.combo >= 3 ? `+PAGE x${HEIST.combo}` : "+PAGE"); }
     else sfxText(h, ["BOOP!","BONK!","BOP!"][HEIST.boops % 3]);
     if(HEIST.combo === 5) vnShow(vnOf(), K, "Freeflow. I've trained for this.", "k");
     if(HEIST.combo === 10) vnShow(vnOf(), R, "Okay, that's actually hot.", "");
@@ -1802,7 +2031,8 @@ function boop(h){
 }
 function endHeist(){
   if(!HEIST.on) return;
-  HEIST.on = false; clearInterval(HEIST.timer); clearTimeout(HEIST.spawnT);
+  HEIST.on = false; clearInterval(HEIST.timer); clearTimeout(HEIST.spawnT); heistHud();
+  if(typeof music === "function"){ musicTempo(1); music("plateau"); }
   document.querySelectorAll("#burrows .pop").forEach(p => { clearTimeout(p._t); p.classList.remove("up"); });
   if(HEIST.pages >= HEIST.need){
     sfx.good(); sfx.trophy();
@@ -1821,7 +2051,9 @@ function endHeist(){
   } else {
     HEIST.tries++;
     $("heistStart").hidden = false;
-    $("heistStart").innerHTML = `<b>They got away</b><span>You recovered ${HEIST.pages} of ${HEIST.need} pages.</span>`;
+    $("heistStart").innerHTML = HEIST.esc >= HEIST.maxEsc
+      ? `<b>They got away</b><span>Five marmots made it out with pages. You had ${HEIST.pages} of ${HEIST.need}.</span>`
+      : `<b>Out of time</b><span>You recovered ${HEIST.pages} of ${HEIST.need} pages.</span>`;
     vnShow(vnOf(), R, "They're fast. You're faster. Go again.", "");
     $("heistRetry").hidden = false;
     if(HEIST.tries >= 1) $("heistSkip").hidden = false;
@@ -1914,117 +2146,260 @@ function solvedNote(box, head, text){
 }
 $("toFog").onclick = () => { go(5); startFog(); };
 
-/* ---------- 4 · the fog: his nightmares, played for courage and laughs ---------- */
-const CHALK = `<svg class="fogart" viewBox="0 0 200 110" aria-hidden="true"><rect x="16" y="8" width="168" height="84" rx="3" fill="#2F4A3A" stroke="#6B4A2E" stroke-width="6"/><g font-family="Gochi Hand, cursive" fill="#EDEDE6"><text x="100" y="34" text-anchor="middle" font-size="16">POP QUIZ</text><text x="100" y="58" text-anchor="middle" font-size="14">QVID EST GOTHAM?</text><text id="grade" x="150" y="84" text-anchor="middle" font-size="26" fill="#FF6B6B" opacity="0">A+</text></g><path d="M40 72 h40 M40 80 h28" stroke="#EDEDE6" stroke-width="1.5" opacity=".5"/><rect x="60" y="92" width="80" height="5" fill="#6B4A2E"/></svg>`;
+/* ---------- 4 · the fog: Buffalo Bill's ghost stages a nightmare show. Three acts, each with a trick. ---------- */
+const S = "The Showman";
+const SYMS = [
+  { n:"star",   c:"#FFD23F", f:440, d:`<polygon points="10,1 12.6,7 19,7.4 14,11.6 15.6,18.6 10,14.6 4.4,18.6 6,11.6 1,7.4 7.4,7"/>` },
+  { n:"moon",   c:"#8EC5FF", f:494, d:`<path d="M12.5 1.5 A8.5 8.5 0 1 0 18.6 14 A6.6 6.6 0 1 1 12.5 1.5 Z"/>` },
+  { n:"peak",   c:"#FF9DB0", f:587, d:`<polygon points="10,2 18.6,17.6 1.4,17.6"/>` },
+  { n:"ring",   c:"#A6E36E", f:659, d:`<circle cx="10" cy="10" r="7.6"/>` },
+  { n:"block",  c:"#FFB23E", f:740, d:`<rect x="2.6" y="2.6" width="14.8" height="14.8" rx="1.5"/>` },
+  { n:"magpie", c:"#C7BEF2", f:880, d:`<path d="M1 8.5 Q5 4.6 7.4 9 Q8.4 5.8 10 7 Q11.6 5.8 12.6 9 Q15 4.6 19 8.5 Q15 12.4 10 16 Q5 12.4 1 8.5 Z"/>` },
+];
+const symSvg = (k, size) => `<svg viewBox="0 0 20 20" width="${size}" height="${size}" aria-hidden="true"><g fill="${SYMS[k].c}" stroke="#0B0E16" stroke-width="1.1" stroke-linejoin="round">${SYMS[k].d}</g></svg>`;
+const CHALK = `<svg class="fogart" viewBox="0 0 200 110" aria-hidden="true"><rect x="16" y="8" width="168" height="84" rx="3" fill="#2F4A3A" stroke="#6B4A2E" stroke-width="6"/><g font-family="Gochi Hand, cursive" fill="#EDEDE6"><text x="100" y="27" text-anchor="middle" font-size="13">POP QUIZ · COPY THE BOARD</text><text id="grade" x="160" y="84" text-anchor="middle" font-size="24" fill="#FF6B6B" opacity="0">A+</text></g><g id="chalkSym" transform="translate(82 36)"></g><g id="chalkRow" transform="translate(30 76)"></g><rect x="60" y="92" width="80" height="5" fill="#6B4A2E"/></svg>`;
 const MUSHROOM = `<svg class="fogart" viewBox="0 0 200 110" aria-hidden="true"><g id="mush"><rect x="0" y="96" width="200" height="14" fill="#1C2A22"/><path d="M92 96 Q90 70 94 56 L106 56 Q110 70 108 96 Z" fill="#C9D3B8" stroke="#0B0E16" stroke-width="1.6"/><path d="M62 58 Q56 36 76 30 Q82 14 100 16 Q118 14 124 30 Q144 36 138 58 Q120 66 100 62 Q80 66 62 58 Z" fill="#E4EBD2" stroke="#0B0E16" stroke-width="1.8"/><path d="M76 40 q10 -8 20 0 M104 36 q10 -8 20 0" stroke="#A9B596" stroke-width="2" fill="none"/></g><g id="croi" opacity="0"><g stroke="#0B0E16" stroke-width="1.6"><ellipse cx="58" cy="54" rx="14" ry="12" fill="#F4C9A0"/><ellipse cx="78" cy="40" rx="17" ry="15" fill="#F7D6B0"/><ellipse cx="100" cy="34" rx="20" ry="17" fill="#FBE2C0"/><ellipse cx="122" cy="40" rx="17" ry="15" fill="#F7D6B0"/><ellipse cx="142" cy="54" rx="14" ry="12" fill="#F4C9A0"/></g><path d="M86 30 q6 -4 12 0 M108 30 q6 -4 12 0" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/><rect x="0" y="96" width="200" height="14" fill="#1C2A22"/></g></svg>`;
-const FLOAT = `<svg class="fogart tall" viewBox="0 0 200 150" aria-hidden="true"><g id="floatR" opacity="0"><use href="#ramish" x="118" y="86" width="42" height="56"/><path id="tether" d="M140 104 Q124 84 104 60" stroke="#FFB23E" stroke-width="2.4" fill="none" stroke-linecap="round"/></g><g id="floatK"><use href="#kyle" x="74" y="40" width="48" height="64"/></g><rect x="0" y="142" width="200" height="8" fill="#1C2A22"/></svg>`;
-let fearIdx = 0, fogDone = false, fearLock = false, floatRAF = 0;
+const FLOAT = `<svg class="fogart tall" viewBox="0 0 200 150" aria-hidden="true"><g id="floatR" opacity=".9"><use href="#ramish" x="118" y="86" width="42" height="56"/><path id="tether" d="M140 104 Q124 84 104 60" stroke="#FFB23E" stroke-width="2.4" fill="none" stroke-linecap="round"/></g><g id="floatK"><use href="#kyle" x="74" y="40" width="48" height="64"/></g><rect x="0" y="142" width="200" height="8" fill="#1C2A22"/></svg>`;
+let fearIdx = 0, fogDone = false, fogRAF = 0, act = null;
+const TAUNTS = ["The audience is BOOING!", "He's crumbling, folks!", "Ha! A natural! At FAILING!", "Somebody fetch the hook!"];
+const taunt = () => vnShow(vnOf(), S, TAUNTS[Math.floor(Math.random()*TAUNTS.length)], "s");
 function fearTitle(t, sm){
   const p = document.createElement("p"); p.className = "fear"; p.textContent = t;
   const s = document.createElement("small"); s.textContent = sm; p.appendChild(s); return p;
 }
 function dots(){ document.querySelectorAll("#fogdots i").forEach((d,i) => d.classList.toggle("on", i < fearIdx)); }
+function distort(k){
+  const f = $("fears");
+  f.style.filter = k > .02 ? `blur(${(k*5).toFixed(1)}px) hue-rotate(${Math.round(k*60)}deg)` : "none";
+  f.style.transform = k > .02 ? `skewX(${(k*12).toFixed(1)}deg) translateX(${Math.round(k*12)}px)` : "none";
+  $("bands").style.opacity = (k*.9).toFixed(2);
+  f.classList.toggle("jitter", k > .3);
+  if(typeof musicWarp === "function") musicWarp(k);
+}
+function stumble(){
+  const fs = $("fogscreen"); fs.classList.remove("hurt"); void fs.offsetWidth; fs.classList.add("hurt");
+  sfx.bad(); if(navigator.vibrate) try{ navigator.vibrate(60); }catch(_){}
+}
+function ctl(html){ const c = $("fogCtl"); c.innerHTML = html; return c; }
 function startFog(){
-  fearIdx = 0; fogDone = false; $("fogOut").innerHTML = ""; $("fogCtl").innerHTML = "";
-  $("fogscreen").classList.remove("clear","floating"); $("riddle3").hidden = true;
+  fearIdx = 0; fogDone = false; $("fogOut").innerHTML = ""; ctl("");
+  $("fogscreen").classList.remove("clear","floating","gust"); $("riddle3").hidden = true; $("tracking").hidden = true;
+  $("showGhost").classList.remove("gone");
   const cap = document.querySelector("#fogscreen .cap"); if(cap) cap.hidden = true;
-  dots(); fearSchool();
+  $("fears").innerHTML = ""; $("fears").appendChild(fearTitle("Now showing", "Colonel Cody's Wild West of the Mind"));
+  distort(.35); dots();
+  if(typeof music === "function") music("showman");
+  playLines(null, [
+    ["The tape", "The fog rolls in thick and green. Somewhere inside it, a calliope starts to play.", "n"],
+    [S, "LADIES AND GENTLEMEN! Colonel William F. Cody presents: the WILD WEST... of the MIND!", "s"],
+    [K, "Buffalo Bill. You died in 1917.", "k"],
+    [S, "And I have NEVER stopped touring! Three acts of pure terror, folks. When the detective runs, I lasso the big one. A KAIJU, in MY show!", "s"],
+    [R, `${HERO}, listen. It's a show. Every act has a trick. Find the trick and the act folds.`],
+    [K, "Copy. Detective mode.", "k"],
+  ], actQuiz);
 }
-function nextFear(){ fearIdx++; dots(); [fearSchool, fearBomb, fearFloat][fearIdx] ? [fearSchool, fearBomb, fearFloat][fearIdx]() : clearFog(); }
-/* 1 · school */
-function fearSchool(){
-  const f = $("fears"); f.innerHTML = CHALK; f.appendChild(fearTitle("Pop quiz", "You didn't study. It's in Latin."));
-  f.style.filter = "none"; f.style.transform = "none"; $("bands").style.opacity = .35;
-  $("tracking").hidden = true;
-  vnShow(vnOf(), "The tape", "The fog finds your first nightmare. A classroom. A test you never studied for.", "n");
-  const c = $("fogCtl"); c.innerHTML = `<div class="opts"></div>`;
-  ["Carpe diem.", "Et tu, Brute?", "I'd like to speak to my lawyer. In Latin."].forEach(label => {
-    const b = document.createElement("button"); b.textContent = label;
-    b.onclick = () => {
-      c.innerHTML = ""; sfx.good();
-      const g = document.getElementById("grade"); if(g) g.setAttribute("opacity", 1);
-      $("bands").style.opacity = 0;
-      playLines(null, [
-        [K, label, "k"],
-        ["The tape", "The teacher gives you an A+. The teacher is Bodega.", "n"],
-        [K, "I've been waiting years to pass that test.", "k"],
-      ], nextFear);
-    };
-    c.querySelector(".opts").appendChild(b);
-  });
+function nextFear(){ fearIdx++; dots(); [actQuiz, actSky, actFloat][fearIdx] ? [actQuiz, actSky, actFloat][fearIdx]() : clearFog(); }
+
+/* ACT I · the pop quiz: memorize the board, copy it back. Three rounds, three strikes. */
+function actQuiz(){
+  const f = $("fears"); f.innerHTML = CHALK; f.appendChild(fearTitle("Act I · The Pop Quiz", "A desk. A test you never studied for."));
+  distort(0); $("bands").style.opacity = .3; ctl("");
+  if(typeof music === "function") music("showman");
+  playLines(null, [
+    [S, "ACT ONE! A boy! A desk! A test he did NOT study for!", "s"],
+    [R, "Here's the trick: the teacher writes the answers on the board first. Watch the board. Copy it back. In order."],
+  ], () => { act = { round:0, strikes:0, seq:null }; quizRound(); });
 }
-/* 2 · the bomb, fixed with tracking */
-const BOMB_TARGET = 71;
-function fearBomb(){
-  const f = $("fears"); f.innerHTML = MUSHROOM; f.appendChild(fearTitle("The sky goes white", "A mushroom cloud over the plateau."));
-  $("fogCtl").innerHTML = "";
-  $("tracking").hidden = false; $("track").value = 6; fearLock = false;
-  vnShow(vnOf(), "The tape", "The oldest nightmare. The picture is barely holding together. Fix the tracking.", "n");
-  setFog(6);
+const QUIZ_LEN = [3, 4, 5], QUIZ_MS = [720, 600, 500];
+function quizRound(){
+  const a = act; if(!a) return;
+  if(typeof music === "function") music("fog");
+  if(!a.seq) a.seq = Array.from({length: QUIZ_LEN[a.round]}, () => Math.floor(Math.random()*SYMS.length));
+  a.pos = 0; a.input = false;
+  const c = ctl(`<div class="quizhud"><span>Round ${a.round+1} of 3</span><span class="strikes">${"✕".repeat(a.strikes)}${"·".repeat(3-a.strikes)}</span></div><div class="symgrid">${SYMS.map((s,k) => `<button class="sym" data-k="${k}" aria-label="${s.n}" disabled>${symSvg(k, 34)}</button>`).join("")}</div>`);
+  c.querySelectorAll(".sym").forEach(b => b.addEventListener("pointerdown", e => { e.preventDefault(); quizPress(+b.dataset.k, b); }));
+  c.querySelectorAll(".sym").forEach(b => b.addEventListener("keydown", e => { if(e.key === "Enter" || e.key === " "){ e.preventDefault(); quizPress(+b.dataset.k, b); } }));
+  const sym = document.getElementById("chalkSym"), row = document.getElementById("chalkRow");
+  row.innerHTML = "";
+  let i = 0;
+  const show = () => {
+    if(act !== a) return;
+    if(i >= a.seq.length){
+      sym.innerHTML = `<text x="18" y="22" text-anchor="middle" font-family="Gochi Hand, cursive" font-size="15" fill="#EDEDE6">your turn</text>`;
+      a.input = true; c.querySelectorAll(".sym").forEach(b => b.disabled = false);
+      return;
+    }
+    const k = a.seq[i++];
+    sym.innerHTML = `<g transform="scale(1.8)">${symSvg(k, 20).replace(/<\/?svg[^>]*>/g, "")}</g>`;
+    tone(SYMS[k].f, .14, "triangle", .05);
+    setTimeout(() => { if(act !== a) return; sym.innerHTML = ""; setTimeout(show, 150); }, QUIZ_MS[a.round]);
+  };
+  setTimeout(show, 700);
 }
-function setFog(v){
-  if(fogDone || fearLock || fearIdx !== 1) return;
-  const d = Math.abs(v - BOMB_TARGET), f = $("fears");
-  if(d <= 5){
-    fearLock = true; sfx.good();
-    f.style.filter = "none"; f.style.transform = "none"; f.classList.remove("jitter"); $("bands").style.opacity = 0;
-    $("mush").style.transition = "opacity .9s"; $("croi").style.transition = "opacity .9s";
-    $("mush").setAttribute("opacity", 0); $("croi").setAttribute("opacity", 1);
-    f.querySelector(".fear").firstChild.textContent = "It's a cloud";
-    f.querySelector(".fear small").textContent = "Shaped like a croissant. Just weather.";
-    $("tracking").hidden = true;
-    setTimeout(() => playLines(null, [
-      [K, "...It's a croissant.", "k"],
-      [R, "It was always a croissant."],
-    ], nextFear), reduce ? 0 : 900);
+function quizPress(k, btn){
+  const a = act; if(!a || !a.input) return;
+  btn.classList.remove("hit"); void btn.offsetWidth; btn.classList.add("hit");
+  const row = document.getElementById("chalkRow");
+  if(k === a.seq[a.pos]){
+    tone(SYMS[k].f, .12, "triangle", .06);
+    row.insertAdjacentHTML("beforeend", `<g transform="translate(${a.pos*24} -8) scale(.8)">${symSvg(k, 20).replace(/<\/?svg[^>]*>/g, "")}</g>`);
+    a.pos++;
+    if(a.pos >= a.seq.length){
+      a.input = false; sfx.good();
+      a.round++; a.seq = null;
+      if(a.round >= 3){ quizWon(); return; }
+      vnShow(vnOf(), R, ["Good. Faster now.", "One more. Longest one. You've got this."][a.round - 1], "");
+      setTimeout(quizRound, 900);
+    }
+    return;
+  }
+  a.input = false; a.strikes++; stumble(); distort(.2 + a.strikes*.15);
+  document.getElementById("chalkSym").innerHTML = "";
+  const sk = document.querySelector("#fogCtl .strikes"); if(sk) sk.textContent = "✕".repeat(a.strikes) + "·".repeat(Math.max(0, 3 - a.strikes));
+  row.innerHTML = `<text x="60" y="0" text-anchor="middle" font-family="Gochi Hand, cursive" font-size="16" fill="#FF6B6B">WRONG</text>`;
+  if(a.strikes >= 3){
+    vnShow(vnOf(), S, "Three strikes! ENCORE! From the TOP!", "s");
+    act = { round:0, strikes:0, seq:null };
+    setTimeout(() => { distort(0); quizRound(); }, 1800);
   } else {
-    const k = Math.min(1, d/60);
-    f.style.filter = `blur(${(k*5).toFixed(1)}px) hue-rotate(${Math.round(k*60)}deg)`;
-    f.style.transform = `skewX(${(k*12).toFixed(1)}deg) translateX(${Math.round(k*12)}px)`;
-    $("bands").style.opacity = (k*.9).toFixed(2);
-    f.classList.toggle("jitter", k > .3);
+    taunt();
+    setTimeout(() => { if(act === a){ distort(0); quizRound(); } }, 1500);
   }
 }
-$("track").addEventListener("input", e => setFog(+e.target.value));
-/* 3 · floating away, and someone holding on */
-const FL = { h:.2, grip:0, hold:false, caught:false, last:0 };
-function fearFloat(){
-  const f = $("fears"); f.innerHTML = FLOAT; f.appendChild(fearTitle("You start to float", "Up, and up, and up. Nothing to hold on to."));
-  $("fogscreen").classList.add("floating");
-  Object.assign(FL, { h:.2, grip:0, hold:false, caught:false, last:performance.now() });
-  const c = $("fogCtl");
-  c.innerHTML = `<div class="grip"><div class="lbl"><span>Hold on</span><span id="gripPct">0%</span></div><div class="bar"><div class="fill" id="gripFill"></div></div></div><button class="holdbtn" id="holdBtn">HOLD ON</button>`;
+function quizWon(){
+  act = null; ctl(""); distort(0);
+  const g = document.getElementById("grade"); if(g) g.setAttribute("opacity", 1);
+  document.getElementById("chalkSym").innerHTML = "";
+  if(typeof music === "function") music("showman");
+  playLines(null, [
+    [K, "Done. All of it. In order.", "k"],
+    ["The tape", "The teacher stamps an A+ on your test. The teacher is Bodega.", "n"],
+    [S, "A FLUKE! Folks, it was a fluke! On with the show!", "s"],
+  ], nextFear);
+}
+
+/* ACT II · the sky goes white: a drifting tracking signal you have to find and hold */
+function actSky(){
+  const f = $("fears"); f.innerHTML = MUSHROOM; f.appendChild(fearTitle("Act II · The Sky Goes White", "A mushroom cloud over the plateau."));
+  ctl(""); distort(.8);
+  if(typeof music === "function") music("showman");
+  playLines(null, [
+    [S, "ACT TWO! The oldest fear in the book! The sky... goes... WHITE!", "s"],
+    [R, "It's not a bomb. It's bad tracking. He's running the tape through a busted deck. Find the clear picture and hold it there. He'll fight you."],
+  ], skyStart);
+}
+function skyStart(){
+  if(typeof music === "function") music("fog");
+  $("tracking").hidden = false; $("track").value = 6;
+  ctl(`<div class="grip"><div class="lbl"><span>Picture lock</span><span id="skyTime">22s</span></div><div class="bar"><div class="fill" id="skyFill"></div></div></div>`);
+  act = { kind:"sky", lock:0, time:22, t:0, jolt:2.4, off:0, last:performance.now(), v:6 };
+  cancelAnimationFrame(fogRAF); fogRAF = requestAnimationFrame(skyStep);
+}
+function skyTarget(a){ return Math.max(8, Math.min(92, 52 + 26*Math.sin(a.t*.8) + 10*Math.sin(a.t*2.1 + 1) + a.off)); }
+function skyStep(now){
+  const a = act; if(!a || a.kind !== "sky" || $("s5").hidden) return;
+  const dt = Math.min(.05, (now - a.last)/1000); a.last = now; a.t += dt; a.time -= dt;
+  a.jolt -= dt;
+  if(a.jolt <= 0){
+    a.jolt = 2 + Math.random()*1.6;
+    a.off = Math.max(-30, Math.min(30, a.off + (Math.random() < .5 ? -1 : 1) * (14 + Math.random()*12)));
+    glide(180, 90, .35, "sawtooth", .03);
+    if(Math.random() < .35) vnShow(vnOf(), S, ["*cranks the machine*", "Hold STILL, folks, he's losing it!", "Static! Glorious static!"][Math.floor(Math.random()*3)], "s");
+  }
+  const d = Math.abs(+$("track").value - skyTarget(a)), k = Math.min(1, d/45);
+  distort(k);
+  if(d <= 8){ a.lock = Math.min(1, a.lock + dt/4.2); if(Math.random() < .2) tone(500 + a.lock*600, .04, "triangle", .025); }
+  else a.lock = Math.max(0, a.lock - dt/10);
+  $("skyFill").style.width = Math.round(a.lock*100) + "%";
+  $("skyTime").textContent = Math.max(0, Math.ceil(a.time)) + "s";
+  if(a.lock >= 1){ skyWon(); return; }
+  if(a.time <= 0){
+    act = null; stumble();
+    vnShow(vnOf(), S, "The picture's GONE, folks! Rewind it! Again!", "s");
+    setTimeout(skyStart, 1800);
+    return;
+  }
+  fogRAF = requestAnimationFrame(skyStep);
+}
+function skyWon(){
+  act = null; ctl(""); $("tracking").hidden = true; distort(0); sfx.good();
+  const f = $("fears");
+  $("mush").style.transition = "opacity .9s"; $("croi").style.transition = "opacity .9s";
+  $("mush").setAttribute("opacity", 0); $("croi").setAttribute("opacity", 1);
+  f.querySelector(".fear").firstChild.textContent = "It's a cloud";
+  f.querySelector(".fear small").textContent = "Shaped like a croissant. Just weather.";
+  if(typeof music === "function") music("showman");
+  setTimeout(() => playLines(null, [
+    [K, "...It's a croissant.", "k"],
+    [R, "It was always a croissant."],
+    [S, "A CROISSANT?! Who booked the croissant?! FINAL ACT!", "s"],
+  ], nextFear), reduce ? 0 : 900);
+}
+
+/* ACT III · floating away: hold on, but let go when the wind hits, then grab back */
+const FL = { h:.2, grip:0, hold:false, last:0, gust:0, phase:"calm", gustHit:false };
+function actFloat(){
+  const f = $("fears"); f.innerHTML = FLOAT; f.appendChild(fearTitle("Act III · Nothing to Hold On To", "Up, and up, and up."));
+  $("fogscreen").classList.add("floating"); ctl(""); distort(.1);
+  if(typeof music === "function") music("showman");
+  playLines(null, [
+    [S, "And for our GRAND FINALE! A man! Floating away! With NOTHING to hold on to!", "s"],
+    [R, `Not nothing. Press and hold, ${HERO}. I've got you. When the wind hits, let go, or it rips us both loose. Then grab right back.`],
+  ], floatStart);
+}
+function floatStart(){
+  if(typeof music === "function") music("fog");
+  Object.assign(FL, { h:.2, grip:0, hold:false, last:performance.now(), gust:1.8, phase:"calm", gustHit:false });
+  act = { kind:"float" };
+  ctl(`<div class="grip"><div class="lbl"><span>Hold on</span><span id="gripPct">0%</span></div><div class="bar"><div class="fill" id="gripFill"></div></div></div><div class="gustwarn" id="gustWarn" aria-live="assertive"></div><button class="holdbtn" id="holdBtn">HOLD ON</button>`);
   const b = $("holdBtn");
   const on = e => { e.preventDefault(); FL.hold = true; b.classList.add("down"); };
   const off = () => { FL.hold = false; b.classList.remove("down"); };
   b.addEventListener("pointerdown", on); b.addEventListener("pointerup", off); b.addEventListener("pointercancel", off); b.addEventListener("pointerleave", off);
   b.addEventListener("contextmenu", e => e.preventDefault());
-  b.addEventListener("keydown", e => { if(e.key === " " || e.key === "Enter"){ e.preventDefault(); FL.hold = true; } });
-  b.addEventListener("keyup", () => FL.hold = false);
-  playLines(null, [
-    ["The tape", "Your boots leave the ground. The plateau gets smaller.", "n"],
-    [R, `${HERO}! Press and hold. I've got you.`],
-  ]);
-  cancelAnimationFrame(floatRAF); floatRAF = requestAnimationFrame(floatStep);
+  b.addEventListener("keydown", e => { if(e.key === " " || e.key === "Enter"){ e.preventDefault(); FL.hold = true; b.classList.add("down"); } });
+  b.addEventListener("keyup", off);
+  cancelAnimationFrame(fogRAF); fogRAF = requestAnimationFrame(floatStep);
 }
 function floatStep(now){
-  if($("s5").hidden || FL.caught) return;
+  if(!act || act.kind !== "float" || $("s5").hidden) return;
   const dt = Math.min(.05, (now - FL.last)/1000); FL.last = now;
-  if(FL.hold){ FL.grip = Math.min(1, FL.grip + dt/2.4); FL.h = Math.max(0, FL.h - dt*.35); if(Math.random() < .15) tone(300 + FL.grip*500, .05, "triangle", .03); }
-  else { FL.h = Math.min(1, FL.h + dt*.16); }
-  const sway = Math.sin(now/400)*4;
+  const fs = $("fogscreen"), w = $("gustWarn");
+  FL.gust -= dt;
+  if(FL.phase === "calm" && FL.gust <= .6){ FL.phase = "warn"; w.textContent = "WIND COMING"; w.className = "gustwarn warn"; glide(200, 520, .55, "sawtooth", .025); }
+  if(FL.phase === "warn" && FL.gust <= 0){ FL.phase = "gust"; FL.gust = .8; FL.gustHit = false; w.textContent = "LET GO!"; w.className = "gustwarn now"; fs.classList.add("gust"); tone(90, .7, "sawtooth", .04); }
+  else if(FL.phase === "gust" && FL.gust <= 0){ FL.phase = "calm"; FL.gust = 1.3 + Math.random()*1.2; w.textContent = ""; w.className = "gustwarn"; fs.classList.remove("gust"); }
+  if(FL.phase === "gust"){
+    if(FL.hold){
+      FL.grip = Math.max(0, FL.grip - dt*.75); FL.h = Math.min(1, FL.h + dt*.55);
+      if(!FL.gustHit){ FL.gustHit = true; stumble(); vnShow(vnOf(), R, ["Let go when it gusts!", "Trust me. Let go, then grab back.", "Not during the wind!"][Math.floor(Math.random()*3)], ""); }
+    } else FL.h = Math.min(1, FL.h + dt*.28);
+  } else if(FL.hold){
+    FL.grip = Math.min(1, FL.grip + dt/3.4); FL.h = Math.max(0, FL.h - dt*.32);
+    if(Math.random() < .15) tone(300 + FL.grip*500, .05, "triangle", .03);
+  } else { FL.h = Math.min(1, FL.h + dt*.15); FL.grip = Math.max(0, FL.grip - dt*.04); }
+  if(typeof musicWarp === "function") musicWarp(FL.h*.8);
+  const sway = Math.sin(now/400)*4 * (FL.phase === "gust" ? 3 : 1);
   const k = document.getElementById("floatK");
-  if(k) k.setAttribute("transform", `translate(${sway.toFixed(1)} ${(-FL.h*44).toFixed(1)}) rotate(${(sway*.8).toFixed(1)} 98 72)`);
+  if(k) k.setAttribute("transform", `translate(${sway.toFixed(1)} ${(-FL.h*52).toFixed(1)}) rotate(${(sway*.8).toFixed(1)} 98 72)`);
+  const t = document.getElementById("tether"); if(t) t.setAttribute("opacity", (.25 + FL.grip*.75).toFixed(2));
   $("gripFill").style.width = Math.round(FL.grip*100) + "%"; $("gripPct").textContent = Math.round(FL.grip*100) + "%";
   if(FL.grip >= 1){ caught(); return; }
-  floatRAF = requestAnimationFrame(floatStep);
+  if(FL.h >= 1){
+    act = null; fs.classList.remove("gust"); stumble();
+    if(k){ k.style.transition = "transform .8s ease-in"; k.setAttribute("transform", "translate(0 -140)"); }
+    vnShow(vnOf(), S, "And he's GONE, folks! Up, up and away! ...ENCORE!", "s");
+    setTimeout(() => { if(k) k.style.transition = ""; floatStart(); }, 2000);
+    return;
+  }
+  fogRAF = requestAnimationFrame(floatStep);
 }
 function caught(){
-  FL.caught = true; sfx.good();
-  const r = document.getElementById("floatR"); if(r){ r.style.transition = "opacity .5s"; r.setAttribute("opacity", 1); }
+  act = null; sfx.good(); $("fogscreen").classList.remove("gust"); distort(0);
   const k = document.getElementById("floatK"); if(k){ k.style.transition = "transform .9s cubic-bezier(.3,1.3,.5,1)"; k.setAttribute("transform", "translate(0 18)"); }
-  $("fogCtl").innerHTML = "";
+  ctl("");
   const f = $("fears").querySelector(".fear"); f.firstChild.textContent = "Caught"; f.querySelector("small").textContent = "Someone's holding the other end.";
+  if(typeof music === "function") music("plateau");
   setTimeout(() => playLines(null, [
     [R, "Got you."],
     [R, "You're not going anywhere."],
@@ -2032,16 +2407,18 @@ function caught(){
   ], nextFear), reduce ? 0 : 900);
 }
 function clearFog(){
-  fogDone = true;
-  $("fogscreen").classList.remove("floating"); $("fogscreen").classList.add("clear");
-  $("fears").classList.remove("jitter"); $("tracking").hidden = true; $("fogCtl").innerHTML = "";
-  $("fears").innerHTML = `<p class="fear" style="color:var(--scan)">Tracking fixed<small>Test passed. Just a cloud. Feet on the ground.</small></p><span class="trophy" data-t="fog" tabindex="0" role="button" aria-label="Something left behind by the fog">✦</span>`;
+  fogDone = true; act = null;
+  $("fogscreen").classList.remove("floating","gust"); $("fogscreen").classList.add("clear");
+  $("fears").classList.remove("jitter"); $("tracking").hidden = true; ctl(""); distort(0);
+  $("fears").innerHTML = `<p class="fear" style="color:var(--scan)">Show's over<small>Test passed. Just a cloud. Feet on the ground.</small></p><span class="trophy" data-t="fog" tabindex="0" role="button" aria-label="Something left behind by the fog">✦</span>`;
   playLines(null, [
-    [R, `You okay? You went quiet and your comms said "be kind, rewind" three times.`],
-    [K, `Was that fog... legal?`, "k"],
-    [R, `Depends which side of the state line you're standing on.`],
-    [K, `I'm fine. The fog wasn't a villain. It was exhaled. By something big.`, "k"],
-    ["The tape", "As the fog pulls back, it leaves letters behind in the frost on the rocks. The last riddle.", "n"],
+    [S, "No! NO! My show! My beautiful FOG!", "s", () => $("showGhost").classList.add("gone")],
+    ["The tape", "The fog tears like an old curtain. The Showman rides off into the dark on a ghost horse, still shouting about matinees.", "n"],
+    [R, `You okay? Your comms said "be kind, rewind" three times.`],
+    [K, `I'm fine. The fog wasn't his. It was exhaled. By something big. He was just selling tickets to it.`, "k"],
+    [R, `So the real villain is ticket fees.`],
+    [K, `Always has been.`, "k"],
+    ["The tape", "As the fog pulls back, it leaves letters in the frost on the rocks. The last riddle.", "n"],
   ], () => {
     const b = $("riddle3"); b.hidden = false;
     showRiddle(2, b, () => {
@@ -2246,6 +2623,8 @@ function afterScratch(o){
   playLines(null, [
     [B, `I WILL NOW BE UNBEARABLE ABOUT THIS FOREVER.`, "b"],
     [B, `ALSO. YOU SHOULD KNOW. I WAS NOT MADE BY A BOMB. THE MOUNTAIN MADE ME. I AM JUST BIG.`, "b"],
+    [B, `ALSO A MAN IN A VERY BIG HAT KEEPS ASKING ME TO JOIN HIS SHOW. I AM NOT AN ACT.`, "b"],
+    [K, `He's been handled. He's touring elsewhere now.`, "k"],
     [K, `Good. That's... actually really good to hear.`, "k"],
     [R, `Great work, ${HERO}. One more thing.`],
     [R, `Look east.`],
