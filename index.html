@@ -360,6 +360,25 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
 .pips{display:flex;gap:8px;justify-content:center}
 .pips i{width:14px;height:14px;border-radius:50%;border:1px solid var(--fog)}
 .pips i.on{background:var(--fog)}
+.fogscreen .fears{width:100%}
+.lane{position:relative;height:62px;border:1px solid #D9B45A;background:repeating-linear-gradient(90deg,#3A2416 0 22px,#43291A 22px 24px);overflow:hidden;touch-action:manipulation}
+.lane .hitzone{position:absolute;left:11%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border:2px dashed #FFD23F;border-radius:50%;display:grid;place-items:center;background:rgba(255,210,63,.08)}
+.lane .hitzone svg{width:28px;height:28px}
+.lane .note{position:absolute;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;opacity:0}
+.lane .note svg{width:100%;height:100%;display:block}
+.lane .judge{position:absolute;left:55%;transform:translateX(-50%);top:4px;font-family:"Bangers",Impact,sans-serif;font-size:22px;letter-spacing:.04em;opacity:0;text-shadow:2px 2px 0 #0B0E16}
+.lane .judge.pop{animation:sfxpop .7s ease both}
+#dancers.hop{animation:hop .28s ease}
+.lamp1{animation:twinkle 1.1s ease-in-out infinite}
+.dodge{position:relative;width:100%;height:230px;touch-action:none;user-select:none;-webkit-user-select:none}
+.dodge canvas{position:absolute;inset:0;width:100%;height:100%}
+.dgk{position:absolute;width:44px;height:58px;pointer-events:none;left:0;top:0}
+.wwarn{position:absolute;bottom:10px;font-family:"Bangers",Impact,sans-serif;font-size:24px;letter-spacing:.04em;color:#FFD23F;opacity:0;text-shadow:2px 2px 0 #0B0E16}
+.wwarn.on{opacity:1;animation:blink .3s steps(2) infinite}
+.wwarn.l{left:10px}.wwarn.r{right:10px}
+.steer2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.steer2 button{font-size:24px;padding:16px;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.steer2 button.down{filter:brightness(1.3);transform:translateY(1px)}
 .quizhud{display:flex;justify-content:space-between;font-family:var(--osdfont);font-size:20px;color:var(--fog);letter-spacing:.06em;text-transform:uppercase}
 .quizhud .strikes{color:#FF6B5B;letter-spacing:.2em}
 .symgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
@@ -2237,7 +2256,7 @@ function solvedNote(box, head, text){
 $("toFog").onclick = () => { go(5); startFog(); };
 
 /* ---------- 4 · the fog: Buffalo Bill's ghost stages a nightmare show. Three acts, each with a trick. ---------- */
-const S = "The Showman";
+const S = "Buffalo Bill's Ghost";
 const SYMS = [
   { n:"star",   c:"#FFD23F", f:440, d:`<polygon points="10,1 12.6,7 19,7.4 14,11.6 15.6,18.6 10,14.6 4.4,18.6 6,11.6 1,7.4 7.4,7"/>` },
   { n:"moon",   c:"#8EC5FF", f:494, d:`<path d="M12.5 1.5 A8.5 8.5 0 1 0 18.6 14 A6.6 6.6 0 1 1 12.5 1.5 Z"/>` },
@@ -2247,7 +2266,7 @@ const SYMS = [
   { n:"magpie", c:"#C7BEF2", f:880, d:`<path d="M1 8.5 Q5 4.6 7.4 9 Q8.4 5.8 10 7 Q11.6 5.8 12.6 9 Q15 4.6 19 8.5 Q15 12.4 10 16 Q5 12.4 1 8.5 Z"/>` },
 ];
 const symSvg = (k, size) => `<svg viewBox="0 0 20 20" width="${size}" height="${size}" aria-hidden="true"><g fill="${SYMS[k].c}" stroke="#0B0E16" stroke-width="1.1" stroke-linejoin="round">${SYMS[k].d}</g></svg>`;
-const CHALK = `<svg class="fogart" viewBox="0 0 200 110" aria-hidden="true"><rect x="16" y="8" width="168" height="84" rx="3" fill="#2F4A3A" stroke="#6B4A2E" stroke-width="6"/><g font-family="Gochi Hand, cursive" fill="#EDEDE6"><text x="100" y="27" text-anchor="middle" font-size="13">POP QUIZ · COPY THE BOARD</text><text id="grade" x="160" y="84" text-anchor="middle" font-size="24" fill="#FF6B6B" opacity="0">A+</text></g><g id="chalkSym" transform="translate(82 36)"></g><g id="chalkRow" transform="translate(30 76)"></g><rect x="60" y="92" width="80" height="5" fill="#6B4A2E"/></svg>`;
+const CHALK = `<svg class="fogart" viewBox="0 0 200 110" aria-hidden="true"><rect x="16" y="8" width="168" height="84" rx="3" fill="#2F4A3A" stroke="#6B4A2E" stroke-width="6"/><g font-family="Gochi Hand, cursive" fill="#EDEDE6"><text x="100" y="27" text-anchor="middle" font-size="13">FRONTIER SCHOOL · COPY THE BOARD</text><text id="grade" x="160" y="84" text-anchor="middle" font-size="24" fill="#FF6B6B" opacity="0">A+</text></g><g id="chalkSym" transform="translate(82 36)"></g><g id="chalkRow" transform="translate(30 76)"></g><rect x="60" y="92" width="80" height="5" fill="#6B4A2E"/></svg>`;
 const MUSHROOM = `<svg class="fogart" viewBox="0 0 200 110" aria-hidden="true"><g id="mush"><rect x="0" y="96" width="200" height="14" fill="#1C2A22"/><path d="M92 96 Q90 70 94 56 L106 56 Q110 70 108 96 Z" fill="#C9D3B8" stroke="#0B0E16" stroke-width="1.6"/><path d="M62 58 Q56 36 76 30 Q82 14 100 16 Q118 14 124 30 Q144 36 138 58 Q120 66 100 62 Q80 66 62 58 Z" fill="#E4EBD2" stroke="#0B0E16" stroke-width="1.8"/><path d="M76 40 q10 -8 20 0 M104 36 q10 -8 20 0" stroke="#A9B596" stroke-width="2" fill="none"/></g><g id="croi" opacity="0"><g stroke="#0B0E16" stroke-width="1.6"><ellipse cx="58" cy="54" rx="14" ry="12" fill="#F4C9A0"/><ellipse cx="78" cy="40" rx="17" ry="15" fill="#F7D6B0"/><ellipse cx="100" cy="34" rx="20" ry="17" fill="#FBE2C0"/><ellipse cx="122" cy="40" rx="17" ry="15" fill="#F7D6B0"/><ellipse cx="142" cy="54" rx="14" ry="12" fill="#F4C9A0"/></g><path d="M86 30 q6 -4 12 0 M108 30 q6 -4 12 0" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/><rect x="0" y="96" width="200" height="14" fill="#1C2A22"/></g></svg>`;
 const FLOAT = `<svg class="fogart tall" viewBox="0 0 200 150" aria-hidden="true"><g id="floatR" opacity=".9"><use href="#ramish" x="118" y="86" width="42" height="56"/><path id="tether" d="M140 104 Q124 84 104 60" stroke="#FFB23E" stroke-width="2.4" fill="none" stroke-linecap="round"/></g><g id="floatK"><use href="#kyle" x="74" y="40" width="48" height="64"/></g><rect x="0" y="142" width="200" height="8" fill="#1C2A22"/></svg>`;
 let fearIdx = 0, fogDone = false, fogRAF = 0, act = null;
@@ -2276,28 +2295,28 @@ function startFog(){
   $("fogscreen").classList.remove("clear","floating","gust"); $("riddle3").hidden = true; $("tracking").hidden = true;
   $("showGhost").classList.remove("gone");
   const cap = document.querySelector("#fogscreen .cap"); if(cap) cap.hidden = true;
-  $("fears").innerHTML = ""; $("fears").appendChild(fearTitle("Now showing", "Colonel Cody's Wild West of the Mind"));
+  $("fears").innerHTML = ""; $("fears").appendChild(fearTitle("Buffalo Bill's Wild West", "...of the Mind. One night only. Forever."));
   distort(.35); dots();
   if(typeof music === "function") music("showman");
   playLines(null, [
-    ["The tape", "The fog rolls in thick and green. Somewhere inside it, a calliope starts to play.", "n"],
-    [S, "LADIES AND GENTLEMEN! Colonel William F. Cody presents: the WILD WEST... of the MIND!", "s"],
+    ["The tape", "The fog rolls in thick and green. Somewhere inside it, spurs jingle and a calliope starts a waltz.", "n"],
+    [S, "LADIES AND GENTLEMEN! Back from the great beyond, it's Colonel William F. \"Buffalo Bill\" Cody! Well. His GHOST!", "s"],
     [K, "Buffalo Bill. You died in 1917.", "k"],
-    [S, "And I have NEVER stopped touring! Three acts of pure terror, folks. When the detective runs, I lasso the big one. A KAIJU, in MY show!", "s"],
+    [S, "And I have NEVER stopped touring! I played for the Queen of England, son! Tonight: three acts of pure frontier terror. When you run, I lasso the big one. A KAIJU, in Buffalo Bill's Wild West!", "s"],
     [R, `${HERO}, listen. It's a show. Every act has a trick. Find the trick and the act folds.`],
     [K, "Copy. Detective mode.", "k"],
-  ], actQuiz);
+  ], actOne);
 }
-function nextFear(){ fearIdx++; dots(); [actQuiz, actSky, actFloat][fearIdx] ? [actQuiz, actSky, actFloat][fearIdx]() : clearFog(); }
+function nextFear(){ fearIdx++; dots(); [actOne, actSky, actFloat][fearIdx] ? [actOne, actSky, actFloat][fearIdx]() : clearFog(); }
 
 /* ACT I · the pop quiz: memorize the board, copy it back. Three rounds, three strikes. */
 function actQuiz(){
-  const f = $("fears"); f.innerHTML = CHALK; f.appendChild(fearTitle("Act I · The Pop Quiz", "A desk. A test you never studied for."));
+  const f = $("fears"); f.innerHTML = CHALK; f.appendChild(fearTitle("Act I · The One-Room Schoolhouse", "A slate. A test you never studied for."));
   distort(0); $("bands").style.opacity = .3; ctl("");
   if(typeof music === "function") music("showman");
   playLines(null, [
-    [S, "ACT ONE! A boy! A desk! A test he did NOT study for!", "s"],
-    [R, "Here's the trick: the teacher writes the answers on the board first. Watch the board. Copy it back. In order."],
+    [S, "A boy! A slate! A frontier pop quiz he did NOT study for!", "s"],
+    [R, "Here's the trick: the schoolmarm writes the answers on the board first. Watch the board. Copy it back. In order."],
   ], () => { act = { round:0, strikes:0, seq:null }; quizRound(); });
 }
 const QUIZ_LEN = [3, 4, 5], QUIZ_MS = [720, 600, 500];
@@ -2363,7 +2382,7 @@ function quizWon(){
   if(typeof music === "function") music("showman");
   playLines(null, [
     [K, "Done. All of it. In order.", "k"],
-    ["The tape", "The teacher stamps an A+ on your test. The teacher is Bodega.", "n"],
+    ["The tape", "The schoolmarm stamps an A+ on your slate. The schoolmarm is Bodega.", "n"],
     [S, "A FLUKE! Folks, it was a fluke! On with the show!", "s"],
   ], nextFear);
 }
@@ -2374,7 +2393,7 @@ function actSky(){
   ctl(""); distort(.8);
   if(typeof music === "function") music("showman");
   playLines(null, [
-    [S, "ACT TWO! The oldest fear in the book! The sky... goes... WHITE!", "s"],
+    [S, "ACT TWO! Quickest hands in the West! The oldest fear in the book! The sky... goes... WHITE!", "s"],
     [R, "It's not a bomb. It's bad tracking. He's running the tape through a busted deck. Hit ADJUST when the needle crosses the clean band. Five clean hits."],
   ], skyStart);
 }
@@ -2452,69 +2471,222 @@ function skyWon(){
   ], nextFear), reduce ? 0 : 900);
 }
 
-/* ACT III · floating away: hold on, but let go when the wind hits, then grab back */
-const FL = { h:.2, grip:0, hold:false, last:0, gust:0, phase:"calm", gustHit:false };
+/* ACT I · first, the ghost asks the audience a question */
+function actOne(){
+  const f = $("fears"); f.innerHTML = BARN; f.appendChild(fearTitle("Act I", "A question for the audience"));
+  distort(.1); ctl("");
+  if(typeof music === "function") music("showman");
+  playLines(null, [
+    [S, "ACT ONE! But first, a question for the audience. Detective... do you have RHYTHM?", "s"],
+  ], () => {
+    const c = ctl(`<div class="opts"><button id="rhyYes">Yes. Obviously.</button><button id="rhyNo">Absolutely not.</button></div>`);
+    $("rhyYes").onclick = () => { ctl(""); playLines(null, [[K, "Yes. Obviously.", "k"], [S, "Then grab your partner, son! It's a BARN DANCE!", "s"], [R, "Oh no. Oh, I'm the partner. Okay. Tap STOMP when a star hits the boot. It's a waltz: ONE two three."]], danceIntro); };
+    $("rhyNo").onclick = () => { ctl(""); playLines(null, [[K, "Absolutely not.", "k"], [S, "Honest! Rare, out West. Then it's back to the one-room SCHOOLHOUSE!", "s"]], actQuiz); };
+    focusLine(c);
+  });
+}
+
+/* the Barn Dance: a waltz rhythm game locked to the calliope */
+const BARN = `<svg class="fogart" viewBox="0 0 200 120" aria-hidden="true">
+  <rect x="0" y="0" width="200" height="120" fill="#3A2416"/>
+  <g stroke="#2A190F" stroke-width="2">${Array.from({length:12}, (_, i) => `<path d="M${i*17+4} 0 V92"/>`).join("")}</g>
+  <path d="M0 22 Q50 34 100 22 Q150 34 200 22" stroke="#1A100A" stroke-width="1.4" fill="none"/>
+  ${[18,44,70,100,130,156,182].map((x, i) => `<circle cx="${x}" cy="${26 + (i % 2 ? 4 : 1)}" r="3.2" fill="#FFD23F" class="lamp${i % 2}"/>`).join("")}
+  <rect x="0" y="92" width="200" height="28" fill="#5A3A22"/><g stroke="#3A2416" stroke-width="1.2">${Array.from({length:8}, (_, i) => `<path d="M${i*26} 92 L${i*26 - 14} 120"/>`).join("")}</g>
+  <g transform="translate(10 70)"><rect width="32" height="22" rx="3" fill="#D9B45A" stroke="#0B0E16" stroke-width="1.4"/><path d="M2 8 H30 M2 15 H30" stroke="#A88A3C" stroke-width="1.2"/></g>
+  <g transform="translate(154 64)"><path d="M6 28 L10 0 L26 0 L30 28 Z" fill="#7A2E22" stroke="#0B0E16" stroke-width="1.4"/><text x="18" y="18" text-anchor="middle" font-family="Bangers, Impact, sans-serif" font-size="9" fill="#F4EBD0">XXX</text></g>
+  <g id="dancers"><use href="#kyle" x="70" y="46" width="34" height="46"/><use href="#ramish" x="98" y="46" width="34" height="46"/></g>
+</svg>`;
+const DANCE = { bar:30/138*6, beat:30/138*2 };
+function danceChart(){
+  const n = [];
+  for(let b = 0; b < 4; b++) n.push([b, 0]);
+  for(let b = 4; b < 8; b++){ n.push([b, 0]); n.push([b, 2]); }
+  for(let b = 8; b < 12; b++){ n.push([b, 0]); n.push([b, 1]); if(b % 2) n.push([b, 2]); }
+  n.push([12, 0]);
+  return n.map(([b, k]) => (b + 1)*DANCE.bar + k*DANCE.beat);
+}
+function danceClock(){ return (act && act.useAudio && actx) ? actx.currentTime : performance.now()/1000; }
+function danceIntro(){
+  { const f = $("fears"), t = f.querySelector(".fear"); if(t){ t.firstChild.textContent = "Act I · The Barn Dance"; t.querySelector("small").textContent = "Grab your partner. It's a waltz."; } }
+  const c = ctl(`<div class="quizhud"><span>The Barn Dance</span><span class="strikes" id="dStrikes">≤5 misses</span></div>
+    <div class="lane" id="lane"><div class="hitzone" aria-hidden="true">${BOOT_SVG}</div><div id="dNotes"></div><div class="judge" id="judge"></div></div>
+    <button class="holdbtn" id="stomp">STOMP</button>`);
+  const useAudio = !!(soundOn && actx && actx.state === "running");
+  const times = danceChart();
+  act = { kind:"dance", useAudio, notes: times.map(t => ({ t, hit:false, miss:false, el:null })), hits:0, miss:0, combo:0, perfect:0, t0:0 };
+  const box = $("dNotes");
+  act.notes.forEach(n => { const e = document.createElement("i"); e.className = "note"; e.innerHTML = STAR_SVG; box.appendChild(e); n.el = e; });
+  act.t0 = danceClock() + .4;
+  if(useAudio){ M.cue = "showman"; M.step = 0; M.next = act.t0; M.tempo = 1; musicWarp(0); M.bus.gain.setTargetAtTime(M.vol, actx.currentTime, .05); }
+  const stomp = e => { if(e) e.preventDefault(); danceTap(); };
+  $("stomp").addEventListener("pointerdown", stomp);
+  $("stomp").addEventListener("keydown", e => { if(e.key === " " || e.key === "Enter") stomp(e); });
+  $("lane").addEventListener("pointerdown", stomp);
+  focusLine($("stomp"));
+  cancelAnimationFrame(fogRAF); fogRAF = requestAnimationFrame(danceStep);
+}
+const STAR_SVG = `<svg viewBox="0 0 20 20"><polygon points="10,1 12.6,7 19,7.4 14,11.6 15.6,18.6 10,14.6 4.4,18.6 6,11.6 1,7.4 7.4,7" fill="#FFD23F" stroke="#0B0E16" stroke-width="1.2" stroke-linejoin="round"/><circle cx="10" cy="10.5" r="2.2" fill="#E39B2E"/></svg>`;
+const BOOT_SVG = `<svg viewBox="0 0 24 24"><path d="M7 2 H14 V13 Q20 13 21 17 V20 H4 V17 Q6 15 6 12 Z" fill="#7A4A26" stroke="#0B0E16" stroke-width="1.3" stroke-linejoin="round"/><path d="M4 20 H21" stroke="#0B0E16" stroke-width="2"/><circle cx="3.2" cy="18.5" r="1.8" fill="none" stroke="#C9CED8" stroke-width="1"/></svg>`;
+function danceStep(){
+  const a = act; if(!a || a.kind !== "dance" || $("s5").hidden) return;
+  const now = danceClock() - a.t0, TRAVEL = 1.7;
+  for(const n of a.notes){
+    const d = n.t - now;
+    if(!n.hit && !n.miss && d < -.18){ n.miss = true; danceMiss(); }
+    if(n.hit || d > TRAVEL + .1 || d < -.4){ n.el.style.opacity = 0; continue; }
+    n.el.style.opacity = n.miss ? .25 : 1;
+    n.el.style.left = (11 + Math.max(-4, d/TRAVEL)*86) + "%";
+  }
+  const last = a.notes[a.notes.length - 1].t;
+  if(now > last + .5){ danceEnd(); return; }
+  fogRAF = requestAnimationFrame(danceStep);
+}
+function judge(text, col){ const j = $("judge"); if(!j) return; j.textContent = text; j.style.color = col; j.classList.remove("pop"); void j.offsetWidth; j.classList.add("pop"); }
+function danceTap(){
+  const a = act; if(!a || a.kind !== "dance") return;
+  const now = danceClock() - a.t0;
+  let best = null, bd = 9;
+  for(const n of a.notes){ if(n.hit || n.miss) continue; const d = Math.abs(n.t - now); if(d < bd){ bd = d; best = n; } }
+  if(!best || bd > .2){ a.combo = 0; tone(150, .05, "square", .03); judge("off beat", "#FF9D8E"); return; }
+  best.hit = true; a.hits++; a.combo++;
+  const perfect = bd <= .085;
+  if(perfect) a.perfect++;
+  tone(perfect ? 988 : 784, .07, "triangle", .06); mKickSafe();
+  judge(perfect ? (a.combo >= 6 ? "YEEHAW!" : "PERFECT") : "GOOD", perfect ? "#FFD23F" : "#A6E36E");
+  const d = document.getElementById("dancers"); if(d){ d.classList.remove("hop"); void d.getBoundingClientRect(); d.classList.add("hop"); }
+  if(a.combo === 8) vnShow(vnOf(), R, "Okay. You DO have rhythm. Don't let it go to your head.", "");
+}
+function mKickSafe(){ try{ if(soundOn && actx && M.bus) mKick(actx.currentTime, .3); }catch(_){} }
+function danceMiss(){
+  const a = act; a.miss++; a.combo = 0; judge("MISS", "#FF6B5B");
+  $("dStrikes").textContent = `${"✕".repeat(Math.min(a.miss, 6))} ${Math.max(0, 5 - a.miss)} left`;
+  if(a.miss === 2) vnShow(vnOf(), S, "Two left BOOTS, folks!", "s");
+  if(a.miss === 4) vnShow(vnOf(), S, "Yeehaw? More like YEE-NAW!", "s");
+  if(a.miss > 5){
+    act = null; cancelAnimationFrame(fogRAF); stumble();
+    vnShow(vnOf(), S, "The fiddler QUITS! From the top! ENCORE!", "s");
+    setTimeout(danceIntro, 2000);
+  }
+}
+function danceEnd(){
+  act = null; ctl(""); sfx.good(); distort(0);
+  playLines(null, [
+    ["The tape", "The fiddle saws out one last note. The ghostly crowd stomps its boots.", "n"],
+    [K, "I have rhythm. It's documented now.", "k"],
+    [R, "You stepped on my feet twice."],
+    [K, "Rhythmically.", "k"],
+    [S, "Hmph! He danced with his SIDEKICK, folks, and somehow it WORKED! On with the show!", "s"],
+  ], nextFear);
+}
+
+/* ACT III · the W: dodge your way down while Ramish reels you in */
+const DG = { x:.5, vx:0, tx:null, reel:0, lives:3, inv:0, last:0, t:0, objs:[], next:1, gust:0, gdir:0, gphase:"calm", gnext:3, steer:0, W:300, H:230 };
 function actFloat(){
   const f = $("fears"); f.innerHTML = FLOAT; f.appendChild(fearTitle("Act III · Nothing to Hold On To", "Up, and up, and up."));
   $("fogscreen").classList.add("floating"); ctl(""); distort(.1);
   if(typeof music === "function") music("showman");
   playLines(null, [
-    [S, "And for our GRAND FINALE! A man! Floating away! With NOTHING to hold on to!", "s"],
-    [R, `Not nothing. Press and hold, ${HERO}. I've got you. When the wind hits, let go, or it rips us both loose. Then grab right back.`],
-  ], floatStart);
+    [S, "And for our GRAND FINALE! A man! Floating away over the open range! With NOTHING to hold on to!", "s"],
+    [R, `Not nothing. I've got the other end of the rope, ${HERO}. I'm reeling you in. You just have to dodge.`],
+    [R, `Also. The W is picking up.`],
+    [K, `The what?`, "k"],
+    [R, `The W. Out here you don't say the actual word. Saying it out loud invites it.`],
+    [S, "WIND! WIND! WIIIIND!", "s"],
+    [R, `...He did that on purpose.`],
+  ], dodgeStart);
 }
-function floatStart(){
+function dodgeStart(){
   if(typeof music === "function") music("fog");
-  Object.assign(FL, { h:.2, grip:0, hold:false, last:performance.now(), gust:1.8, phase:"calm", gustHit:false });
-  act = { kind:"float" };
-  ctl(`<div class="grip"><div class="lbl"><span>Hold on</span><span id="gripPct">0%</span></div><div class="bar"><div class="fill" id="gripFill"></div></div></div><div class="gustwarn" id="gustWarn" aria-live="assertive"></div><button class="holdbtn" id="holdBtn">HOLD ON</button>`);
-  const b = $("holdBtn");
-  const on = e => { e.preventDefault(); FL.hold = true; b.classList.add("down"); };
-  const off = () => { FL.hold = false; b.classList.remove("down"); };
-  b.addEventListener("pointerdown", on); b.addEventListener("pointerup", off); b.addEventListener("pointercancel", off); b.addEventListener("pointerleave", off);
-  b.addEventListener("contextmenu", e => e.preventDefault());
-  b.addEventListener("keydown", e => { if(e.key === " " || e.key === "Enter"){ e.preventDefault(); FL.hold = true; b.classList.add("down"); } });
-  b.addEventListener("keyup", off);
-  cancelAnimationFrame(fogRAF); fogRAF = requestAnimationFrame(floatStep);
+  const f = $("fears");
+  f.innerHTML = `<div class="dodge" id="dodge"><canvas id="dgc"></canvas><svg class="dgk" id="dgk" viewBox="0 0 60 80" aria-hidden="true"><use href="#kyle"/></svg><div class="wwarn" id="wwarn"></div></div>`;
+  const c = ctl(`<div class="quizhud"><span id="dLives">Rope ♥♥♥</span><span>Drag or hold ◀ ▶</span></div>
+    <div class="grip"><div class="lbl"><span>Reeling you in</span><span id="reelPct">0%</span></div><div class="bar"><div class="fill" id="reelFill"></div></div></div>
+    <div class="steer2"><button id="dL">◀</button><button id="dR">▶</button></div>`);
+  const box = $("dodge"), cv = $("dgc");
+  DG.W = box.clientWidth; DG.H = box.clientHeight;
+  const dpr = Math.min(2, devicePixelRatio || 1); cv.width = DG.W*dpr; cv.height = DG.H*dpr; DG.ctx = cv.getContext("2d"); DG.ctx.setTransform(dpr,0,0,dpr,0,0);
+  Object.assign(DG, { x:.5, vx:0, tx:null, reel:0, lives:3, inv:0, last:performance.now(), t:0, objs:[], next:1, gust:0, gdir:0, gphase:"calm", gnext:2.5, steer:0 });
+  act = { kind:"dodge" };
+  const setT = e => { const r = box.getBoundingClientRect(); DG.tx = Math.max(.06, Math.min(.94, (e.clientX - r.left)/r.width)); };
+  box.addEventListener("pointerdown", e => { e.preventDefault(); box.setPointerCapture && box.setPointerCapture(e.pointerId); setT(e); });
+  box.addEventListener("pointermove", e => { if(e.buttons || e.pointerType === "touch") setT(e); });
+  box.addEventListener("pointerup", () => DG.tx = null); box.addEventListener("pointercancel", () => DG.tx = null);
+  const hold = (id, d) => { const b = $(id); const on = e => { e.preventDefault(); DG.steer = d; DG.tx = null; b.classList.add("down"); }, off = () => { if(DG.steer === d) DG.steer = 0; b.classList.remove("down"); };
+    b.addEventListener("pointerdown", on); b.addEventListener("pointerup", off); b.addEventListener("pointerleave", off); b.addEventListener("pointercancel", off); b.addEventListener("contextmenu", e => e.preventDefault()); };
+  hold("dL", -1); hold("dR", 1);
+  focusLine(c);
+  cancelAnimationFrame(fogRAF); fogRAF = requestAnimationFrame(dodgeStep);
 }
-function floatStep(now){
-  if(!act || act.kind !== "float" || $("s5").hidden) return;
-  const dt = Math.min(.05, (now - FL.last)/1000); FL.last = now;
-  const fs = $("fogscreen"), w = $("gustWarn");
-  FL.gust -= dt;
-  if(FL.phase === "calm" && FL.gust <= .6){ FL.phase = "warn"; w.textContent = "WIND COMING"; w.className = "gustwarn warn"; glide(200, 520, .55, "sawtooth", .025); }
-  if(FL.phase === "warn" && FL.gust <= 0){ FL.phase = "gust"; FL.gust = .8; FL.gustHit = false; w.textContent = "LET GO!"; w.className = "gustwarn now"; fs.classList.add("gust"); tone(90, .7, "sawtooth", .04); }
-  else if(FL.phase === "gust" && FL.gust <= 0){ FL.phase = "calm"; FL.gust = 1.3 + Math.random()*1.2; w.textContent = ""; w.className = "gustwarn"; fs.classList.remove("gust"); }
-  if(FL.phase === "gust"){
-    if(FL.hold){
-      FL.grip = Math.max(0, FL.grip - dt*.75); FL.h = Math.min(1, FL.h + dt*.55);
-      if(!FL.gustHit){ FL.gustHit = true; stumble(); vnShow(vnOf(), R, ["Let go when it gusts!", "Trust me. Let go, then grab back.", "Not during the wind!"][Math.floor(Math.random()*3)], ""); }
-    } else FL.h = Math.min(1, FL.h + dt*.28);
-  } else if(FL.hold){
-    FL.grip = Math.min(1, FL.grip + dt/3.4); FL.h = Math.max(0, FL.h - dt*.32);
-    if(Math.random() < .15) tone(300 + FL.grip*500, .05, "triangle", .03);
-  } else { FL.h = Math.min(1, FL.h + dt*.15); FL.grip = Math.max(0, FL.grip - dt*.04); }
-  if(typeof musicWarp === "function") musicWarp(FL.h*.8);
-  const sway = Math.sin(now/400)*4 * (FL.phase === "gust" ? 3 : 1);
-  const k = document.getElementById("floatK");
-  if(k) k.setAttribute("transform", `translate(${sway.toFixed(1)} ${(-FL.h*52).toFixed(1)}) rotate(${(sway*.8).toFixed(1)} 98 72)`);
-  const t = document.getElementById("tether"); if(t) t.setAttribute("opacity", (.25 + FL.grip*.75).toFixed(2));
-  $("gripFill").style.width = Math.round(FL.grip*100) + "%"; $("gripPct").textContent = Math.round(FL.grip*100) + "%";
-  if(FL.grip >= 1){ caught(); return; }
-  if(FL.h >= 1){
-    act = null; fs.classList.remove("gust"); stumble();
-    if(k){ k.style.transition = "transform .8s ease-in"; k.setAttribute("transform", "translate(0 -140)"); }
-    vnShow(vnOf(), S, "And he's GONE, folks! Up, up and away! ...ENCORE!", "s");
-    setTimeout(() => { if(k) k.style.transition = ""; floatStart(); }, 2000);
-    return;
+addEventListener("keydown", e => { if(!act || act.kind !== "dodge") return; if(e.key === "ArrowLeft"){ DG.steer = -1; DG.tx = null; } if(e.key === "ArrowRight"){ DG.steer = 1; DG.tx = null; } });
+addEventListener("keyup", e => { if(!act || act.kind !== "dodge") return; if(e.key === "ArrowLeft" || e.key === "ArrowRight") DG.steer = 0; });
+function dodgeStep(now){
+  if(!act || act.kind !== "dodge" || $("s5").hidden) return;
+  const dt = Math.min(.05, (now - DG.last)/1000); DG.last = now; DG.t += dt;
+  const W = DG.W, H = DG.H, ctx = DG.ctx, ky = H*.72, w = $("wwarn");
+  /* the W: warned, then a long shove sideways */
+  DG.gnext -= dt;
+  if(DG.gphase === "calm" && DG.gnext <= .9){ DG.gphase = "warn"; DG.gdir = Math.random() < .5 ? -1 : 1; w.textContent = DG.gdir > 0 ? "THE W ⟶" : "⟵ THE W"; w.className = "wwarn on " + (DG.gdir > 0 ? "l" : "r"); glide(180, 440, .8, "sawtooth", .022); }
+  if(DG.gphase === "warn" && DG.gnext <= 0){ DG.gphase = "gust"; DG.gust = 1.3; $("fogscreen").classList.add("gust"); tone(80, 1.2, "sawtooth", .035); }
+  if(DG.gphase === "gust"){ DG.gust -= dt; DG.vx += DG.gdir * 1.9 * dt; if(DG.gust <= 0){ DG.gphase = "calm"; DG.gnext = 2.4 + Math.random()*1.6 - Math.min(1, DG.reel); w.className = "wwarn"; $("fogscreen").classList.remove("gust"); } }
+  /* steering */
+  if(DG.tx !== null) DG.vx += (DG.tx - DG.x) * 9 * dt;
+  DG.vx += DG.steer * 2.6 * dt;
+  DG.vx *= Math.pow(.06, dt);
+  DG.x = Math.max(.05, Math.min(.95, DG.x + DG.vx * dt));
+  if(DG.x <= .05 || DG.x >= .95) DG.vx *= -.3;
+  /* things blowing past: tumbleweeds, ghost lassos, horseshoes */
+  DG.next -= dt;
+  if(DG.next <= 0){
+    const p = Math.min(1, DG.reel);
+    const type = Math.random() < .5 ? "weed" : Math.random() < .55 ? "lasso" : "shoe";
+    DG.objs.push({ type, x: .08 + Math.random()*.84, y: -.12, vy: .32 + p*.22 + Math.random()*.1, r: type === "weed" ? 15 : type === "lasso" ? 17 : 10, spin: 0, wob: Math.random()*6 });
+    DG.next = .85 - p*.32 + Math.random()*.3;
   }
-  fogRAF = requestAnimationFrame(floatStep);
+  ctx.clearRect(0, 0, W, H);
+  /* the W, drawn as streaks */
+  if(DG.gphase === "gust"){ ctx.strokeStyle = "rgba(220,240,210,.35)"; ctx.lineWidth = 1.5; for(let i = 0; i < 14; i++){ const y = (i*37 + DG.t*60) % H, x0 = ((DG.t*420*DG.gdir + i*91) % (W + 80) + W + 80) % (W + 80) - 40; ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x0 + DG.gdir*46, y); ctx.stroke(); } }
+  /* the rope down to Ramish */
+  const kx = DG.x*W;
+  ctx.strokeStyle = "#FFB23E"; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(W/2, H + 4); ctx.quadraticCurveTo(W/2 + (kx - W/2)*.2, H*.9, kx, ky + 14); ctx.stroke();
+  for(const o of DG.objs){
+    o.y += o.vy*dt; o.spin += dt*(o.type === "weed" ? 6 : 2);
+    o.x += Math.sin(DG.t*2 + o.wob)*.04*dt + (DG.gphase === "gust" ? DG.gdir*.18*dt : 0);
+    const ox = o.x*W, oy = o.y*H;
+    ctx.save(); ctx.translate(ox, oy); ctx.rotate(o.spin);
+    if(o.type === "weed"){ ctx.strokeStyle = "#B08A4A"; ctx.lineWidth = 1.6; for(let i = 0; i < 7; i++){ ctx.beginPath(); ctx.arc(0, 0, o.r - i*1.6, i, i + 4.2); ctx.stroke(); } ctx.strokeStyle = "#0B0E16"; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(0, 0, o.r, 0, 7); ctx.stroke(); }
+    else if(o.type === "lasso"){ ctx.strokeStyle = "rgba(200,240,170,.9)"; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(0, 0, o.r, o.r*.7, 0, 0, 7); ctx.stroke(); ctx.beginPath(); ctx.moveTo(o.r*.9, 0); ctx.quadraticCurveTo(o.r*1.6, -8, o.r*2.2, -20); ctx.stroke(); }
+    else { ctx.strokeStyle = "#0B0E16"; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(0, 0, o.r, Math.PI*.15, Math.PI*.85, true); ctx.stroke(); ctx.strokeStyle = "#C9CED8"; ctx.lineWidth = 3.4; ctx.stroke(); }
+    ctx.restore();
+    if(DG.inv <= 0 && !o.hit && Math.hypot(ox - kx, oy - ky) < o.r + 14){ o.hit = true; dodgeHit(o.type); }
+  }
+  DG.objs = DG.objs.filter(o => o.y < 1.2 && !o.hit);
+  if(DG.inv > 0) DG.inv -= dt;
+  const k = $("dgk"); k.style.left = (kx - 22) + "px"; k.style.top = (ky - 34) + "px"; k.style.transform = `rotate(${(DG.vx*40).toFixed(1)}deg)`; k.style.opacity = DG.inv > 0 && Math.floor(DG.t*12) % 2 ? .35 : 1;
+  DG.reel = Math.min(1, DG.reel + dt/22);
+  $("reelFill").style.width = Math.round(DG.reel*100) + "%"; $("reelPct").textContent = Math.round(DG.reel*100) + "%";
+  if(typeof musicWarp === "function") musicWarp(DG.gphase === "gust" ? .6 : .2);
+  if(DG.reel >= 1){ caught(); return; }
+  fogRAF = requestAnimationFrame(dodgeStep);
 }
+function dodgeHit(type){
+  DG.lives--; DG.inv = 1.1; DG.reel = Math.max(0, DG.reel - .12); stumble();
+  $("dLives").textContent = "Rope " + "♥".repeat(Math.max(0, DG.lives)) + "♡".repeat(3 - Math.max(0, DG.lives));
+  const line = { weed:"A TUMBLEWEED! In the SKY! Only on the frontier, folks!", lasso:"Ha! Caught in my LASSO!", shoe:"Lucky horseshoe! Lucky for ME!" }[type];
+  if(DG.lives <= 0){
+    act = null; $("fogscreen").classList.remove("gust");
+    vnShow(vnOf(), S, "And he's GONE, folks! Off over the prairie! ...ENCORE!", "s");
+    setTimeout(dodgeStart, 2000); return;
+  }
+  vnShow(vnOf(), S, line, "s");
+}
+
 function caught(){
   act = null; sfx.good(); $("fogscreen").classList.remove("gust"); distort(0);
+  $("fears").innerHTML = FLOAT; $("fears").appendChild(fearTitle("Caught", "Someone's holding the other end."));
+  { const k0 = document.getElementById("floatK"); if(k0) k0.setAttribute("transform", "translate(0 -40)"); void $("fears").offsetWidth; }
   const k = document.getElementById("floatK"); if(k){ k.style.transition = "transform .9s cubic-bezier(.3,1.3,.5,1)"; k.setAttribute("transform", "translate(0 18)"); }
   ctl("");
-  const f = $("fears").querySelector(".fear"); f.firstChild.textContent = "Caught"; f.querySelector("small").textContent = "Someone's holding the other end.";
   if(typeof music === "function") music("plateau");
   setTimeout(() => playLines(null, [
     [R, "Got you."],
@@ -2529,7 +2701,7 @@ function clearFog(){
   $("fears").innerHTML = `<p class="fear" style="color:var(--scan)">Show's over<small>Test passed. Just a cloud. Feet on the ground.</small></p><span class="trophy" data-t="fog" tabindex="0" role="button" aria-label="Something left behind by the fog">✦</span>`;
   playLines(null, [
     [S, "No! NO! My show! My beautiful FOG!", "s", () => $("showGhost").classList.add("gone")],
-    ["The tape", "The fog tears like an old curtain. The Showman rides off into the dark on a ghost horse, still shouting about matinees.", "n"],
+    ["The tape", "The fog tears like an old curtain. Buffalo Bill's ghost rides off into the dark on a ghost horse, still shouting about matinees and the Queen.", "n"],
     [R, `You okay? Your comms said "be kind, rewind" three times.`],
     [K, `I'm fine. The fog wasn't his. It was exhaled. By something big. He was just selling tickets to it.`, "k"],
     [R, `So the real villain is ticket fees.`],
