@@ -138,7 +138,7 @@ span.trophy{font-family:var(--osdfont);color:var(--fog);font-size:22px;line-heig
 #car.oops{animation:shake .1s linear 4}
 .hwy{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:stretch}
 .sign{background:var(--sign);color:#fff;border:2px solid #fff;outline:3px solid var(--sign);border-radius:6px;padding:10px 14px;font:600 17px/1.2 var(--body);text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;min-height:62px}
-.sign.pop{animation:signpop .35s ease}
+.sign.bump{animation:signpop .35s ease}
 .elev{border:1px solid var(--line);padding:8px 12px;display:flex;flex-direction:column;justify-content:center;text-align:right}
 .elev b{font-family:var(--osdfont);font-weight:400;font-size:32px;line-height:1;font-variant-numeric:tabular-nums;color:var(--scan)}
 .elev span{font-family:var(--osdfont);font-size:15px;color:var(--dim);letter-spacing:.06em}
@@ -316,7 +316,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
 .hud{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;gap:8px;padding:8px 10px;font-family:var(--osdfont);font-size:20px;color:#fff;text-shadow:2px 2px 0 #000;pointer-events:none}
 .hud #hudDents{color:#FF6B7A;letter-spacing:.1em}
 .banner{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);background:var(--sign);color:#fff;border:1.5px solid #fff;outline:1.5px solid #0B0E16;border-radius:4px;padding:2px 8px;font:600 11px/1.2 var(--body);opacity:.92;text-transform:uppercase;letter-spacing:.04em;text-align:center;white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis;box-shadow:2px 2px 0 #0B0E16;pointer-events:none}
-.banner.pop{animation:signpop .35s ease}
+.banner.bump{animation:signpop .35s ease}
 .drivestart{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;background:rgba(6,8,11,.72)}
 .drivestart b{font-family:"Bangers",Impact,sans-serif;font-weight:400;font-size:34px;letter-spacing:.04em;color:#FFD23F;-webkit-text-stroke:1.5px #0B0E16;text-shadow:3px 3px 0 #0B0E16}
 .drivestart span{max-width:34ch;font-size:16px;color:var(--ink)}
@@ -1442,7 +1442,7 @@ function update(dt){
   const idx = Math.min(8, Math.floor(p*8));
   if(idx > DR.cp){
     DR.cp = idx; DR.cpD = DR.d;
-    const s = $("sign"); s.textContent = SIGNS[idx]; s.classList.remove("pop"); void s.offsetWidth; s.classList.add("pop");
+    const s = $("sign"); s.textContent = SIGNS[idx]; s.classList.remove("bump"); void s.offsetWidth; s.classList.add("bump");
     tone(1046,.08,"triangle",.05);
     if(idx < 8){ const q = QUIPS[idx]; vnShow(vnOf(), q[0], q[1], q[2]); }
   }
@@ -1642,7 +1642,7 @@ addEventListener("resize", () => { if(!$("s2").hidden){ sizeDrive(); draw(); } }
 $("skipDrive").onclick = () => { DR.d = DR.L; DR.run = false; if(!DR.over){ DR.over = true; hud(); draw(); driveDone(); } };
 function driveDone(){
   $("skipDrive").hidden = true;
-  const s = $("sign"); s.textContent = SIGNS[8]; s.classList.remove("pop"); void s.offsetWidth; s.classList.add("pop");
+  const s = $("sign"); s.textContent = SIGNS[8]; s.classList.remove("bump"); void s.offsetWidth; s.classList.add("bump");
   sfx.good();
   const lines = [
     ["The tape", `Top of the pass. ${DR.bagels} croissant${DR.bagels === 1 ? "" : "s"} collected${DR.honks ? `, ${DR.honks} animal${DR.honks === 1 ? "" : "s"} politely honked at` : ""}. Taped to the summit sign is a note in enormous handwriting.`, "n"],
