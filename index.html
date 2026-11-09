@@ -345,6 +345,8 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
 .holdbtn.down{filter:brightness(1.3);transform:scale(.98)}
 /* marmot heist */
 .heist{position:relative;border:2px solid #D8D0BC;box-shadow:5px 5px 0 #000;background:linear-gradient(#2E4066,#2A3B45 45%);padding:10px;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.heist.gone{animation:heistout .5s ease forwards}
+@keyframes heistout{to{opacity:0;transform:scale(.94) translateY(-8px)}}
 .heisthud{display:flex;justify-content:space-between;gap:8px;font-family:var(--osdfont);font-size:21px;color:#fff;text-shadow:2px 2px 0 #000;margin-bottom:8px;min-height:22px}
 #hCombo{color:#FFD23F;animation:bob .5s ease-in-out infinite}
 .burrows{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
@@ -1799,6 +1801,7 @@ function endHeist(){
     sfx.good(); sfx.trophy();
     $("heistStart").hidden = false;
     $("heistStart").innerHTML = `<b>Register recovered</b><span>${HEIST.pages} pages. Best freeflow: x${HEIST.best}.</span>`;
+    retireHeist(1800);
     playLines(null, [
       ["The tape", `You get the trail register back. The marmots retreat to their burrows, glaring.`, "n"],
       [K, `They were working for someone.`, "k"],
@@ -1818,6 +1821,14 @@ function endHeist(){
     focusLine($("heistRetry"));
   }
 }
+/* once the heist is over, fold the board away so it doesn't sit there as dead space */
+function retireHeist(delay){
+  setTimeout(() => {
+    const h = $("heist"); if(HEIST.on) return;
+    h.classList.add("gone");
+    setTimeout(() => { if(!HEIST.on){ h.hidden = true; h.classList.remove("gone"); } }, 500);
+  }, delay);
+}
 function showRiddle2(){
   $("heistRetry").hidden = true; $("heistSkip").hidden = true;
   const b = $("riddle2"); b.hidden = false;
@@ -1831,6 +1842,7 @@ $("heistGo").onclick = startHeist;
 $("heistRetry").onclick = () => { $("heistRetry").hidden = true; $("heistSkip").hidden = true; startHeist(); };
 $("heistSkip").onclick = () => {
   $("heistRetry").hidden = true; $("heistSkip").hidden = true;
+  retireHeist(400);
   playLines(null, [["The tape", "The marmots keep a few pages. Enough of the register is left to read.", "n"], [R, `Riddle two. I'm very supportive.`]], showRiddle2);
 };
 
