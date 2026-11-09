@@ -428,6 +428,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
 .figs{animation:bob 2.4s ease-in-out infinite}
 .end-ghost .fig2{opacity:.28;transition:opacity 1.4s}
 .end-ghost .sfx-ghost{fill:#C7BEF2;animation:sfxpop 2.4s ease 1s both}
+.end-hench .sfx-mwah{fill:#A6E36E;animation:sfxpop 2.6s ease .8s both}
 .end-date .fig2{transform:translateX(-6px);transition:transform 1.2s}
 /* credits extras */
 .cassette{display:block;width:100%;max-width:260px;margin:0 auto}
@@ -962,6 +963,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
         <g class="fx fx-q"><text x="258" y="150" font-family="Grenze Gotisch, Georgia, serif" font-weight="800" font-size="20" fill="#FFB23E">?</text></g>
         
         <text class="sfx sfx-ghost" x="236" y="140" transform="rotate(8 236 140)">BOO?</text>
+        <text class="sfx sfx-mwah" x="40" y="100" transform="rotate(-8 40 100)">MWAHAHA</text>
         <text class="sfx sfx-aww" x="226" y="128" transform="rotate(-6 226 128)">D'AWW!</text>
         <g class="sig" aria-hidden="true">
           <polygon points="258,186 270,58 330,58" fill="#FFF3C4" opacity=".16"/>
@@ -982,6 +984,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
       <button class="choice" data-end="date"><span class="k">Option C</span><span class="t">It's a date</span><span>Say it out loud in front of the kaiju.</span></button>
       <button class="choice" data-end="ask"><span class="k">Option D</span><span class="t">Ask Ramish</span><span>Let the sidekick answer this one.</span></button>
       <button class="choice" data-end="ghost"><span class="k">Option E</span><span class="t">Someone to ghost</span><span>Leave him on read. On a mountain. In front of the kaiju.</span></button>
+      <button class="choice" data-end="hench"><span class="k">Option F</span><span class="t">Future henchman</span><span>When you take over Gotham, he gets a lair with good lighting. Dental included.</span></button>
     </div>
     <div class="stack" id="endText" aria-live="polite"></div>
   </section>
@@ -2295,6 +2298,7 @@ const endings = {
             ? `Beartoothra says "ohhh" loud enough to start a small avalanche. At 10,947 feet you watch the sun go down over the Absarokas, split a can of green tea kept cold by the glacier tear, and ${SIDEKICK} absentmindedly scratches your head. Nobody mentions it.`
             : `Beartoothra says "ohhh" loud enough to start a small avalanche. At 10,947 feet you split the trail mix it saved for you and a can of green tea, watch the sun go down over the Absarokas, and ${SIDEKICK} absentmindedly scratches your head. Nobody mentions it.`],
   ghost:  ["Someone to ghost (attempted)", () => `You try. Unfortunately ${SIDEKICK} is standing right next to you, having arrived in a train with arms. There is nowhere to ghost to. Beartoothra gasps so hard it causes weather. Bodega turns her back on you, which on a fennec fox is mostly ears.`],
+  hench:  ["Chief henchman (world domination pending)", () => `You offer ${SIDEKICK} a senior position in your future regime. Benefits include a lair with good lighting, dental, and Bodega as Head of Security. Beartoothra asks if it can be the doomsday device. You tell it it can be the doomsday device.`],
   ask:    ["Ramish decides", () => `${SIDEKICK} looks at you for a long second and says, "I'll tell you at the top." Beartoothra points out that you are at the top. ${SIDEKICK} says, "Then I'll tell you on the way down."`],
 };
 const PAYOFF = {
@@ -2302,6 +2306,7 @@ const PAYOFF = {
   friends: [[K, `Top of the pass. In person. Tell me.`, "k"], [`${SIDEKICK} · Summit`, `Fine. I'm really glad I came.`], [K, `I win.`, "k"], [`${SIDEKICK} · Summit`, `We both win. That's the whole point.`]],
   date: [[K, `Top of the pass. In person. Tell me.`, "k"], [`${SIDEKICK} · Summit`, `Fine. I like you. Obviously. I came two thousand miles in a train with arms.`], [K, `Checkmate.`, "k"], [`${SIDEKICK} · Summit`, `...Yeah. Okay. Checkmate.`], [B, `D'AWW.`, "b"]],
   ghost: [[K, `Top of the pass. In person. Tell me.`, "k"], [`${SIDEKICK} · Summit`, `You picked GHOST?`], [K, `I outrank you.`, "k"], [`${SIDEKICK} · Summit`, `You cannot ghost someone who drove a train up a mountain to see you.`], [B, `GHOSTS LIVE IN THE FOG. I HAVE BEEN TO THE FOG. ABSOLUTELY NOT.`, "b"], [K, `Fine. Unghosted. Checkmate?`, "k"], [`${SIDEKICK} · Summit`, `You're on read for five minutes. Starting now.`], [`${SIDEKICK} · Summit`, `...Okay, that was four seconds. Come here.`]],
+  hench: [[K, `Top of the pass. In person. Tell me.`, "k"], [`${SIDEKICK} · Summit`, `First I want it in writing. Henchman is a lateral move from sidekick.`], [K, `Chief henchman. Corner lair.`, "k"], [`${SIDEKICK} · Summit`, `...Unlimited croissant budget?`], [K, `Unlimited.`, "k"], [`${SIDEKICK} · Summit`, `Deal. Checkmate.`], [K, `That's my line.`, "k"], [B, `I AM THE DOOMSDAY DEVICE. I HAVE NEVER BEEN SO HAPPY.`, "b"]],
   ask: [[K, `Top of the pass. In person. Tell me.`, "k"], [`${SIDEKICK} · Summit`, `I'll tell you on the way down.`], [K, `No, you have to now.`, "k"], [`${SIDEKICK} · Summit`, `NOW I DON'T.`], [K, `...Checkmate?`, "k"], [`${SIDEKICK} · Summit`, `Not even close.`]],
 };
 const FINAL = {
@@ -2314,7 +2319,7 @@ document.querySelectorAll(".choice").forEach(btn => btn.onclick = () => {
   const key = btn.dataset.end;
   const [title, body] = endings[key];
   const sc = $("summitScene");
-  sc.classList.remove("end-duo","end-friends","end-date","end-ask","end-ghost"); void sc.offsetWidth; sc.classList.add("end-"+key);
+  sc.classList.remove("end-duo","end-friends","end-date","end-ask","end-ghost","end-hench"); void sc.offsetWidth; sc.classList.add("end-"+key);
   sfx.good();
   const first = verdict === null;
   verdict = title;
@@ -2421,7 +2426,7 @@ const CREDITS = [
   ["And", "Bodega"], ["as", "The Sidekick's Sidekick"], null,
   ["And", "Mecha-Sidekick"], ["as", "A Train Wearing Arms"], null,
   ["Also featuring", "The Fog"], ["", "Elk (uncredited)"], ["", "One bag of trail mix"], ["", "Several croissants"], null,
-  ["Won every argument", `${HERO} (disputed)`], ["Top", `${HERO} (self-reported)`], null,
+  ["Won every argument", `${HERO} (disputed)`], null,
   ["Riddles by", "Beartoothra"], ["Hints by", `${SIDEKICK} (mostly unhelpful)`], null,
   ["Filmed on location", "US-212, Montana, Wyoming, and Montana again"], null,
   ["No goats were harmed", "A few were honked at"], null,
