@@ -1099,7 +1099,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
     <div class="vn n" data-idle="Beartoothra carries you both to the top of the pass. Before it sets you down, it squints at the two of you and asks what you are to each other."></div>
     </div>
     <div class="choices" id="choices">
-      <button class="choice" data-end="friends"><span class="k">Option A</span><span class="t">Best friends</span><span>Friends who climb very tall mountains.</span></button>
+      <button class="choice" data-end="friends"><span class="k">Option A</span><span class="t">Road trip buddies</span><span>Would drive two thousand miles for a good croissant. Have.</span></button>
       <button class="choice" data-end="duo"><span class="k">Option B</span><span class="t">Crime-fighting duo</span><span>Partners. One case file, two names on it.</span></button>
       <button class="choice" data-end="hench"><span class="k">Option C</span><span class="t">Future henchman</span><span>When you take over Gotham, he gets a lair with good lighting. Dental included.</span></button>
       <button class="choice" data-end="ghost"><span class="k">Option D</span><span class="t">Someone to ghost</span><span>Leave him on read. On a mountain. In front of the kaiju.</span></button>
@@ -3055,7 +3055,7 @@ function afterScratch(o){
 /* ---------- 7 · summit + endings ---------- */
 const endings = {
   duo:    ["Crime-fighting duo", () => `${HERO} and ${SIDEKICK}. One case closed and a whole mountain range of unsolved ones. Beartoothra asks to be the third member. You tell it you'll think about it.`],
-  friends:["Best friends", () => `Two friends and one very tall hike. Beartoothra waves at every car on the highway below. It pretends not to listen to your conversation. It is listening to your conversation.`],
+  friends:["Road trip buddies", () => `Two road trip buddies and one very tall pass. Beartoothra waves at every car on the highway below. It pretends not to listen to your conversation. It is listening to your conversation.`],
   date:   ["It's a date", () => branch === "talk"
             ? `Beartoothra says "ohhh" loud enough to start a small avalanche. At 10,947 feet you watch the sun go down over the Absarokas, split a can of green tea kept cold by the glacier tear, and ${SIDEKICK} absentmindedly scratches your head. Nobody mentions it.`
             : `Beartoothra says "ohhh" loud enough to start a small avalanche. At 10,947 feet you split the trail mix it saved for you and a can of green tea, watch the sun go down over the Absarokas, and ${SIDEKICK} absentmindedly scratches your head. Nobody mentions it.`],
