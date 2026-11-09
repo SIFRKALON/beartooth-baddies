@@ -426,6 +426,8 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
 .late{opacity:0;animation:appear 2s ease forwards}
 .shoot{opacity:0;animation:shoot 7s ease-in 3s infinite}
 .figs{animation:bob 2.4s ease-in-out infinite}
+.end-ghost .fig2{opacity:.28;transition:opacity 1.4s}
+.end-ghost .sfx-ghost{fill:#C7BEF2;animation:sfxpop 2.4s ease 1s both}
 .end-date .fig2{transform:translateX(-6px);transition:transform 1.2s}
 /* credits extras */
 .cassette{display:block;width:100%;max-width:260px;margin:0 auto}
@@ -959,6 +961,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
         <g class="fx fx-heart" transform="translate(4 -18)"><path d="M238 166 C232 158 222 162 226 170 L238 180 L250 170 C254 162 244 158 238 166 Z" fill="#FF7A8A"/></g>
         <g class="fx fx-q"><text x="258" y="150" font-family="Grenze Gotisch, Georgia, serif" font-weight="800" font-size="20" fill="#FFB23E">?</text></g>
         
+        <text class="sfx sfx-ghost" x="236" y="140" transform="rotate(8 236 140)">BOO?</text>
         <text class="sfx sfx-aww" x="226" y="128" transform="rotate(-6 226 128)">D'AWW!</text>
         <g class="sig" aria-hidden="true">
           <polygon points="258,186 270,58 330,58" fill="#FFF3C4" opacity=".16"/>
@@ -978,6 +981,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
       <button class="choice" data-end="friends"><span class="k">Option B</span><span class="t">Best friends</span><span>Friends who climb very tall mountains.</span></button>
       <button class="choice" data-end="date"><span class="k">Option C</span><span class="t">It's a date</span><span>Say it out loud in front of the kaiju.</span></button>
       <button class="choice" data-end="ask"><span class="k">Option D</span><span class="t">Ask Ramish</span><span>Let the sidekick answer this one.</span></button>
+      <button class="choice" data-end="ghost"><span class="k">Option E</span><span class="t">Someone to ghost</span><span>Leave him on read. On a mountain. In front of the kaiju.</span></button>
     </div>
     <div class="stack" id="endText" aria-live="polite"></div>
   </section>
@@ -2290,12 +2294,14 @@ const endings = {
   date:   ["It's a date", () => branch === "talk"
             ? `Beartoothra says "ohhh" loud enough to start a small avalanche. At 10,947 feet you watch the sun go down over the Absarokas, split a can of green tea kept cold by the glacier tear, and ${SIDEKICK} absentmindedly scratches your head. Nobody mentions it.`
             : `Beartoothra says "ohhh" loud enough to start a small avalanche. At 10,947 feet you split the trail mix it saved for you and a can of green tea, watch the sun go down over the Absarokas, and ${SIDEKICK} absentmindedly scratches your head. Nobody mentions it.`],
+  ghost:  ["Someone to ghost (attempted)", () => `You try. Unfortunately ${SIDEKICK} is standing right next to you, having arrived in a train with arms. There is nowhere to ghost to. Beartoothra gasps so hard it causes weather. Bodega turns her back on you, which on a fennec fox is mostly ears.`],
   ask:    ["Ramish decides", () => `${SIDEKICK} looks at you for a long second and says, "I'll tell you at the top." Beartoothra points out that you are at the top. ${SIDEKICK} says, "Then I'll tell you on the way down."`],
 };
 const PAYOFF = {
   duo: [[K, `Top of the pass. In person. Tell me.`, "k"], [`${SIDEKICK} · Summit`, `Fine. You're a really good detective.`], [K, `Checkmate.`, "k"], [`${SIDEKICK} · Summit`, `Still not how that works.`]],
   friends: [[K, `Top of the pass. In person. Tell me.`, "k"], [`${SIDEKICK} · Summit`, `Fine. I'm really glad I came.`], [K, `I win.`, "k"], [`${SIDEKICK} · Summit`, `We both win. That's the whole point.`]],
   date: [[K, `Top of the pass. In person. Tell me.`, "k"], [`${SIDEKICK} · Summit`, `Fine. I like you. Obviously. I came two thousand miles in a train with arms.`], [K, `Checkmate.`, "k"], [`${SIDEKICK} · Summit`, `...Yeah. Okay. Checkmate.`], [B, `D'AWW.`, "b"]],
+  ghost: [[K, `Top of the pass. In person. Tell me.`, "k"], [`${SIDEKICK} · Summit`, `You picked GHOST?`], [K, `I outrank you.`, "k"], [`${SIDEKICK} · Summit`, `You cannot ghost someone who drove a train up a mountain to see you.`], [B, `GHOSTS LIVE IN THE FOG. I HAVE BEEN TO THE FOG. ABSOLUTELY NOT.`, "b"], [K, `Fine. Unghosted. Checkmate?`, "k"], [`${SIDEKICK} · Summit`, `You're on read for five minutes. Starting now.`], [`${SIDEKICK} · Summit`, `...Okay, that was four seconds. Come here.`]],
   ask: [[K, `Top of the pass. In person. Tell me.`, "k"], [`${SIDEKICK} · Summit`, `I'll tell you on the way down.`], [K, `No, you have to now.`, "k"], [`${SIDEKICK} · Summit`, `NOW I DON'T.`], [K, `...Checkmate?`, "k"], [`${SIDEKICK} · Summit`, `Not even close.`]],
 };
 const FINAL = {
@@ -2308,7 +2314,7 @@ document.querySelectorAll(".choice").forEach(btn => btn.onclick = () => {
   const key = btn.dataset.end;
   const [title, body] = endings[key];
   const sc = $("summitScene");
-  sc.classList.remove("end-duo","end-friends","end-date","end-ask"); void sc.offsetWidth; sc.classList.add("end-"+key);
+  sc.classList.remove("end-duo","end-friends","end-date","end-ask","end-ghost"); void sc.offsetWidth; sc.classList.add("end-"+key);
   sfx.good();
   const first = verdict === null;
   verdict = title;
