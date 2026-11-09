@@ -320,6 +320,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
 .drivestart{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;background:rgba(6,8,11,.72)}
 .drivestart b{font-family:"Bangers",Impact,sans-serif;font-weight:400;font-size:34px;letter-spacing:.04em;color:#FFD23F;-webkit-text-stroke:1.5px #0B0E16;text-shadow:3px 3px 0 #0B0E16}
 .drivestart span{max-width:34ch;font-size:16px;color:var(--ink)}
+.towed.arrive{color:#FFD23F;font-size:30px;white-space:nowrap;place-items:start center;padding-top:44px;background:none;animation:sfxpop 2.2s ease both}
 .towed{position:absolute;inset:0;display:grid;place-items:center;font-family:"Bangers",Impact,sans-serif;font-size:48px;color:#FF6B5B;-webkit-text-stroke:2px #0B0E16;text-shadow:4px 4px 0 #0B0E16;background:rgba(6,8,11,.45);animation:sfxpop 1.4s ease both}
 .pad{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;padding:8px;background:#0B0F16;border-bottom:2px solid #D8D0BC;touch-action:none}
 .pad button{font-size:26px;padding:16px 0;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none}
@@ -352,6 +353,13 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
 @keyframes hurtflash{from{opacity:1}to{opacity:0}}
 .fogscreen.gust .wisp{animation-duration:1.2s}
 .fogscreen.gust .fears{filter:blur(1px)}
+.tune{position:relative;height:46px;border:1px solid var(--fog);background:repeating-linear-gradient(90deg,#0E1A12 0 6px,#13241A 6px 12px);overflow:hidden;touch-action:manipulation}
+.tune .band{position:absolute;top:0;bottom:0;background:rgba(166,227,110,.35);border-left:2px solid var(--fog);border-right:2px solid var(--fog)}
+.tune .needle{position:absolute;top:-2px;bottom:-2px;width:4px;margin-left:-2px;background:#FFD23F;box-shadow:0 0 10px #FFD23F}
+.tune.good .band{animation:signpop .25s ease;background:rgba(166,227,110,.7)}
+.pips{display:flex;gap:8px;justify-content:center}
+.pips i{width:14px;height:14px;border-radius:50%;border:1px solid var(--fog)}
+.pips i.on{background:var(--fog)}
 .quizhud{display:flex;justify-content:space-between;font-family:var(--osdfont);font-size:20px;color:var(--fog);letter-spacing:.06em;text-transform:uppercase}
 .quizhud .strikes{color:#FF6B5B;letter-spacing:.2em}
 .symgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
@@ -429,6 +437,9 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
 .hot.found .ripple{animation:ripple .9s ease-out 1;transform-origin:center;transform-box:fill-box}
 /* register */
 .register{position:relative;transform-origin:top center}
+.register.taped{transform:rotate(-1.2deg);margin-top:10px}
+.register.taped::before,.register.taped::after{content:"";position:absolute;top:-9px;width:64px;height:20px;background:rgba(233,196,106,.78);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.register.taped::before{left:18px;transform:rotate(-6deg)}.register.taped::after{right:18px;transform:rotate(5deg)}
 .register.flip{animation:pageflip .55s ease both}
 .stampmark{position:absolute;right:14px;top:14px;font-family:var(--osdfont);font-size:26px;letter-spacing:.12em;color:#A3261B;border:3px solid #A3261B;padding:2px 10px;transform:rotate(-12deg);animation:stampin .35s cubic-bezier(.2,.9,.3,1.4) both;pointer-events:none}
 /* fog tracking noise */
@@ -802,6 +813,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
           <button id="startEngine">Start engine</button>
         </div>
         <div class="towed" id="towed" hidden>TOW TRUCK!</div>
+        <div class="towed arrive" id="arrived" hidden>TOP OF THE PASS!</div>
       </div>
       <div class="pad">
         <button id="left" aria-label="Steer left">◀</button>
@@ -812,7 +824,7 @@ footer{font-family:var(--osdfont);font-size:17px;color:var(--dim);letter-spacing
     </div>
     <div class="btns"><button class="ghost" id="skipDrive" hidden>Skip to the top</button></div>
     <span class="trophy" data-t="drive" id="driveTrophy" hidden></span>
-    <div class="riddle register" id="riddle1" hidden></div>
+    <div class="riddle register taped" id="riddle1" hidden></div>
     <div class="btns"><button id="toScan" hidden>Switch to detective mode</button></div>
   </section>
 
@@ -1569,6 +1581,7 @@ function spawn(){
   const p = DR.d / DR.L;
   while(DR.next < DR.d + DR.H + 80){
     const wy = DR.next;
+    if(wy > DR.L - 140){ DR.next += 200; continue; }
     const r = Math.random();
     let type = "rock";
     const wElk = p > .08 ? .16 : 0, wGoat = p > .3 ? .14 : 0, wBagel = .26, wSnow = p > .74 ? .18 : 0, wTea = .04 + DR.dents*.05;
@@ -1760,6 +1773,24 @@ function draw(){
   ctx.beginPath(); Rr.forEach((q,j) => j ? ctx.lineTo(q[0]-3,q[1]) : ctx.moveTo(q[0]-3,q[1])); ctx.stroke();
   ctx.strokeStyle = "#E9C46A"; ctx.lineWidth = 2.5;
   for(let j = 1; j < C.length; j++){ if(Math.floor(C[j][2]/26) % 2 === 0){ ctx.beginPath(); ctx.moveTo(C[j-1][0], C[j-1][1]); ctx.lineTo(C[j][0], C[j][1]); ctx.stroke(); } }
+  /* the summit sign, with a note taped to it: you drive right up to it at the top */
+  { const wy = DR.L + 150, sy = ty - (wy - DR.d);
+    if(sy > -70 && sy < H + 60){
+      const cx = roadX(wy), bw = Math.min(176, W - 24), bx = Math.max(bw/2 + 8, Math.min(W - bw/2 - 8, cx));
+      ctx.fillStyle = "#6E7480"; ctx.strokeStyle = "#0B0E16"; ctx.lineWidth = 2;
+      for(const px of [bx - bw/2 + 18, bx + bw/2 - 22]){ ctx.fillRect(px, sy, 4, 46); ctx.strokeRect(px, sy, 4, 46); }
+      ctx.fillStyle = "#1E6B3E"; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(bx - bw/2, sy - 26, bw, 48, 6) : ctx.rect(bx - bw/2, sy - 26, bw, 48); ctx.fill(); ctx.lineWidth = 3; ctx.stroke();
+      ctx.strokeStyle = "#F4F1EA"; ctx.lineWidth = 1.5; ctx.strokeRect(bx - bw/2 + 4, sy - 22, bw - 8, 40);
+      ctx.textAlign = "center"; ctx.fillStyle = "#F4F1EA";
+      const maxw = bw - 50, fitT = (t, px, y) => { ctx.font = px + "px Bangers, Impact, sans-serif"; const w = ctx.measureText(t).width; if(w > maxw) ctx.font = Math.floor(px*maxw/w) + "px Bangers, Impact, sans-serif"; ctx.fillText(t, bx - 12, y); };
+      fitT("BEARTOOTH PASS", 17, sy - 3); fitT("ELEV 10,947 FT", 12, sy + 13); ctx.textAlign = "start";
+      /* the note */
+      ctx.save(); ctx.translate(bx + bw/2 - 18, sy - 20); ctx.rotate(.18 + Math.sin(DR.t*5)*.07);
+      ctx.fillStyle = "#F4EDDC"; ctx.strokeStyle = "#0B0E16"; ctx.lineWidth = 1.5; ctx.fillRect(-11, -2, 24, 28); ctx.strokeRect(-11, -2, 24, 28);
+      ctx.fillStyle = "rgba(233,196,106,.85)"; ctx.fillRect(-6, -5, 14, 6);
+      ctx.fillStyle = "#1D1B16"; ctx.font = "15px Gochi Hand, cursive"; ctx.fillText("?", -4, 14); ctx.font = "10px Gochi Hand, cursive"; ctx.fillText("B.", 3, 23);
+      ctx.restore();
+    } }
   /* things on the road */
   for(const o of DR.objs){
     const sy = ty - (o.wy - DR.d); if(sy < -40 || sy > H + 40) continue;
@@ -1893,12 +1924,29 @@ document.addEventListener("keydown", e => {
 document.addEventListener("keyup", e => { if(e.target.closest && e.target.closest("input, textarea")) return; if(["ArrowLeft","ArrowRight","a","d"].includes(e.key)) DR.steer = 0; });
 addEventListener("resize", () => { if(!$("s2").hidden){ sizeDrive(); draw(); } });
 $("skipDrive").onclick = () => { DR.d = DR.L; DR.run = false; if(!DR.over){ DR.over = true; hud(); draw(); driveDone(); } };
+function arriveAnim(){
+  DR.objs = DR.objs.filter(o => o.wy < DR.L - 60);
+  const a = $("arrived"); a.hidden = false; a.style.animation = "none"; void a.offsetWidth; a.style.animation = "";
+  setTimeout(() => a.hidden = true, 2300);
+  const sx = Math.max(98, Math.min(DR.W - 98, roadX(DR.L + 150))), sy = DR.H*.78 - 150;
+  for(let i = 0; i < 46; i++){ const ang = Math.random()*Math.PI*2, v = 60 + Math.random()*140; DR.parts.push({ x:sx, y:sy, vx:Math.cos(ang)*v, vy:Math.sin(ang)*v - 40, t:1.4 + Math.random()*.6, c:["#FFD23F","#A6E36E","#FF9DB0","#5FD4E6","#F4F1EA"][i % 5] }); }
+  [523,659,784,1046,1318].forEach((f,i) => tone(f, .16, "triangle", .06, i*.09));
+  let t0 = performance.now();
+  const step = now => {
+    const dt = Math.min(.05, (now - t0)/1000); t0 = now; DR.t += dt;
+    for(const q of DR.parts){ q.x += q.vx*dt; q.y += q.vy*dt; q.vy += 120*dt; q.t -= dt*.6; }
+    DR.parts = DR.parts.filter(q => q.t > 0);
+    draw();
+    if(!$("s2").hidden) DR.arrRAF = requestAnimationFrame(step);
+  };
+  cancelAnimationFrame(DR.arrRAF); DR.arrRAF = requestAnimationFrame(step);
+}
 function driveDone(){
-  $("skipDrive").hidden = true; music("plateau");
+  $("skipDrive").hidden = true; music("plateau"); arriveAnim();
   const s = $("sign"); s.textContent = SIGNS[8]; s.classList.remove("bump"); void s.offsetWidth; s.classList.add("bump");
   sfx.good();
   const lines = [
-    ["The tape", `Top of the pass. ${DR.bagels} croissant${DR.bagels === 1 ? "" : "s"} collected${DR.honks ? `, ${DR.honks} animal${DR.honks === 1 ? "" : "s"} politely honked at` : ""}. Taped to the summit sign is a note in enormous handwriting.`, "n"],
+    ["The tape", `Beartooth Pass, 10,947 feet. ${DR.bagels} croissant${DR.bagels === 1 ? "" : "s"} collected${DR.honks ? `, ${DR.honks} animal${DR.honks === 1 ? "" : "s"} politely honked at` : ""}. Taped to the summit sign, flapping in the wind, is a note in enormous handwriting.`, "n"],
     [K, `Someone's leaving me notes.`, "k"],
     [R, `Is it a love letter?`],
     [K, `It's a riddle.`, "k"],
@@ -1921,8 +1969,8 @@ $("toScan").onclick = () => go(3);
 const clues = [
   ["Footprint", "412 feet long. Four toes. One of them is wearing a tiny hiking sock. Too big to be a bear. The bears are going to be upset about this.",
    "One set of prints. Whatever this is, it's been walking alone for a long time."],
-  ["Scratch marks", "The Beartooth range is named for a granite spire shaped like a bear's tooth. Something has been using it as a toothpick for about 50 million years.",
-   "Fifty million years of flossing and it still only has the one tooth. Respect."],
+  ["Scratch marks", "Long gouges up the granite spire the whole range is named for, the Bear's Tooth. Not claw marks. They're in neat groups of five.",
+   "Tally marks. Something up here has been counting days. A lot of days."],
   ["Trail register", "Signed in nine-foot handwriting: \"Three riddles. You found the first one on the pass. Solve all three and I will come out. Also, would someone please hike with me.\" Signed, B.",
    "The handwriting shakes. This isn't a threat. It's an invitation."],
 ];
@@ -2146,7 +2194,7 @@ function showRiddle(n, box, onSolved){
   box.classList.remove("wrong","flip"); void box.offsetWidth; box.classList.add("flip");
   tone(300,.08,"triangle",.04);
   box.innerHTML = `
-    <div class="solved">Riddle ${n+1} of 3 · signed B.</div>
+    <div class="solved">${n === 0 ? "The note on the summit sign · signed B." : `Riddle ${n+1} of 3 · signed B.`}</div>
     <div class="q"></div>
     <form autocomplete="off">
       <input id="ans${n}" aria-label="Your answer" placeholder="Your answer">
@@ -2327,41 +2375,67 @@ function actSky(){
   if(typeof music === "function") music("showman");
   playLines(null, [
     [S, "ACT TWO! The oldest fear in the book! The sky... goes... WHITE!", "s"],
-    [R, "It's not a bomb. It's bad tracking. He's running the tape through a busted deck. Find the clear picture and hold it there. He'll fight you."],
+    [R, "It's not a bomb. It's bad tracking. He's running the tape through a busted deck. Hit ADJUST when the needle crosses the clean band. Five clean hits."],
   ], skyStart);
 }
+/* tracking, as a timing game: tap ADJUST when the needle crosses the clean band. Five clean hits, four misses and it's an encore. */
 function skyStart(){
   if(typeof music === "function") music("fog");
-  $("tracking").hidden = false; $("track").value = 6;
-  ctl(`<div class="grip"><div class="lbl"><span>Picture lock</span><span id="skyTime">22s</span></div><div class="bar"><div class="fill" id="skyFill"></div></div></div>`);
-  act = { kind:"sky", lock:0, time:22, t:0, jolt:2.4, off:0, last:performance.now(), v:6 };
+  $("tracking").hidden = true;
+  ctl(`<div class="quizhud"><span>Tracking</span><span class="strikes" id="skyStrikes">····</span></div>
+    <div class="tune" id="tune"><div class="band" id="tband"></div><div class="needle" id="tneedle"></div></div>
+    <div class="pips" id="tpips">${"<i></i>".repeat(5)}</div>
+    <button class="holdbtn" id="adjBtn">ADJUST</button>`);
+  act = { kind:"sky", hits:0, miss:0, pos:0, dir:1, last:performance.now(), band:.4, bw:.24, cool:0 };
+  placeBand(act);
+  const go = e => { if(e){ e.preventDefault(); } skyTap(); };
+  $("adjBtn").addEventListener("pointerdown", go);
+  $("adjBtn").addEventListener("keydown", e => { if(e.key === " " || e.key === "Enter") go(e); });
+  $("tune").addEventListener("pointerdown", go);
+  distort(.85);
   cancelAnimationFrame(fogRAF); fogRAF = requestAnimationFrame(skyStep);
 }
-function skyTarget(a){ return Math.max(8, Math.min(92, 52 + 26*Math.sin(a.t*.8) + 10*Math.sin(a.t*2.1 + 1) + a.off)); }
+function placeBand(a){
+  a.bw = [.24, .2, .17, .14, .12][a.hits] || .12;
+  let c; do { c = .12 + Math.random()*(.76 - a.bw); } while(Math.abs(c + a.bw/2 - a.pos) < .25);
+  a.band = c;
+  const b = $("tband"); b.style.left = (c*100) + "%"; b.style.width = (a.bw*100) + "%";
+}
 function skyStep(now){
   const a = act; if(!a || a.kind !== "sky" || $("s5").hidden) return;
-  const dt = Math.min(.05, (now - a.last)/1000); a.last = now; a.t += dt; a.time -= dt;
-  a.jolt -= dt;
-  if(a.jolt <= 0){
-    a.jolt = 2 + Math.random()*1.6;
-    a.off = Math.max(-30, Math.min(30, a.off + (Math.random() < .5 ? -1 : 1) * (14 + Math.random()*12)));
-    glide(180, 90, .35, "sawtooth", .03);
-    if(Math.random() < .35) vnShow(vnOf(), S, ["*cranks the machine*", "Hold STILL, folks, he's losing it!", "Static! Glorious static!"][Math.floor(Math.random()*3)], "s");
-  }
-  const d = Math.abs(+$("track").value - skyTarget(a)), k = Math.min(1, d/45);
-  distort(k);
-  if(d <= 8){ a.lock = Math.min(1, a.lock + dt/4.2); if(Math.random() < .2) tone(500 + a.lock*600, .04, "triangle", .025); }
-  else a.lock = Math.max(0, a.lock - dt/10);
-  $("skyFill").style.width = Math.round(a.lock*100) + "%";
-  $("skyTime").textContent = Math.max(0, Math.ceil(a.time)) + "s";
-  if(a.lock >= 1){ skyWon(); return; }
-  if(a.time <= 0){
-    act = null; stumble();
-    vnShow(vnOf(), S, "The picture's GONE, folks! Rewind it! Again!", "s");
-    setTimeout(skyStart, 1800);
-    return;
-  }
+  const dt = Math.min(.05, (now - a.last)/1000); a.last = now; a.cool -= dt;
+  const speed = .7 + a.hits*.2;
+  a.pos += a.dir * speed * dt;
+  if(a.pos > 1){ a.pos = 1; a.dir = -1; } if(a.pos < 0){ a.pos = 0; a.dir = 1; }
+  if(a.hits >= 3){ a.band = Math.max(.04, Math.min(.96 - a.bw, a.band + Math.sin(now/600)*.08*dt)); $("tband").style.left = (a.band*100) + "%"; }
+  $("tneedle").style.left = (a.pos*100) + "%";
   fogRAF = requestAnimationFrame(skyStep);
+}
+function skyTap(){
+  const a = act; if(!a || a.kind !== "sky" || a.cool > 0) return;
+  a.cool = .18;
+  const t = $("tune");
+  if(a.pos >= a.band && a.pos <= a.band + a.bw){
+    a.hits++; tone(520 + a.hits*120, .1, "square", .05); tone(780 + a.hits*120, .12, "triangle", .04, .06);
+    t.classList.remove("good"); void t.offsetWidth; t.classList.add("good");
+    document.querySelectorAll("#tpips i").forEach((p,i) => p.classList.toggle("on", i < a.hits));
+    distort(.85 * (1 - a.hits/5));
+    if(a.hits >= 5){ skyWon(); return; }
+    if(a.hits === 3) vnShow(vnOf(), S, "He's FIXING it?! Somebody shake the deck!", "s");
+    else if(a.hits === 1) vnShow(vnOf(), R, "That's it. Four more.", "");
+    placeBand(a);
+  } else {
+    a.miss++; stumble(); a.hits = Math.max(0, a.hits - 1);
+    document.querySelectorAll("#tpips i").forEach((p,i) => p.classList.toggle("on", i < a.hits));
+    $("skyStrikes").textContent = "✕".repeat(a.miss) + "·".repeat(Math.max(0, 4 - a.miss));
+    distort(Math.min(1, .85 * (1 - a.hits/5) + .15));
+    if(a.miss >= 4){
+      act = null; cancelAnimationFrame(fogRAF);
+      vnShow(vnOf(), S, "The picture's GONE, folks! Rewind it! ENCORE!", "s");
+      setTimeout(skyStart, 1800); return;
+    }
+    taunt(); placeBand(a);
+  }
 }
 function skyWon(){
   act = null; ctl(""); $("tracking").hidden = true; distort(0); sfx.good();
